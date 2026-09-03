@@ -182,7 +182,7 @@
       </button>
       <button onclick="openCmdPalette()" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-stone-100/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-stone-200 dark:border-zinc-700 text-zinc-500 hover:text-orange-600 dark:text-zinc-400 transition-colors shadow-sm cursor-none backdrop-blur-md" title="Command Palette">
         <i data-lucide="command" class="w-3.5 h-3.5"></i>
-        <span>K</span>
+        <span class="text-[11px] font-bold tracking-wider">CTRL+K</span>
       </button>
       <button id="theme-toggle-btn" onclick="toggleTheme()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-zinc-900/80 hover:bg-white dark:hover:bg-zinc-800 border border-orange-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-colors shadow-sm cursor-none backdrop-blur-md" title="Toggle Dark/Light Mode">
         <i id="theme-icon" data-lucide="moon" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400"></i>
@@ -528,7 +528,7 @@
       </p>
       <!-- Keyboard Shortcut Hints -->
       <div class="hidden sm:flex items-center justify-center gap-4 mt-2 text-[10px] font-mono text-zinc-400 dark:text-zinc-600">
-        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">K</kbd> Command Palette</span>
+        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">CTRL+K</kbd> Command Palette</span>
         <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">~</kbd> Terminal</span>
         <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">ESC</kbd> Close</span>
       </div>
@@ -962,7 +962,7 @@
 
     // GLOBAL KEYBINDINGS
     window.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Control + k') {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         isCmdOpen ? closeCmdPalette() : openCmdPalette();
       }
