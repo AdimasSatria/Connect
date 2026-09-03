@@ -518,7 +518,7 @@
     </section>
 
     <!-- 4. Footer -->
-    <footer class="text-center pt-2 pb-8 space-y-2 opacity-0 animate-fade-in-up" style="animation-delay: 0.5s;">
+    <footer class="text-center pt-2 pb-8 space-y-3 opacity-0 animate-fade-in-up" style="animation-delay: 0.5s;">
       <p class="text-xs font-mono text-zinc-400 dark:text-zinc-500">
         &copy; <span id="year-display"></span> Adimas Satria • Surabaya, Indonesia
       </p>
@@ -526,6 +526,12 @@
         <span class="lang-en">Ultra-minimalist personal identity &amp; link-hub</span>
         <span class="lang-id hidden">Identitas personal &amp; link-hub ultra-minimalis</span>
       </p>
+      <!-- Keyboard Shortcut Hints -->
+      <div class="hidden sm:flex items-center justify-center gap-4 mt-2 text-[10px] font-mono text-zinc-400 dark:text-zinc-600">
+        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">K</kbd> Command Palette</span>
+        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">~</kbd> Terminal</span>
+        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">ESC</kbd> Close</span>
+      </div>
     </footer>
 
   </main>
@@ -645,6 +651,48 @@
         });
       } catch(e) {}
     }
+
+    // Interactive Click Sparks Logic
+    document.addEventListener('click', function(e) {
+      // Prevent sparks in modals/terminals to avoid visual clutter
+      if (document.getElementById('cmd-palette').classList.contains('opacity-100') || 
+          !document.getElementById('terminal-overlay').classList.contains('-translate-y-full') ||
+          document.getElementById('qr-modal').classList.contains('opacity-100')) {
+        return;
+      }
+      
+      const colors = ['#f97316', '#fbbf24', '#f59e0b']; // Tailwind orange & amber
+      for(let i = 0; i < 6; i++) {
+        const spark = document.createElement('div');
+        spark.style.position = 'fixed';
+        spark.style.left = e.clientX + 'px';
+        spark.style.top = e.clientY + 'px';
+        const size = Math.random() * 4 + 2;
+        spark.style.width = size + 'px';
+        spark.style.height = size + 'px';
+        spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        spark.style.borderRadius = '50%';
+        spark.style.pointerEvents = 'none';
+        spark.style.zIndex = '999999';
+        spark.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
+        
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 40 + 20;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
+        
+        document.body.appendChild(spark);
+        
+        requestAnimationFrame(() => {
+          spark.style.transform = `translate(${tx}px, ${ty}px) scale(0)`;
+          spark.style.opacity = '0';
+        });
+        
+        setTimeout(() => {
+          spark.remove();
+        }, 500);
+      }
+    });
 
     // Native Share
     function shareProfile() {
@@ -775,13 +823,13 @@
         cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
       });
       document.addEventListener('mouseover', (e) => {
-        if (e.target.closest('a, button, .filter-btn, .cmd-item')) {
+        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd')) {
           cursor.classList.add('w-12', 'h-12', 'bg-orange-500/40');
           cursor.classList.remove('w-4', 'h-4', 'bg-orange-500/80');
         }
       });
       document.addEventListener('mouseout', (e) => {
-        if (e.target.closest('a, button, .filter-btn, .cmd-item')) {
+        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd')) {
           cursor.classList.add('w-4', 'h-4', 'bg-orange-500/80');
           cursor.classList.remove('w-12', 'h-12', 'bg-orange-500/40');
         }
