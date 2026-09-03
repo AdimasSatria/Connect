@@ -58,18 +58,34 @@
   <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600">
     <div class="inline-flex items-center space-x-2 bg-white/80 border border-orange-200/70 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-md">
       <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600"></i>
-      <span class="text-zinc-700 font-medium">SURABAYA (WIB) <span id="clock-display">--:--:--</span></span>
+      <span class="text-zinc-700 font-medium hidden sm:inline">SURABAYA (WIB)</span>
+      <span class="text-zinc-700 font-medium sm:hidden">SBY</span>
+      <span class="text-zinc-700 font-medium" id="clock-display">--:--:--</span>
     </div>
 
-    <button
-      id="sound-toggle-btn"
-      onclick="toggleSound()"
-      class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 hover:bg-white border border-orange-200/80 text-zinc-700 hover:text-orange-700 transition-colors shadow-sm cursor-pointer backdrop-blur-md"
-      title="Toggle acoustic sound effects"
-    >
-      <i id="sound-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-zinc-400"></i>
-      <span id="sound-text" class="text-[11px] text-zinc-500 font-medium">SOUND: OFF</span>
-    </button>
+    <div class="flex items-center space-x-2">
+      <!-- Language Toggle -->
+      <button
+        id="lang-toggle-btn"
+        onclick="toggleLanguage()"
+        class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 hover:bg-white border border-orange-200/80 text-zinc-700 hover:text-orange-700 transition-colors shadow-sm cursor-pointer backdrop-blur-md"
+        title="Toggle Language"
+      >
+        <i data-lucide="languages" class="w-3.5 h-3.5 text-orange-600"></i>
+        <span id="lang-text" class="text-[11px]"><span class="font-bold text-orange-700">EN</span> <span class="text-zinc-400">| ID</span></span>
+      </button>
+
+      <!-- Sound Toggle -->
+      <button
+        id="sound-toggle-btn"
+        onclick="toggleSound()"
+        class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 hover:bg-white border border-orange-200/80 text-zinc-700 hover:text-orange-700 transition-colors shadow-sm cursor-pointer backdrop-blur-md"
+        title="Toggle acoustic sound effects"
+      >
+        <i id="sound-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-zinc-400"></i>
+        <span id="sound-text" class="text-[11px] text-zinc-500 font-medium hidden sm:inline">SOUND: OFF</span>
+      </button>
+    </div>
   </header>
 
   <!-- Main Single-Screen Hub Container -->
@@ -125,9 +141,9 @@
               <span class="lang-en">Informatics Student</span><span class="lang-id hidden">Mahasiswa IT</span>
             </span>
             <span class="text-zinc-300">•</span>
-            <span class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-900 border border-amber-200 px-2.5 py-0.5 rounded-md">
-              <i data-lucide="camera" class="w-3.5 h-3.5 text-amber-700"></i>
-              <span class="lang-en">Stage Photographer</span><span class="lang-id hidden">Fotografer Panggung</span>
+           <span class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-900 border border-amber-200 px-2.5 py-0.5 rounded-md">
+              <i data-lucide="briefcase" class="w-3.5 h-3.5 text-amber-700"></i>
+              <span class="lang-en">Project Manager</span><span class="lang-id hidden">Manajer Proyek</span>
             </span>
           </div>
         </div>
