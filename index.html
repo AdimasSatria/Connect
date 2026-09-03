@@ -38,7 +38,7 @@
 
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Canvas Confetti CDN for Konami Code -->
+  <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -156,7 +156,7 @@
   <!-- Subtle Dot Grid Matrix -->
   <div class="fixed inset-0 pointer-events-none -z-10 opacity-30 dark:opacity-10 transition-opacity duration-500" style="background-image: radial-gradient(rgba(234, 88, 12, 0.5) 1px, transparent 1px); background-size: 24px 24px;"></div>
 
-  <!-- Top Control Bar (Updated with Weather & QR Button) -->
+  <!-- Top Control Bar -->
   <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600 dark:text-zinc-400 opacity-0 animate-fade-in-up" style="animation-delay: 0.1s;">
     <div class="inline-flex items-center space-x-2 bg-white/80 dark:bg-zinc-900/80 border border-orange-200/70 dark:border-zinc-800 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-md transition-colors duration-500">
       <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
@@ -168,7 +168,6 @@
     </div>
 
     <div class="flex items-center space-x-2">
-      <!-- QR Code Modal Trigger -->
       <button onclick="openQrModal()" class="inline-flex items-center justify-center p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-stone-100/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-stone-200 dark:border-zinc-700 text-zinc-500 hover:text-orange-600 dark:text-zinc-400 transition-colors shadow-sm cursor-none backdrop-blur-md" title="IRL QR Code">
         <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
         <span class="text-[11px] font-medium hidden sm:inline ml-1.5">QR</span>
@@ -891,30 +890,12 @@
       }
     });
 
-    // 5. SECRET EASTER EGGS (Adimas, Sony, Konami Code)
+    // 5. SECRET EASTER EGGS (Adimas, Sony, UPN)
     let inputBuffer = "";
-    const konamiCode = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
-    let konamiIndex = 0;
-
     window.addEventListener("keydown", (e) => {
       if (isCmdOpen || isTerminalOpen || isQrOpen) return;
-      
-      const key = e.key.toLowerCase();
-
-      // Konami Code Sequence Tracker
-      if (key === konamiCode[konamiIndex]) {
-        konamiIndex++;
-        if (konamiIndex === konamiCode.length) {
-          triggerKonami();
-          konamiIndex = 0;
-        }
-      } else {
-        konamiIndex = 0;
-      }
-
-      // String Buffer for 'adimas' & 'sony'
       if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
-        inputBuffer += key;
+        inputBuffer += e.key.toLowerCase();
         if (inputBuffer.length > 10) inputBuffer = inputBuffer.slice(-10);
         
         if (inputBuffer.endsWith("adimas")) {
@@ -923,23 +904,12 @@
         } else if (inputBuffer.endsWith("sony")) {
           triggerEasterEgg("sony");
           inputBuffer = "";
+        } else if (inputBuffer.endsWith("upn")) {
+          triggerEasterEgg("upn");
+          inputBuffer = "";
         }
       }
     });
-
-    function triggerKonami() {
-      playChime();
-      if (typeof confetti === 'function') {
-        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-      }
-      const toast = document.getElementById('easter-egg-toast');
-      toast.className = "fixed top-5 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl pointer-events-none transition-all duration-500 z-[99997] flex items-center space-x-2 bg-purple-600 text-white opacity-100 translate-y-0";
-      toast.innerHTML = '<i data-lucide="gamepad-2" class="w-4 h-4"></i><span>KONAMI CODE UNLOCKED: GG WP!</span>';
-      lucide.createIcons();
-      setTimeout(() => {
-        toast.className = "fixed top-5 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl pointer-events-none transition-all duration-500 z-[99997] flex items-center space-x-2 opacity-0 -translate-y-10 text-white";
-      }, 4000);
-    }
 
     function triggerEasterEgg(type) {
       const toast = document.getElementById('easter-egg-toast');
@@ -978,6 +948,24 @@
 
         toast.classList.add('bg-amber-600');
         toast.innerHTML = '<i data-lucide="camera" class="w-4 h-4"></i><span>CAMERA: SONY A6400 ON</span>';
+        
+        void toast.offsetWidth;
+        toast.classList.replace('opacity-0', 'opacity-100');
+        toast.classList.replace('-translate-y-10', 'translate-y-0');
+        lucide.createIcons();
+
+        setTimeout(() => {
+          toast.classList.replace('opacity-100', 'opacity-0');
+          toast.classList.replace('translate-y-0', '-translate-y-10');
+        }, 3500);
+
+      } else if (type === "upn") {
+        playChime();
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        }
+        toast.classList.add('bg-purple-600');
+        toast.innerHTML = '<i data-lucide="graduation-cap" class="w-4 h-4"></i><span>UPN VETERAN JATIM: GG WP!</span>';
         
         void toast.offsetWidth;
         toast.classList.replace('opacity-0', 'opacity-100');
