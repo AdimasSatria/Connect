@@ -38,6 +38,8 @@
 
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Canvas Confetti CDN for Konami Code -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -66,7 +68,23 @@
   <!-- 1. Custom Magnetic Cursor -->
   <div id="custom-cursor" class="fixed top-0 left-0 w-4 h-4 bg-orange-500/80 rounded-full pointer-events-none z-[100000] -translate-x-1/2 -translate-y-1/2 transition-[width,height,background-color] duration-200 ease-out hidden sm:block mix-blend-difference"></div>
 
-  <!-- 2. Command Palette (Ctrl+K) FULLY INTEGRATED -->
+  <!-- 2. IRL QR Code Modal -->
+  <div id="qr-modal" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-200 flex items-center justify-center px-4">
+    <div class="absolute inset-0 bg-zinc-900/40 dark:bg-black/60 backdrop-blur-sm" onclick="closeQrModal()"></div>
+    <div class="relative bg-white dark:bg-[#18181b] p-6 rounded-3xl shadow-2xl border border-stone-200 dark:border-zinc-800 text-center max-w-xs w-full transform scale-95 transition-transform duration-200" id="qr-modal-content">
+      <div class="w-10 h-10 mx-auto mb-3 rounded-full bg-orange-100 dark:bg-orange-500/10 flex items-center justify-center text-orange-600 dark:text-orange-400">
+        <i data-lucide="qr-code" class="w-5 h-5"></i>
+      </div>
+      <h3 class="font-bold text-base text-zinc-900 dark:text-white mb-1">IRL Networking</h3>
+      <p class="text-xs text-zinc-500 mb-4">Scan code to open Adimas' Hub instantly</p>
+      <div class="bg-white p-3 rounded-2xl inline-block border border-stone-200 shadow-xs mb-5">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://adimassatria.github.io/Connect/" alt="Hub QR Code" class="w-40 h-40 object-contain rounded-lg" />
+      </div>
+      <button onclick="closeQrModal()" class="w-full py-2.5 rounded-xl bg-stone-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-semibold hover:bg-stone-200 dark:hover:bg-zinc-700 transition-colors cursor-none">Close Modal</button>
+    </div>
+  </div>
+
+  <!-- 3. Command Palette (Ctrl+K) -->
   <div id="cmd-palette" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-200">
     <div class="absolute inset-0 bg-zinc-900/40 dark:bg-black/60 backdrop-blur-sm" onclick="closeCmdPalette()"></div>
     <div class="absolute top-[20%] left-1/2 -translate-x-1/2 w-full max-w-lg bg-white dark:bg-[#18181b] rounded-2xl shadow-2xl border border-stone-200 dark:border-zinc-800 overflow-hidden transform scale-95 transition-transform duration-200" id="cmd-modal">
@@ -76,17 +94,18 @@
         <span class="text-[10px] font-mono bg-stone-100 dark:bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded border border-stone-200 dark:border-zinc-700">ESC</span>
       </div>
       <ul id="cmd-list" class="max-h-64 overflow-y-auto py-2">
-        <!-- SYSTEM COMMANDS -->
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="toggleTheme">
           <i data-lucide="moon" class="w-4 h-4"></i><span>Toggle Dark/Light Mode</span>
         </li>
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="copyEmail">
           <i data-lucide="mail" class="w-4 h-4"></i><span>Copy Email Address</span>
         </li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openQrModal">
+          <i data-lucide="qr-code" class="w-4 h-4"></i><span>Show IRL QR Code</span>
+        </li>
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="toggleSound">
           <i data-lucide="volume-2" class="w-4 h-4"></i><span>Toggle Sound Effects</span>
         </li>
-        <!-- LINKS & HUBS -->
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openLinkedIn">
           <i data-lucide="linkedin" class="w-4 h-4"></i><span>Open LinkedIn Profile</span>
         </li>
@@ -110,7 +129,7 @@
     </div>
   </div>
 
-  <!-- 3. Secret Terminal Mode (~) -->
+  <!-- 4. Secret Terminal Mode (~) -->
   <div id="terminal-overlay" class="fixed top-0 left-0 w-full h-[50vh] bg-black/95 border-b border-green-500/30 z-[99999] transform -translate-y-full transition-transform duration-500 font-mono text-green-500 text-xs sm:text-sm p-4 overflow-hidden shadow-2xl backdrop-blur-md flex flex-col">
     <div class="flex items-center justify-between border-b border-green-900/50 pb-2 mb-2">
       <span class="text-green-400/50">adimas@upn-jatim:~/terminal</span>
@@ -137,16 +156,23 @@
   <!-- Subtle Dot Grid Matrix -->
   <div class="fixed inset-0 pointer-events-none -z-10 opacity-30 dark:opacity-10 transition-opacity duration-500" style="background-image: radial-gradient(rgba(234, 88, 12, 0.5) 1px, transparent 1px); background-size: 24px 24px;"></div>
 
-  <!-- Top Control Bar -->
+  <!-- Top Control Bar (Updated with Weather & QR Button) -->
   <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600 dark:text-zinc-400 opacity-0 animate-fade-in-up" style="animation-delay: 0.1s;">
     <div class="inline-flex items-center space-x-2 bg-white/80 dark:bg-zinc-900/80 border border-orange-200/70 dark:border-zinc-800 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-md transition-colors duration-500">
       <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
       <span class="text-zinc-700 dark:text-zinc-300 font-medium hidden sm:inline">SURABAYA (WIB)</span>
       <span class="text-zinc-700 dark:text-zinc-300 font-medium sm:hidden">SBY</span>
       <span class="text-zinc-700 dark:text-zinc-300 font-medium" id="clock-display">--:--:--</span>
+      <span class="text-zinc-300 dark:text-zinc-700">|</span>
+      <span id="weather-display" class="text-orange-600 dark:text-orange-400 font-semibold" title="Live Surabaya Temperature">...</span>
     </div>
 
     <div class="flex items-center space-x-2">
+      <!-- QR Code Modal Trigger -->
+      <button onclick="openQrModal()" class="inline-flex items-center justify-center p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-stone-100/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-stone-200 dark:border-zinc-700 text-zinc-500 hover:text-orange-600 dark:text-zinc-400 transition-colors shadow-sm cursor-none backdrop-blur-md" title="IRL QR Code">
+        <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
+        <span class="text-[11px] font-medium hidden sm:inline ml-1.5">QR</span>
+      </button>
       <button onclick="openCmdPalette()" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-stone-100/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-stone-200 dark:border-zinc-700 text-zinc-500 hover:text-orange-600 dark:text-zinc-400 transition-colors shadow-sm cursor-none backdrop-blur-md" title="Command Palette">
         <i data-lucide="command" class="w-3.5 h-3.5"></i>
         <span>K</span>
@@ -501,6 +527,7 @@
     lucide.createIcons();
     document.getElementById('year-display').textContent = new Date().getFullYear();
 
+    // Clock
     function updateClock() {
       const now = new Date();
       const timeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Jakarta', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -508,6 +535,19 @@
     }
     updateClock();
     setInterval(updateClock, 1000);
+
+    // Live Weather API (Open-Meteo Surabaya)
+    async function fetchWeather() {
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-7.2575&longitude=112.7521&current=temperature_2m');
+        const data = await res.json();
+        const temp = Math.round(data.current.temperature_2m);
+        document.getElementById('weather-display').textContent = `${temp}°C`;
+      } catch (e) {
+        document.getElementById('weather-display').textContent = '29°C';
+      }
+    }
+    fetchWeather();
 
     let soundEnabled = false;
     let audioCtx = null;
@@ -668,6 +708,28 @@
       updateThemeIcon(isDark);
     });
 
+    // QR Code Modal Logic
+    const qrModal = document.getElementById('qr-modal');
+    const qrContent = document.getElementById('qr-modal-content');
+    let isQrOpen = false;
+
+    function openQrModal() {
+      playClick();
+      isQrOpen = true;
+      qrModal.classList.remove('hidden');
+      void qrModal.offsetWidth;
+      qrModal.classList.replace('opacity-0', 'opacity-100');
+      qrContent.classList.replace('scale-95', 'scale-100');
+    }
+
+    function closeQrModal() {
+      playClick();
+      isQrOpen = false;
+      qrModal.classList.replace('opacity-100', 'opacity-0');
+      qrContent.classList.replace('scale-100', 'scale-95');
+      setTimeout(() => qrModal.classList.add('hidden'), 200);
+    }
+
     // 1. CUSTOM MAGNETIC CURSOR LOGIC
     if (window.matchMedia("(pointer: fine)").matches) {
       const cursor = document.getElementById('custom-cursor');
@@ -704,8 +766,6 @@
         const rotateY = ((x - centerX) / centerX) * 6;
         
         tiltCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        
-        // Glare effect
         glare.style.opacity = '1';
         glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15) 0%, transparent 60%)`;
       });
@@ -726,7 +786,6 @@
     function openCmdPalette() {
       isCmdOpen = true;
       cmdPalette.classList.remove('hidden');
-      // Trigger reflow
       void cmdPalette.offsetWidth;
       cmdPalette.classList.replace('opacity-0', 'opacity-100');
       cmdModal.classList.replace('scale-95', 'scale-100');
@@ -758,6 +817,7 @@
         if (action === 'toggleTheme') toggleTheme();
         if (action === 'copyEmail') copyEmail();
         if (action === 'toggleSound') toggleSound();
+        if (action === 'openQrModal') openQrModal();
         if (action === 'openGithub') window.open('https://github.com/AdimasSatria', '_blank');
         if (action === 'openInstagram') window.open('https://www.instagram.com/hi_adimassatria/', '_blank');
         if (action === 'openLinkedIn') window.open('https://www.linkedin.com/in/adimassatria/', '_blank');
@@ -792,7 +852,7 @@
         printTerminal(`> <span class="text-white">${cmd}</span>`);
         
         if (cmd === 'help') {
-          printTerminal("Available commands: <span class=\"text-white\">whoami, gear, clear, exit</span>");
+          printTerminal('Available commands: <span class="text-white">whoami, gear, clear, exit</span>');
         } else if (cmd === 'whoami') {
           printTerminal("Adimas Satria. Informatics Student @ UPN Veteran Jatim. Project Manager.");
         } else if (cmd === 'gear') {
@@ -816,29 +876,45 @@
 
     // GLOBAL KEYBINDINGS
     window.addEventListener('keydown', (e) => {
-      // Command Palette (Ctrl+K or Cmd+K)
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         isCmdOpen ? closeCmdPalette() : openCmdPalette();
       }
-      // Terminal (Tilde / Backtick)
       if (e.key === '`') {
         e.preventDefault();
         isTerminalOpen ? closeTerminal() : openTerminal();
       }
-      // Escape to close modals
       if (e.key === 'Escape') {
         if (isCmdOpen) closeCmdPalette();
         if (isTerminalOpen) closeTerminal();
+        if (isQrOpen) closeQrModal();
       }
     });
 
-    // 5. SECRET EASTER EGG LOGIC
+    // 5. SECRET EASTER EGGS (Adimas, Sony, Konami Code)
     let inputBuffer = "";
+    const konamiCode = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
+    let konamiIndex = 0;
+
     window.addEventListener("keydown", (e) => {
-      if (isCmdOpen || isTerminalOpen) return; // Prevent trigger while typing in modals
+      if (isCmdOpen || isTerminalOpen || isQrOpen) return;
+      
+      const key = e.key.toLowerCase();
+
+      // Konami Code Sequence Tracker
+      if (key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+          triggerKonami();
+          konamiIndex = 0;
+        }
+      } else {
+        konamiIndex = 0;
+      }
+
+      // String Buffer for 'adimas' & 'sony'
       if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
-        inputBuffer += e.key.toLowerCase();
+        inputBuffer += key;
         if (inputBuffer.length > 10) inputBuffer = inputBuffer.slice(-10);
         
         if (inputBuffer.endsWith("adimas")) {
@@ -850,6 +926,20 @@
         }
       }
     });
+
+    function triggerKonami() {
+      playChime();
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+      }
+      const toast = document.getElementById('easter-egg-toast');
+      toast.className = "fixed top-5 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl pointer-events-none transition-all duration-500 z-[99997] flex items-center space-x-2 bg-purple-600 text-white opacity-100 translate-y-0";
+      toast.innerHTML = '<i data-lucide="gamepad-2" class="w-4 h-4"></i><span>KONAMI CODE UNLOCKED: GG WP!</span>';
+      lucide.createIcons();
+      setTimeout(() => {
+        toast.className = "fixed top-5 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl pointer-events-none transition-all duration-500 z-[99997] flex items-center space-x-2 opacity-0 -translate-y-10 text-white";
+      }, 4000);
+    }
 
     function triggerEasterEgg(type) {
       const toast = document.getElementById('easter-egg-toast');
