@@ -56,9 +56,7 @@
 <body class="bg-[#FAF8F5] dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 selection:bg-orange-500 selection:text-white flex flex-col items-center px-4 py-10 sm:py-14 md:py-18 font-sans antialiased relative overflow-x-hidden min-h-screen transition-all duration-500">
 
   <!-- Easter Egg Toast Alert -->
-  <div id="easter-egg-toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-emerald-600 text-white px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-500 z-50 -translate-y-10 flex items-center space-x-2">
-    <i data-lucide="unlock" class="w-4 h-4"></i>
-    <span>DEVELOPER MODE UNLOCKED</span>
+  <div id="easter-egg-toast" class="fixed top-5 left-1/2 -translate-x-1/2 text-white px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-500 z-50 -translate-y-10 flex items-center space-x-2">
   </div>
 
   <!-- Dynamic Warm Ambient Glows -->
@@ -601,41 +599,74 @@
     });
 
     // SECRET EASTER EGG (Keylogger)
-    let secretCode = "adimas";
     let inputBuffer = "";
     window.addEventListener("keydown", (e) => {
       inputBuffer += e.key.toLowerCase();
-      if (inputBuffer.length > secretCode.length) {
-        inputBuffer = inputBuffer.slice(-secretCode.length);
+      if (inputBuffer.length > 10) {
+        inputBuffer = inputBuffer.slice(-10);
       }
-      if (inputBuffer === secretCode) {
-        triggerEasterEgg();
+      
+      if (inputBuffer.endsWith("adimas")) {
+        triggerEasterEgg("adimas");
+        inputBuffer = "";
+      } else if (inputBuffer.endsWith("sony")) {
+        triggerEasterEgg("sony");
         inputBuffer = "";
       }
     });
 
-    function triggerEasterEgg() {
-      playChime();
+    function triggerEasterEgg(type) {
       const toast = document.getElementById('easter-egg-toast');
       const pfp = document.getElementById('pfp-container');
       
-      // Hacker hue-rotate effect
-      document.body.style.filter = 'hue-rotate(150deg)';
-      
-      // Animate PFP Spin
-      if (pfp) pfp.classList.add('animate-spin');
+      // Reset base classes for toast
+      toast.className = "fixed top-5 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl pointer-events-none transition-all duration-500 z-50 flex items-center space-x-2 opacity-0 -translate-y-10 text-white";
 
-      // Show Toast
-      toast.classList.remove('opacity-0', '-translate-y-10');
-      toast.classList.add('opacity-100', 'translate-y-0');
+      if (type === "adimas") {
+        playChime();
+        document.body.style.filter = 'hue-rotate(150deg)';
+        if (pfp) pfp.classList.add('animate-spin');
+        
+        toast.classList.add('bg-emerald-600');
+        toast.innerHTML = '<i data-lucide="unlock" class="w-4 h-4"></i><span>DEVELOPER MODE UNLOCKED</span>';
+        
+        // Trigger reflow to show animation
+        void toast.offsetWidth;
+        toast.classList.replace('opacity-0', 'opacity-100');
+        toast.classList.replace('-translate-y-10', 'translate-y-0');
+        lucide.createIcons();
 
-      // Reset after 3.5 seconds
-      setTimeout(() => {
-        toast.classList.remove('opacity-100', 'translate-y-0');
-        toast.classList.add('opacity-0', '-translate-y-10');
-        document.body.style.filter = 'none';
-        if (pfp) pfp.classList.remove('animate-spin');
-      }, 3500);
+        setTimeout(() => {
+          toast.classList.replace('opacity-100', 'opacity-0');
+          toast.classList.replace('translate-y-0', '-translate-y-10');
+          document.body.style.filter = 'none';
+          if (pfp) pfp.classList.remove('animate-spin');
+        }, 3500);
+
+      } else if (type === "sony") {
+        playChime();
+        
+        // Camera Flash Overlay
+        const flash = document.createElement('div');
+        flash.className = 'fixed inset-0 bg-white z-[999] pointer-events-none transition-opacity duration-[150ms] opacity-100';
+        document.body.appendChild(flash);
+        setTimeout(() => { flash.classList.replace('opacity-100', 'opacity-0'); }, 50);
+        setTimeout(() => { flash.remove(); }, 300);
+
+        toast.classList.add('bg-amber-600');
+        toast.innerHTML = '<i data-lucide="camera" class="w-4 h-4"></i><span>CAMERA: SONY A6400 ON</span>';
+        
+        // Trigger reflow to show animation
+        void toast.offsetWidth;
+        toast.classList.replace('opacity-0', 'opacity-100');
+        toast.classList.replace('-translate-y-10', 'translate-y-0');
+        lucide.createIcons();
+
+        setTimeout(() => {
+          toast.classList.replace('opacity-100', 'opacity-0');
+          toast.classList.replace('translate-y-0', '-translate-y-10');
+        }, 3500);
+      }
     }
 
   </script>
