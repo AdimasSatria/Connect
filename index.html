@@ -4,10 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adimas Satria — Personal Identity &amp; Hub</title>
-  <meta name="description" content="Informatics student at UPN Veteran Jawa Timur &amp; stage photographer. Navigating code, concert visuals, and digital media." />
-  <meta property="og:title" content="Adimas Satria — Personal Identity &amp; Hub" />
-  <meta property="og:description" content="Informatics student at UPN Veteran Jawa Timur &amp; stage photographer. Navigating code, concert visuals, and digital media." />
-  <meta property="og:type" content="website" />
+  <meta name="description" content="Informatics student at UPN Veteran Jawa Timur &amp; Project Manager. Navigating code, concert visuals, and digital media." />
+  
+  <!-- Prevent Flash of Incorrect Theme -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +24,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class', // Enable class-based dark mode
       theme: {
         extend: {
           fontFamily: {
@@ -29,76 +36,62 @@
     }
   </script>
 
-  <!-- Lucide Icons CDN (Untuk icon UI biasa) -->
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
-<body class="bg-[#FAF8F5] text-zinc-900 selection:bg-orange-500 selection:text-white flex flex-col items-center px-4 py-10 sm:py-14 md:py-18 font-sans antialiased relative overflow-x-hidden min-h-screen">
+<body class="bg-[#FAF8F5] dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 selection:bg-orange-500 selection:text-white flex flex-col items-center px-4 py-10 sm:py-14 md:py-18 font-sans antialiased relative overflow-x-hidden min-h-screen transition-colors duration-500">
 
   <!-- Dynamic Warm Ambient Glows -->
-  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[450px] bg-gradient-to-b from-orange-200/45 via-amber-100/35 to-transparent blur-3xl pointer-events-none -z-10"></div>
-  <div class="fixed top-[20%] right-[-10%] w-[450px] h-[450px] bg-red-100/40 rounded-full blur-[120px] pointer-events-none -z-10"></div>
-  <div class="fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-amber-100/50 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[450px] bg-gradient-to-b from-orange-200/45 dark:from-orange-600/15 via-amber-100/35 dark:via-amber-700/10 to-transparent blur-3xl pointer-events-none -z-10 transition-colors duration-500"></div>
+  <div class="fixed top-[20%] right-[-10%] w-[450px] h-[450px] bg-red-100/40 dark:bg-red-900/10 rounded-full blur-[120px] pointer-events-none -z-10 transition-colors duration-500"></div>
+  <div class="fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-amber-100/50 dark:bg-amber-900/10 rounded-full blur-[140px] pointer-events-none -z-10 transition-colors duration-500"></div>
 
   <!-- Subtle Dot Grid Matrix -->
-  <div 
-    class="fixed inset-0 pointer-events-none -z-10 opacity-30"
-    style="background-image: radial-gradient(rgba(234, 88, 12, 0.15) 1px, transparent 1px); background-size: 24px 24px;"
-  ></div>
+  <div class="fixed inset-0 pointer-events-none -z-10 opacity-30 dark:opacity-10 transition-opacity duration-500" style="background-image: radial-gradient(rgba(234, 88, 12, 0.5) 1px, transparent 1px); background-size: 24px 24px;"></div>
 
-  <!-- Top Control Bar (Surabaya Clock & Web Audio Synthesizer) -->
-  <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600">
-    <div class="inline-flex items-center space-x-2 bg-white/80 border border-orange-200/70 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-md">
-      <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600"></i>
-      <span class="text-zinc-700 font-medium hidden sm:inline">SURABAYA (WIB)</span>
-      <span class="text-zinc-700 font-medium sm:hidden">SBY</span>
-      <span class="text-zinc-700 font-medium" id="clock-display">--:--:--</span>
+  <!-- Top Control Bar -->
+  <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+    <div class="inline-flex items-center space-x-2 bg-white/80 dark:bg-zinc-900/80 border border-orange-200/70 dark:border-zinc-800 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-md transition-colors duration-500">
+      <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
+      <span class="text-zinc-700 dark:text-zinc-300 font-medium hidden sm:inline">SURABAYA (WIB)</span>
+      <span class="text-zinc-700 dark:text-zinc-300 font-medium sm:hidden">SBY</span>
+      <span class="text-zinc-700 dark:text-zinc-300 font-medium" id="clock-display">--:--:--</span>
     </div>
 
     <div class="flex items-center space-x-2">
+      <!-- Theme Toggle -->
+      <button id="theme-toggle-btn" onclick="toggleTheme()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-zinc-900/80 hover:bg-white dark:hover:bg-zinc-800 border border-orange-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-colors shadow-sm cursor-pointer backdrop-blur-md" title="Toggle Dark/Light Mode">
+        <i id="theme-icon" data-lucide="moon" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400"></i>
+      </button>
+
       <!-- Language Toggle -->
-      <button
-        id="lang-toggle-btn"
-        onclick="toggleLanguage()"
-        class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 hover:bg-white border border-orange-200/80 text-zinc-700 hover:text-orange-700 transition-colors shadow-sm cursor-pointer backdrop-blur-md"
-        title="Toggle Language"
-      >
-        <i data-lucide="languages" class="w-3.5 h-3.5 text-orange-600"></i>
-        <span id="lang-text" class="text-[11px]"><span class="font-bold text-orange-700">EN</span> <span class="text-zinc-400">| ID</span></span>
+      <button id="lang-toggle-btn" onclick="toggleLanguage()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-zinc-900/80 hover:bg-white dark:hover:bg-zinc-800 border border-orange-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-colors shadow-sm cursor-pointer backdrop-blur-md" title="Toggle Language">
+        <i data-lucide="languages" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400"></i>
+        <span id="lang-text" class="text-[11px]"><span class="font-bold text-orange-700 dark:text-orange-400">EN</span> <span class="text-zinc-400 dark:text-zinc-600">| ID</span></span>
       </button>
 
       <!-- Sound Toggle -->
-      <button
-        id="sound-toggle-btn"
-        onclick="toggleSound()"
-        class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 hover:bg-white border border-orange-200/80 text-zinc-700 hover:text-orange-700 transition-colors shadow-sm cursor-pointer backdrop-blur-md"
-        title="Toggle acoustic sound effects"
-      >
-        <i id="sound-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-zinc-400"></i>
-        <span id="sound-text" class="text-[11px] text-zinc-500 font-medium hidden sm:inline">SOUND: OFF</span>
+      <button id="sound-toggle-btn" onclick="toggleSound()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-zinc-900/80 hover:bg-white dark:hover:bg-zinc-800 border border-orange-200/80 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-colors shadow-sm cursor-pointer backdrop-blur-md" title="Toggle acoustic sound effects">
+        <i id="sound-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500"></i>
+        <span id="sound-text" class="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium hidden sm:inline">SOUND: OFF</span>
       </button>
     </div>
   </header>
 
-  <!-- Main Single-Screen Hub Container -->
+  <!-- Main Container -->
   <main class="w-full max-w-2xl flex flex-col space-y-7 sm:space-y-8 relative z-10">
 
-    <!-- 1. Profile Identity Hero Card -->
-    <section class="relative bg-white border border-stone-200/90 rounded-3xl p-6 sm:p-8 shadow-sm overflow-hidden">
-      <!-- Top Subtle Prism Line -->
+    <!-- 1. Profile Card -->
+    <section class="relative bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-sm dark:shadow-none overflow-hidden transition-colors duration-500">
       <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-red-500 via-orange-500 to-amber-500"></div>
 
-      <!-- Status & Location Meta -->
       <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium shadow-xs">
+        <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-400 text-xs font-medium shadow-xs transition-colors duration-500">
           <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -107,279 +100,211 @@
           <span class="lang-id hidden">Gas buat kolaborasi kreatif &amp; project IT</span>
         </div>
 
-        <div class="inline-flex items-center space-x-1.5 text-xs text-zinc-500 font-mono bg-stone-50 border border-stone-200 px-2.5 py-1 rounded-full">
-          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-600"></i>
+        <div class="inline-flex items-center space-x-1.5 text-xs text-zinc-500 dark:text-zinc-400 font-mono bg-stone-50 dark:bg-zinc-800/50 border border-stone-200 dark:border-zinc-800 px-2.5 py-1 rounded-full transition-colors duration-500">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
           <span>Surabaya, Indonesia</span>
         </div>
       </div>
 
-      <!-- Profile Header -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-5">
-        
-        <!-- FIX: Avatar Profile Picture Asli -->
         <div class="relative group/pfp shrink-0 select-none">
           <div class="absolute -inset-1.5 bg-gradient-to-tr from-orange-500 via-amber-400 to-red-500 rounded-2xl blur-md opacity-50 group-hover/pfp:opacity-100 transition-all duration-500 animate-pulse"></div>
-
-          <div 
-            onclick="playChime()"
-            class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl p-[2.5px] bg-gradient-to-tr from-orange-500 via-amber-400 to-red-500 shadow-xl overflow-hidden cursor-pointer transition-transform duration-300 group-hover/pfp:scale-105 active:scale-95"
-            title="Adimas Satria"
-          >
-            <div class="w-full h-full rounded-[14px] overflow-hidden bg-white flex items-center justify-center relative">
+          <div onclick="playChime()" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl p-[2.5px] bg-gradient-to-tr from-orange-500 via-amber-400 to-red-500 shadow-xl overflow-hidden cursor-pointer transition-transform duration-300 group-hover/pfp:scale-105 active:scale-95">
+            <div class="w-full h-full rounded-[14px] overflow-hidden bg-white dark:bg-zinc-900 flex items-center justify-center relative">
               <img src="profile.jpg" alt="Adimas Satria" class="w-full h-full object-cover object-top" onerror="this.src='https://ui-avatars.com/api/?name=Adimas+Satria&background=ea580c&color=fff&size=200'" />
             </div>
           </div>
         </div>
 
         <div class="min-w-0">
-          <h1 class="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-zinc-900 tracking-tight leading-tight">
+          <h1 class="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-zinc-900 dark:text-white tracking-tight leading-tight transition-colors duration-500">
             Adimas Satria
           </h1>
           <div class="flex flex-wrap items-center gap-2 mt-1.5 text-xs sm:text-sm font-semibold">
-            <span class="inline-flex items-center gap-1.5 bg-orange-100 text-orange-800 border border-orange-200 px-2.5 py-0.5 rounded-md">
-              <i data-lucide="code-2" class="w-3.5 h-3.5 text-orange-600"></i>
+            <span class="inline-flex items-center gap-1.5 bg-orange-100 dark:bg-orange-500/10 text-orange-800 dark:text-orange-400 border border-orange-200 dark:border-orange-500/20 px-2.5 py-0.5 rounded-md transition-colors duration-500">
+              <i data-lucide="code-2" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
               <span class="lang-en">Informatics Student</span><span class="lang-id hidden">Mahasiswa IT</span>
             </span>
-            <span class="text-zinc-300">•</span>
-           <span class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-900 border border-amber-200 px-2.5 py-0.5 rounded-md">
-              <i data-lucide="briefcase" class="w-3.5 h-3.5 text-amber-700"></i>
+            <span class="text-zinc-300 dark:text-zinc-700">•</span>
+            <span class="inline-flex items-center gap-1.5 bg-amber-100 dark:bg-amber-500/10 text-amber-900 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20 px-2.5 py-0.5 rounded-md transition-colors duration-500">
+              <i data-lucide="briefcase" class="w-3.5 h-3.5 text-amber-700 dark:text-amber-500"></i>
               <span class="lang-en">Project Manager</span><span class="lang-id hidden">Manajer Proyek</span>
             </span>
           </div>
         </div>
-
       </div>
 
-      <!-- Bio Description -->
-      <p class="text-zinc-600 text-sm sm:text-base leading-relaxed mb-6 font-normal">
-        <span class="lang-en">Hello, I am Adimas Satria, but you can call me Adimas. Currently an Informatics student at <strong class="text-zinc-900 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN &ldquo;Veteran&rdquo; Jawa Timur</strong>, I combine technical knowledge with strong leadership skills. I have a proven track record in project management, creative direction, and leading large teams to execute impactful initiatives.</span>
+      <p class="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed mb-6 font-normal transition-colors duration-500">
+        <span class="lang-en">Hello, I am Adimas Satria, but you can call me Adimas. Currently an Informatics student at <strong class="text-zinc-900 dark:text-zinc-200 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN &ldquo;Veteran&rdquo; Jawa Timur</strong>, I combine technical knowledge with strong leadership skills. I have a proven track record in project management, creative direction, and leading large teams to execute impactful initiatives.</span>
         
-        <span class="lang-id hidden">Halo, gue Adimas Satria, panggil aja Adimas. Sekarang lagi sibuk kuliah Informatika di <strong class="text-zinc-900 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN &ldquo;Veteran&rdquo; Jawa Timur</strong>. Gue seneng nyampur skill teknis IT sama leadership. Sejauh ini udah lumayan sering megang project management, nentuin arah kreatif acara, sampai nge-lead tim skala gede buat bikin event atau inisiatif yang pecah.</span>
+        <span class="lang-id hidden">Halo, gue Adimas Satria, panggil aja Adimas. Sekarang lagi sibuk kuliah Informatika di <strong class="text-zinc-900 dark:text-zinc-200 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN &ldquo;Veteran&rdquo; Jawa Timur</strong>. Gue seneng nyampur skill teknis IT sama *leadership*. Sejauh ini udah lumayan sering megang *project management*, nentuin arah kreatif acara, sampai nge-lead tim skala gede buat bikin *event* atau inisiatif yang pecah.</span>
       </p>
 
-      <!-- Email Quick Action Bar -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-5 border-t border-stone-100">
-        <!-- Click to Copy Email Bar -->
-        <button
-          id="copy-email-btn"
-          onclick="copyEmail()"
-          class="group/btn flex-1 flex items-center justify-between px-4 py-3 rounded-xl bg-stone-50 hover:bg-orange-50/60 border border-stone-200 hover:border-orange-300 transition-all duration-200 text-left cursor-pointer"
-          title="Click to copy email address"
-        >
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-5 border-t border-stone-100 dark:border-zinc-800 transition-colors duration-500">
+        <button id="copy-email-btn" onclick="copyEmail()" class="group/btn flex-1 flex items-center justify-between px-4 py-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 hover:bg-orange-50/60 dark:hover:bg-zinc-800 border border-stone-200 dark:border-zinc-700 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-200 text-left cursor-pointer">
           <div class="flex items-center space-x-2.5 min-w-0">
-            <div class="p-1 rounded-md bg-stone-200/60 text-zinc-600 group-hover/btn:text-orange-600 transition-colors">
+            <div class="p-1 rounded-md bg-stone-200/60 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400 group-hover/btn:text-orange-600 dark:group-hover/btn:text-orange-400 transition-colors">
               <i data-lucide="mail" class="w-4 h-4"></i>
             </div>
-            <span class="text-xs sm:text-sm font-mono text-zinc-800 group-hover/btn:text-orange-950 font-medium truncate transition-colors">
+            <span class="text-xs sm:text-sm font-mono text-zinc-800 dark:text-zinc-200 group-hover/btn:text-orange-950 dark:group-hover/btn:text-orange-300 font-medium truncate transition-colors">
               workwithadimassatria@gmail.com
             </span>
           </div>
-
           <div id="copy-status-container" class="flex items-center space-x-1 shrink-0 ml-2">
-            <span id="copy-default" class="inline-flex items-center space-x-1 text-xs text-zinc-500 group-hover/btn:text-orange-700 font-medium">
+            <span id="copy-default" class="inline-flex items-center space-x-1 text-xs text-zinc-500 dark:text-zinc-400 group-hover/btn:text-orange-700 dark:group-hover/btn:text-orange-400 font-medium">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span class="hidden sm:inline">
                 <span class="lang-en">Copy</span><span class="lang-id hidden">Salin</span>
               </span>
             </span>
-            <span id="copy-success" class="hidden inline-flex items-center space-x-1 text-xs font-semibold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md border border-emerald-300 shadow-xs">
+            <span id="copy-success" class="hidden inline-flex items-center space-x-1 text-xs font-semibold text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/20 px-2.5 py-1 rounded-md border border-emerald-300 dark:border-emerald-500/30 shadow-xs">
               <i data-lucide="check" class="w-3.5 h-3.5"></i>
               <span class="lang-en">Copied!</span><span class="lang-id hidden">Tersalin!</span>
             </span>
           </div>
         </button>
 
-        <!-- Direct Mailto Action Button -->
-        <a
-          id="send-email-btn"
-          href="mailto:workwithadimassatria@gmail.com"
-          onclick="playClick()"
-          class="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:brightness-105 text-white text-xs sm:text-sm font-semibold transition-all shadow-md shadow-orange-500/20 active:scale-[0.98]"
-        >
+        <a id="send-email-btn" href="mailto:workwithadimassatria@gmail.com" onclick="playClick()" class="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:brightness-105 text-white text-xs sm:text-sm font-semibold transition-all shadow-md shadow-orange-500/20 active:scale-[0.98]">
           <span class="lang-en">Send Email</span><span class="lang-id hidden">Kirim Email</span>
           <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
         </a>
       </div>
-
     </section>
 
-    <!-- 2. Interactive Social Hub & Links Section -->
+    <!-- 2. Links Section -->
     <section class="space-y-3">
-      <!-- Hub Filter Bar -->
       <div class="flex items-center justify-between px-2">
         <div class="flex items-center space-x-2">
-          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 flex items-center gap-1.5 mr-1">
+          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 mr-1">
             <span class="w-2 h-2 rounded-full bg-orange-500"></span>
             <span class="lang-en">Links &amp; Hub</span><span class="lang-id hidden">Link &amp; Hub</span>
           </h2>
-
-          <div class="inline-flex bg-white p-0.5 rounded-lg border border-stone-200 shadow-xs">
-            <button onclick="filterLinks('all')" id="filter-all" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all bg-orange-100 text-orange-800 font-bold border border-orange-200 shadow-xs"><span class="lang-en">All</span><span class="lang-id hidden">Semua</span></button>
-            <button onclick="filterLinks('career')" id="filter-career" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-500 hover:text-zinc-900"><span class="lang-en">Career</span><span class="lang-id hidden">Karir</span></button>
-            <button onclick="filterLinks('visuals')" id="filter-visuals" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-500 hover:text-zinc-900"><span class="lang-en">Visuals</span><span class="lang-id hidden">Visual</span></button>
-            <button onclick="filterLinks('personal')" id="filter-personal" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-500 hover:text-zinc-900"><span class="lang-en">Personal</span><span class="lang-id hidden">Personal</span></button>
+          <div class="inline-flex bg-white dark:bg-zinc-900 p-0.5 rounded-lg border border-stone-200 dark:border-zinc-800 shadow-xs transition-colors duration-500">
+            <button onclick="filterLinks('all')" id="filter-all" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200 dark:border-orange-500/30 shadow-xs"><span class="lang-en">All</span><span class="lang-id hidden">Semua</span></button>
+            <button onclick="filterLinks('career')" id="filter-career" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"><span class="lang-en">Career</span><span class="lang-id hidden">Karir</span></button>
+            <button onclick="filterLinks('visuals')" id="filter-visuals" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"><span class="lang-en">Visuals</span><span class="lang-id hidden">Visual</span></button>
+            <button onclick="filterLinks('personal')" id="filter-personal" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"><span class="lang-en">Personal</span><span class="lang-id hidden">Personal</span></button>
           </div>
         </div>
-
-        <span class="text-[11px] font-mono text-zinc-400 hidden sm:inline">
+        <span class="text-[11px] font-mono text-zinc-400 dark:text-zinc-500 hidden sm:inline">
           <span class="lang-en">05 DIRECT HUBS</span><span class="lang-id hidden">05 LINK UTAMA</span>
         </span>
       </div>
 
-      <!-- Links List -->
       <div id="links-container" class="flex flex-col space-y-2.5">
         
         <!-- LinkedIn -->
-        <a
-          href="https://www.linkedin.com/in/adimassatria/"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-category="career"
-          onclick="playClick()"
-          class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/90 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#0A66C2]/40 hover:bg-[#0A66C2]/5"
-        >
+        <a href="https://www.linkedin.com/in/adimassatria/" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#0A66C2]/40 hover:bg-[#0A66C2]/5 dark:hover:bg-[#0A66C2]/10">
           <div class="flex items-center space-x-4 min-w-0">
-            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200/70 group-hover:bg-white transition-colors shrink-0 flex items-center justify-center">
-              <svg class="w-5 h-5 text-[#0A66C2]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
+              <svg class="w-5 h-5 text-[#0A66C2]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </div>
             <div class="min-w-0">
               <div class="flex items-center space-x-2">
-                <span class="font-bold text-sm sm:text-base text-zinc-900 group-hover:text-orange-950 transition-colors">LinkedIn</span>
-                <span class="text-xs font-mono text-zinc-400 truncate">/in/adimassatria</span>
+                <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-orange-950 dark:group-hover:text-white transition-colors">LinkedIn</span>
+                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">/in/adimassatria</span>
               </div>
-              <p class="text-xs text-zinc-500 truncate mt-0.5 font-normal">
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
                 <span class="lang-en">Professional experience, informatics background &amp; network</span>
                 <span class="lang-id hidden">Pengalaman kerja, latar belakang anak IT &amp; koneksi</span>
               </p>
             </div>
           </div>
-
           <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-sky-50 text-[#0A66C2] border-sky-200">
+            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-sky-50 dark:bg-[#0A66C2]/10 text-[#0A66C2] dark:text-[#52a4f5] border-sky-200 dark:border-[#0A66C2]/30">
               <span class="lang-en">Connect</span><span class="lang-id hidden">Konek</span>
             </span>
-            <div class="w-8 h-8 rounded-full bg-stone-100 text-zinc-400 flex items-center justify-center transition-all duration-200 group-hover:bg-[#0A66C2] group-hover:text-white">
+            <div class="w-8 h-8 rounded-full bg-stone-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 flex items-center justify-center transition-all duration-200 group-hover:bg-[#0A66C2] group-hover:text-white">
               <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
             </div>
           </div>
         </a>
 
         <!-- GitHub -->
-        <a
-          href="https://github.com/AdimasSatria"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-category="career"
-          onclick="playClick()"
-          class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/90 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-zinc-400 hover:bg-zinc-50"
-        >
+        <a href="https://github.com/AdimasSatria" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
           <div class="flex items-center space-x-4 min-w-0">
-            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200/70 group-hover:bg-white transition-colors shrink-0 flex items-center justify-center">
-              <svg class="w-5 h-5 text-zinc-900" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/></svg>
+            <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors shrink-0 flex items-center justify-center">
+              <svg class="w-5 h-5 text-zinc-900 dark:text-white" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/></svg>
             </div>
             <div class="min-w-0">
               <div class="flex items-center space-x-2">
-                <span class="font-bold text-sm sm:text-base text-zinc-900 group-hover:text-orange-950 transition-colors">GitHub</span>
-                <span class="text-xs font-mono text-zinc-400 truncate">@AdimasSatria</span>
+                <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-orange-950 dark:group-hover:text-white transition-colors">GitHub</span>
+                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@AdimasSatria</span>
               </div>
-              <p class="text-xs text-zinc-500 truncate mt-0.5 font-normal">
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
                 <span class="lang-en">Open source code, web engineering &amp; software repositories</span>
                 <span class="lang-id hidden">Tempat nyimpen kodingan open source &amp; project web gue</span>
               </p>
             </div>
           </div>
-
           <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-zinc-100 text-zinc-800 border-zinc-200">
+            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700">
               <span class="lang-en">Code</span><span class="lang-id hidden">Kode</span>
             </span>
-            <div class="w-8 h-8 rounded-full bg-stone-100 text-zinc-400 flex items-center justify-center transition-all duration-200 group-hover:bg-zinc-900 group-hover:text-white">
+            <div class="w-8 h-8 rounded-full bg-stone-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 flex items-center justify-center transition-all duration-200 group-hover:bg-zinc-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-zinc-900">
               <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
             </div>
           </div>
         </a>
 
         <!-- Instagram -->
-        <a
-          href="https://www.instagram.com/hi_adimassatria/"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-category="visuals"
-          onclick="playClick()"
-          class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/90 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#E4405F]/40 hover:bg-[#E4405F]/5"
-        >
+        <a href="https://www.instagram.com/hi_adimassatria/" target="_blank" rel="noopener noreferrer" data-category="visuals" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#E4405F]/40 hover:bg-[#E4405F]/5 dark:hover:bg-[#E4405F]/10">
           <div class="flex items-center space-x-4 min-w-0">
-            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200/70 group-hover:bg-white transition-colors shrink-0 flex items-center justify-center">
-              <svg class="w-5 h-5 text-[#E4405F]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"/></svg>
+            <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
+              <svg class="w-5 h-5 text-[#E4405F]" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"/></svg>
             </div>
             <div class="min-w-0">
               <div class="flex items-center space-x-2">
-                <span class="font-bold text-sm sm:text-base text-zinc-900 group-hover:text-orange-950 transition-colors">Instagram</span>
-                <span class="text-xs font-mono text-zinc-400 truncate">@hi_adimassatria</span>
+                <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-orange-950 dark:group-hover:text-white transition-colors">Instagram</span>
+                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@hi_adimassatria</span>
               </div>
-              <p class="text-xs text-zinc-500 truncate mt-0.5 font-normal">
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
                 <span class="lang-en">Personal account, daily moments, connections &amp; occasional visual archives</span>
                 <span class="lang-id hidden">Akun personal, harian, &amp; kadang ngepost arsip jepretan panggung</span>
               </p>
             </div>
           </div>
-
           <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-rose-50 text-[#E4405F] border-rose-200">
+            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-rose-50 dark:bg-[#E4405F]/10 text-[#E4405F] dark:text-[#ff748f] border-rose-200 dark:border-[#E4405F]/30">
               <span class="lang-en">Visuals</span><span class="lang-id hidden">Visual</span>
             </span>
-            <div class="w-8 h-8 rounded-full bg-stone-100 text-zinc-400 flex items-center justify-center transition-all duration-200 group-hover:bg-[#E4405F] group-hover:text-white">
+            <div class="w-8 h-8 rounded-full bg-stone-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 flex items-center justify-center transition-all duration-200 group-hover:bg-[#E4405F] group-hover:text-white">
               <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
             </div>
           </div>
         </a>
 
         <!-- Spotify -->
-        <a
-          href="https://open.spotify.com/user/31ga3xzh73za4vcblhojknttziae?si=NiXbO7pRRnqtBnHaklREKA&utm_source=copy-link"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-category="personal"
-          onclick="playClick()"
-          class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/90 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#1DB954]/40 hover:bg-[#1DB954]/5"
-        >
+        <a href="https://open.spotify.com/user/31ga3xzh73za4vcblhojknttziae?si=NiXbO7pRRnqtBnHaklREKA&utm_source=copy-link" target="_blank" rel="noopener noreferrer" data-category="personal" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#1DB954]/40 hover:bg-[#1DB954]/5 dark:hover:bg-[#1DB954]/10">
           <div class="flex items-center space-x-4 min-w-0">
-            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200/70 group-hover:bg-white transition-colors shrink-0 flex items-center justify-center">
-              <svg class="w-5 h-5 text-[#1DB954]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.394-.751.522-1.146.282-3.139-1.912-7.09-2.341-11.747-1.282-.465.104-.928-.184-1.032-.649-.104-.465.184-.928.649-1.032 5.09-1.156 9.46-.662 13.003 1.503.394.24.522.751.282 1.146zm1.449-3.237c-.302.493-.943.655-1.436.353-3.585-2.203-9.066-2.827-12.92-1.545-.562.187-1.16-.118-1.347-.68-.187-.562.118-1.16.68-1.347 4.409-1.464 10.457-.768 14.67 1.821.493.302.655.943.353 1.436zm.106-3.39C15.021 8.28 8.71 8.067 5.074 9.171c-.682.207-1.402-.178-1.609-.86-.207-.682.178-1.402.86-1.609 4.225-1.284 11.233-1.035 15.932 1.758.608.361.808 1.148.447 1.756-.361.608-1.148.808-1.756.447z"/></svg>
+            <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
+              <svg class="w-5 h-5 text-[#1DB954]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.394-.751.522-1.146.282-3.139-1.912-7.09-2.341-11.747-1.282-.465.104-.928-.184-1.032-.649-.104-.465.184-.928.649-1.032 5.09-1.156 9.46-.662 13.003 1.503.394.24.522.751.282 1.146zm1.449-3.237c-.302.493-.943.655-1.436.353-3.585-2.203-9.066-2.827-12.92-1.545-.562.187-1.16-.118-1.347-.68-.187-.562.118-1.16.68-1.347 4.409-1.464 10.457-.768 14.67 1.821.493.302.655.943.353 1.436zm.106-3.39C15.021 8.28 8.71 8.067 5.074 9.171c-.682.207-1.402-.178-1.609-.86-.207-.682.178-1.402.86-1.609 4.225-1.284 11.233-1.035 15.932 1.758.608.361.808 1.148.447 1.756-.361.608-1.148.808-1.756.447z"/></svg>
             </div>
             <div class="min-w-0">
               <div class="flex items-center space-x-2">
-                <span class="font-bold text-sm sm:text-base text-zinc-900 group-hover:text-orange-950 transition-colors">Spotify</span>
-                <span class="text-xs font-mono text-zinc-400 truncate">@adimAs</span>
+                <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-orange-950 dark:group-hover:text-white transition-colors">Spotify</span>
+                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@adimAs</span>
               </div>
-              <p class="text-xs text-zinc-500 truncate mt-0.5 font-normal">
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
                 <span class="lang-en">Current rotation, gig inspirations &amp; late-night coding playlists</span>
                 <span class="lang-id hidden">Lagu yang lagi sering diputer &amp; amunisi koding begadang</span>
               </p>
             </div>
           </div>
-
           <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-emerald-50 text-[#1DB954] border-emerald-200">
+            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-emerald-50 dark:bg-[#1DB954]/10 text-[#1DB954] dark:text-[#42da77] border-emerald-200 dark:border-[#1DB954]/30">
               <span class="lang-en">Listen</span><span class="lang-id hidden">Dengerin</span>
             </span>
-            <div class="w-8 h-8 rounded-full bg-stone-100 text-zinc-400 flex items-center justify-center transition-all duration-200 group-hover:bg-[#1DB954] group-hover:text-white">
+            <div class="w-8 h-8 rounded-full bg-stone-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 flex items-center justify-center transition-all duration-200 group-hover:bg-[#1DB954] group-hover:text-white">
               <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
             </div>
           </div>
         </a>
 
         <!-- Letterboxd -->
-        <a
-          href="https://boxd.it/iNpz7"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-category="personal"
-          onclick="playClick()"
-          class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/90 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#00E054]/40 hover:bg-[#00E054]/5"
-        >
+        <a href="https://boxd.it/iNpz7" target="_blank" rel="noopener noreferrer" data-category="personal" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#00E054]/40 hover:bg-[#00E054]/5 dark:hover:bg-[#00E054]/10">
           <div class="flex items-center space-x-4 min-w-0">
-            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200/70 group-hover:bg-white transition-colors shrink-0 flex items-center justify-center">
+            <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="5" cy="12" r="4.2" fill="#00E054"/>
                 <circle cx="12" cy="12" r="4.2" fill="#FF8000"/>
@@ -388,21 +313,20 @@
             </div>
             <div class="min-w-0">
               <div class="flex items-center space-x-2">
-                <span class="font-bold text-sm sm:text-base text-zinc-900 group-hover:text-orange-950 transition-colors">Letterboxd</span>
-                <span class="text-xs font-mono text-zinc-400 truncate">@adimas</span>
+                <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-orange-950 dark:group-hover:text-white transition-colors">Letterboxd</span>
+                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@adimas</span>
               </div>
-              <p class="text-xs text-zinc-500 truncate mt-0.5 font-normal">
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
                 <span class="lang-en">Short movie logs, witty reviews &amp; cinematic favorites</span>
                 <span class="lang-id hidden">Tempat ngoceh soal film, review santai &amp; film favorit gue</span>
               </p>
             </div>
           </div>
-
           <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-green-50 text-[#00E054] border-green-200">
+            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-green-50 dark:bg-[#00E054]/10 text-[#00E054] dark:text-[#38ef7a] border-green-200 dark:border-[#00E054]/30">
               <span class="lang-en">Films</span><span class="lang-id hidden">Film</span>
             </span>
-            <div class="w-8 h-8 rounded-full bg-stone-100 text-zinc-400 flex items-center justify-center transition-all duration-200 group-hover:bg-[#00E054] group-hover:text-white">
+            <div class="w-8 h-8 rounded-full bg-stone-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 flex items-center justify-center transition-all duration-200 group-hover:bg-[#00E054] group-hover:text-white">
               <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
             </div>
           </div>
@@ -411,103 +335,68 @@
       </div>
     </section>
 
-    <!-- 3. Portfolio Document (PDF Embed & Direct Drive Access) -->
-    <section class="relative bg-white border border-stone-200/90 rounded-3xl p-5 sm:p-7 shadow-sm space-y-4">
-      
-      <!-- Header of PDF Section -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-stone-100">
+    <!-- 3. Portfolio Document -->
+    <section class="relative bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 rounded-3xl p-5 sm:p-7 shadow-sm dark:shadow-none space-y-4 transition-colors duration-500">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-stone-100 dark:border-zinc-800 transition-colors duration-500">
         <div class="flex items-center space-x-3">
-          <div class="p-2.5 rounded-xl bg-orange-100 border border-orange-200 text-orange-700">
+          <div class="p-2.5 rounded-xl bg-orange-100 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 text-orange-700 dark:text-orange-500">
             <i data-lucide="file-text" class="w-5 h-5"></i>
           </div>
           <div>
-            <h2 class="font-bold text-base sm:text-lg text-zinc-900 flex items-center gap-2">
+            <h2 class="font-bold text-base sm:text-lg text-zinc-900 dark:text-zinc-100 flex items-center gap-2 transition-colors duration-500">
               <span class="lang-en">Portfolio Document</span>
               <span class="lang-id hidden">Dokumen Portofolio</span>
-              <span class="text-[10px] font-mono font-bold bg-orange-100 text-orange-800 px-2 py-0.5 rounded border border-orange-200">LIVE PDF</span>
+              <span class="text-[10px] font-mono font-bold bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 px-2 py-0.5 rounded border border-orange-200 dark:border-orange-500/30">LIVE PDF</span>
             </h2>
-            <p class="text-xs text-zinc-500">
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">
               <span class="lang-en">Interactive PDF preview &amp; stage photography showcase</span>
               <span class="lang-id hidden">Preview PDF interaktif &amp; pameran hasil jepretan panggung gue</span>
             </p>
           </div>
         </div>
 
-        <!-- Actions: Toggle Expand & Direct Drive Link -->
         <div class="flex items-center space-x-2 shrink-0">
-          <button
-            id="toggle-pdf-size-btn"
-            onclick="togglePdfSize()"
-            class="hidden sm:inline-flex items-center justify-center p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-zinc-700 border border-stone-200 transition-colors cursor-pointer"
-            title="Toggle aspect ratio"
-          >
+          <button id="toggle-pdf-size-btn" onclick="togglePdfSize()" class="hidden sm:inline-flex items-center justify-center p-2.5 rounded-xl bg-stone-100 dark:bg-zinc-800/80 hover:bg-stone-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 border border-stone-200 dark:border-zinc-700 transition-colors cursor-pointer" title="Toggle aspect ratio">
             <i id="pdf-size-icon" data-lucide="maximize-2" class="w-4 h-4"></i>
           </button>
-
-          <a
-            id="open-drive-btn"
-            href="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-            onclick="playClick()"
-            class="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-zinc-900 text-xs font-semibold border border-stone-200 hover:border-orange-300 transition-all active:scale-[0.98]"
-          >
+          <a id="open-drive-btn" href="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="playClick()" class="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-stone-100 dark:bg-zinc-800/80 hover:bg-stone-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 text-xs font-semibold border border-stone-200 dark:border-zinc-700 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all active:scale-[0.98]">
             <span class="lang-en">Open in Google Drive</span>
             <span class="lang-id hidden">Buka di Google Drive</span>
-            <i data-lucide="external-link" class="w-3.5 h-3.5 text-orange-600"></i>
+            <i data-lucide="external-link" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400"></i>
           </a>
         </div>
       </div>
 
-      <!-- PDF Viewer Framing Chassis -->
-      <div id="pdf-frame-wrapper" class="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-stone-100 rounded-2xl overflow-hidden border border-stone-200 shadow-inner transition-all duration-300">
-        
-        <!-- Loading State Indicator -->
-        <div id="pdf-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-stone-50 text-zinc-500 space-y-3 p-4 text-center z-0">
-          <i data-lucide="refresh-cw" class="w-6 h-6 animate-spin text-orange-600"></i>
-          <span class="text-xs font-mono text-zinc-700">
+      <div id="pdf-frame-wrapper" class="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-stone-100 dark:bg-[#09090b] rounded-2xl overflow-hidden border border-stone-200 dark:border-zinc-800 shadow-inner transition-all duration-300">
+        <div id="pdf-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-stone-50 dark:bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 space-y-3 p-4 text-center z-0">
+          <i data-lucide="refresh-cw" class="w-6 h-6 animate-spin text-orange-600 dark:text-orange-500"></i>
+          <span class="text-xs font-mono text-zinc-700 dark:text-zinc-300">
             <span class="lang-en">Loading portfolio document preview...</span>
             <span class="lang-id hidden">Lagi loading preview dokumen...</span>
           </span>
-          <span class="text-[11px] text-zinc-400 max-w-xs">
+          <span class="text-[11px] text-zinc-400 dark:text-zinc-500 max-w-xs">
             <span class="lang-en">If preview takes too long, you can use the direct button above.</span>
             <span class="lang-id hidden">Kalau kelamaan, klik aja tombol "Buka di Google Drive" di atas.</span>
           </span>
         </div>
-
-        <!-- Embedded PDF Iframe -->
-        <iframe
-          id="pdf-iframe"
-          src="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/preview"
-          title="Adimas Satria Portfolio Preview"
-          class="w-full h-full border-0 relative z-10 rounded-2xl"
-          onload="document.getElementById('pdf-loading').style.display='none';"
-          allow="autoplay"
-        ></iframe>
+        <iframe id="pdf-iframe" src="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/preview" title="Adimas Satria Portfolio Preview" class="w-full h-full border-0 relative z-10 rounded-2xl" onload="document.getElementById('pdf-loading').style.display='none';" allow="autoplay"></iframe>
       </div>
 
-      <!-- Document Metadata Footer -->
-      <div class="flex items-center justify-between text-[11px] font-mono text-zinc-400 px-1 pt-1">
+      <div class="flex items-center justify-between text-[11px] font-mono text-zinc-400 dark:text-zinc-500 px-1 pt-1">
         <span>DOC ID: 1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0</span>
-        <a 
-          href="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          class="hover:text-orange-600 transition-colors underline underline-offset-2 flex items-center gap-1"
-        >
+        <a href="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors underline underline-offset-2 flex items-center gap-1">
           <span>Direct Link</span>
           <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
         </a>
       </div>
-
     </section>
 
-    <!-- 4. Minimalist Footer -->
+    <!-- 4. Footer -->
     <footer class="text-center pt-2 pb-8 space-y-2">
-      <p class="text-xs font-mono text-zinc-400">
+      <p class="text-xs font-mono text-zinc-400 dark:text-zinc-500">
         &copy; <span id="year-display"></span> Adimas Satria • Surabaya, Indonesia
       </p>
-      <p class="text-[11px] text-zinc-400">
+      <p class="text-[11px] text-zinc-400 dark:text-zinc-600">
         <span class="lang-en">Ultra-minimalist personal identity &amp; link-hub</span>
         <span class="lang-id hidden">Identitas personal &amp; link-hub ultra-minimalis</span>
       </p>
@@ -515,64 +404,43 @@
 
   </main>
 
-  <!-- Interactive Client-Side Logic -->
   <script>
-    // Initialize Lucide Icons for UI elements
     lucide.createIcons();
-
-    // Set Copyright Year
     document.getElementById('year-display').textContent = new Date().getFullYear();
 
-    // Live Clock for Surabaya (WIB)
     function updateClock() {
       const now = new Date();
-      const timeStr = now.toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Jakarta',
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
+      const timeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Jakarta', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('clock-display').textContent = timeStr;
     }
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Audio Haptics (Web Audio API Synthesizer)
     let soundEnabled = false;
     let audioCtx = null;
-
     function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
     }
-
     function toggleSound() {
       soundEnabled = !soundEnabled;
       if (soundEnabled) initAudio();
-      
       const soundText = document.getElementById('sound-text');
       const soundIcon = document.getElementById('sound-icon');
-      
       if (soundEnabled) {
         soundText.textContent = 'SOUND FX: ON';
-        soundText.className = 'text-[11px] text-orange-700 font-semibold';
+        soundText.className = 'text-[11px] text-orange-700 dark:text-orange-400 font-semibold hidden sm:inline';
         soundIcon.setAttribute('data-lucide', 'volume-2');
-        soundIcon.className = 'w-3.5 h-3.5 text-orange-600 animate-pulse';
+        soundIcon.className = 'w-3.5 h-3.5 text-orange-600 dark:text-orange-400 animate-pulse';
         playChime();
       } else {
         soundText.textContent = 'SOUND: OFF';
-        soundText.className = 'text-[11px] text-zinc-500 font-medium';
+        soundText.className = 'text-[11px] text-zinc-500 dark:text-zinc-400 font-medium hidden sm:inline';
         soundIcon.setAttribute('data-lucide', 'volume-x');
-        soundIcon.className = 'w-3.5 h-3.5 text-zinc-400';
+        soundIcon.className = 'w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500';
       }
       lucide.createIcons();
     }
-
     function playClick() {
       if (!soundEnabled || !audioCtx) return;
       try {
@@ -589,7 +457,6 @@
         osc.stop(audioCtx.currentTime + 0.05);
       } catch(e) {}
     }
-
     function playChime() {
       if (!soundEnabled || !audioCtx) return;
       try {
@@ -608,89 +475,91 @@
       } catch(e) {}
     }
 
-    // Email Copy Handler
     function copyEmail() {
-      const email = 'workwithadimassatria@gmail.com';
-      navigator.clipboard.writeText(email);
+      navigator.clipboard.writeText('workwithadimassatria@gmail.com');
       playChime();
-
       const defaultEl = document.getElementById('copy-default');
       const successEl = document.getElementById('copy-success');
-
       defaultEl.classList.add('hidden');
       successEl.classList.remove('hidden');
-
       setTimeout(() => {
         successEl.classList.add('hidden');
         defaultEl.classList.remove('hidden');
       }, 2200);
     }
 
-    // Filter Links
     function filterLinks(category) {
       playClick();
       const buttons = document.querySelectorAll('.filter-btn');
       buttons.forEach(btn => {
-        btn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-500 hover:text-zinc-900';
+        btn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white';
       });
-
       const activeBtn = document.getElementById('filter-' + category);
       if (activeBtn) {
-        activeBtn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all bg-orange-100 text-orange-800 font-bold border border-orange-200 shadow-xs';
+        activeBtn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200 dark:border-orange-500/30 shadow-xs';
       }
-
       const items = document.querySelectorAll('.link-item');
       items.forEach(item => {
-        if (category === 'all' || item.getAttribute('data-category') === category) {
-          item.style.display = 'flex';
-        } else {
-          item.style.display = 'none';
-        }
+        if (category === 'all' || item.getAttribute('data-category') === category) item.style.display = 'flex';
+        else item.style.display = 'none';
       });
     }
 
-    // PDF Size Toggle
     let isPdfExpanded = false;
     function togglePdfSize() {
       playClick();
       isPdfExpanded = !isPdfExpanded;
       const wrapper = document.getElementById('pdf-frame-wrapper');
       const icon = document.getElementById('pdf-size-icon');
-      
       if (isPdfExpanded) {
-        wrapper.className = 'relative w-full aspect-[4/5] sm:aspect-[16/12] bg-stone-100 rounded-2xl overflow-hidden border border-stone-200 shadow-inner transition-all duration-300';
+        wrapper.className = 'relative w-full aspect-[4/5] sm:aspect-[16/12] bg-stone-100 dark:bg-[#09090b] rounded-2xl overflow-hidden border border-stone-200 dark:border-zinc-800 shadow-inner transition-all duration-300';
         icon.setAttribute('data-lucide', 'minimize-2');
       } else {
-        wrapper.className = 'relative w-full aspect-[4/3] sm:aspect-[16/10] bg-stone-100 rounded-2xl overflow-hidden border border-stone-200 shadow-inner transition-all duration-300';
+        wrapper.className = 'relative w-full aspect-[4/3] sm:aspect-[16/10] bg-stone-100 dark:bg-[#09090b] rounded-2xl overflow-hidden border border-stone-200 dark:border-zinc-800 shadow-inner transition-all duration-300';
         icon.setAttribute('data-lucide', 'maximize-2');
       }
       lucide.createIcons();
     }
-    // Language Toggle Feature
+
     let currentLang = 'en';
     function toggleLanguage() {
       playClick();
       currentLang = currentLang === 'en' ? 'id' : 'en';
-      
-      // Update Button UI
       const langText = document.getElementById('lang-text');
       if (currentLang === 'en') {
-        langText.innerHTML = '<span class="font-bold text-orange-700">EN</span> <span class="text-zinc-400">| ID</span>';
+        langText.innerHTML = '<span class="font-bold text-orange-700 dark:text-orange-400">EN</span> <span class="text-zinc-400 dark:text-zinc-600">| ID</span>';
       } else {
-        langText.innerHTML = '<span class="text-zinc-400">EN |</span> <span class="font-bold text-orange-700">ID</span>';
+        langText.innerHTML = '<span class="text-zinc-400 dark:text-zinc-600">EN |</span> <span class="font-bold text-orange-700 dark:text-orange-400">ID</span>';
       }
-
-      // Hide/Show Texts
-      document.querySelectorAll('.lang-en').forEach(el => {
-        if(currentLang === 'en') el.classList.remove('hidden');
-        else el.classList.add('hidden');
-      });
-      document.querySelectorAll('.lang-id').forEach(el => {
-        if(currentLang === 'id') el.classList.remove('hidden');
-        else el.classList.add('hidden');
-      });
+      document.querySelectorAll('.lang-en').forEach(el => currentLang === 'en' ? el.classList.remove('hidden') : el.classList.add('hidden'));
+      document.querySelectorAll('.lang-id').forEach(el => currentLang === 'id' ? el.classList.remove('hidden') : el.classList.add('hidden'));
     }
-    
+
+    // Theme Toggle Feature
+    function toggleTheme() {
+      playClick();
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('theme-icon');
+      if (isDark) {
+        icon.setAttribute('data-lucide', 'moon');
+      } else {
+        icon.setAttribute('data-lucide', 'sun');
+      }
+      lucide.createIcons();
+    }
+
+    // Initialize Theme Icon on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      updateThemeIcon(isDark);
+    });
+
   </script>
 </body>
 </html>
