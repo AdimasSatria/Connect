@@ -65,6 +65,14 @@
 </head>
 <body class="bg-[#FAF8F5] dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 selection:bg-orange-500 selection:text-white flex flex-col items-center px-4 py-10 sm:py-14 md:py-18 font-sans antialiased relative overflow-x-hidden min-h-screen transition-all duration-500">
 
+  <!-- Matrix Rain Screen Saver Overlay -->
+  <div id="matrix-screen" class="fixed inset-0 z-[99996] hidden opacity-0 transition-opacity duration-500 bg-black/95 flex flex-col items-center justify-center pointer-events-none">
+    <canvas id="matrix-canvas" class="absolute inset-0 w-full h-full"></canvas>
+    <div class="absolute bottom-10 text-green-400 font-mono text-xs tracking-widest animate-pulse bg-black/80 px-4 py-2 rounded-full border border-green-500/30 z-10">
+      [ IDLE SCREEN SAVER ACTIVE — MOVE MOUSE OR PRESS ANY KEY TO EXIT ]
+    </div>
+  </div>
+
   <!-- 1. Custom Magnetic Cursor -->
   <div id="custom-cursor" class="fixed top-0 left-0 w-4 h-4 bg-orange-500/80 rounded-full pointer-events-none z-[100000] -translate-x-1/2 -translate-y-1/2 transition-[width,height,background-color] duration-200 ease-out hidden sm:block mix-blend-difference"></div>
 
@@ -890,7 +898,79 @@
       }
     });
 
-    // 5. SECRET EASTER EGGS (Adimas, Sony, UPN)
+    // 5. MATRIX RAIN SCREEN SAVER (IDLE TIMER)
+    let idleTimer = null;
+    let isMatrixActive = false;
+    let matrixInterval = null;
+    const IDLE_LIMIT = 30000; // 30 seconds
+
+    const matrixScreen = document.getElementById('matrix-screen');
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function startMatrixRain() {
+      if (isCmdOpen || isTerminalOpen || isQrOpen) return;
+      isMatrixActive = true;
+      matrixScreen.classList.remove('hidden');
+      void matrixScreen.offsetWidth;
+      matrixScreen.classList.replace('opacity-0', 'opacity-100');
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const fontSize = 16;
+      const columns = canvas.width / fontSize;
+      const drops = [];
+      for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+
+      const letters = '0123456789ABCDEFHIJKLMNOPQRSTUVWXYZアァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+
+      matrixInterval = setInterval(() => {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#00ff66';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = letters.charAt(Math.floor(Math.random() * letters.length));
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }, 33);
+    }
+
+    function stopMatrixRain() {
+      if (!isMatrixActive) return;
+      isMatrixActive = false;
+      clearInterval(matrixInterval);
+      matrixScreen.classList.replace('opacity-100', 'opacity-0');
+      setTimeout(() => {
+        matrixScreen.classList.add('hidden');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 500);
+    }
+
+    function resetIdleTimer() {
+      if (isMatrixActive) {
+        stopMatrixRain();
+      }
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(startMatrixRain, IDLE_LIMIT);
+    }
+
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(event => {
+      window.addEventListener(event, resetIdleTimer);
+    });
+    resetIdleTimer();
+
+    // 6. SECRET EASTER EGGS (Adimas, Sony, UPN)
     let inputBuffer = "";
     window.addEventListener("keydown", (e) => {
       if (isCmdOpen || isTerminalOpen || isQrOpen) return;
