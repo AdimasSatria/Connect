@@ -164,15 +164,14 @@
   <!-- Subtle Dot Grid Matrix -->
   <div class="fixed inset-0 pointer-events-none -z-10 opacity-30 dark:opacity-10 transition-opacity duration-500" style="background-image: radial-gradient(rgba(234, 88, 12, 0.5) 1px, transparent 1px); background-size: 24px 24px;"></div>
 
-  <!-- Top Control Bar -->
+  <!-- Top Control Bar (Updated with Live Geolocation) -->
   <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600 dark:text-zinc-400 opacity-0 animate-fade-in-up" style="animation-delay: 0.1s;">
     <div class="inline-flex items-center space-x-2 bg-white/80 dark:bg-zinc-900/80 border border-orange-200/70 dark:border-zinc-800 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-md transition-colors duration-500">
       <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
-      <span class="text-zinc-700 dark:text-zinc-300 font-medium hidden sm:inline">SURABAYA (WIB)</span>
-      <span class="text-zinc-700 dark:text-zinc-300 font-medium sm:hidden">SBY</span>
+      <span class="text-zinc-700 dark:text-zinc-300 font-medium hidden sm:inline">SURABAYA</span>
       <span class="text-zinc-700 dark:text-zinc-300 font-medium" id="clock-display">--:--:--</span>
       <span class="text-zinc-300 dark:text-zinc-700">|</span>
-      <span id="weather-display" class="text-orange-600 dark:text-orange-400 font-semibold" title="Live Surabaya Temperature">...</span>
+      <span id="visitor-location" class="text-emerald-600 dark:text-emerald-400 font-medium" title="Your Live Location">📍 Detecting...</span>
     </div>
 
     <div class="flex items-center space-x-2">
@@ -543,18 +542,21 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Live Weather API (Open-Meteo Surabaya)
-    async function fetchWeather() {
+    // Live Geolocation API (Detect Visitor City & Country)
+    async function fetchVisitorLocation() {
       try {
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-7.2575&longitude=112.7521&current=temperature_2m');
+        const res = await fetch('https://ipwho.is/');
         const data = await res.json();
-        const temp = Math.round(data.current.temperature_2m);
-        document.getElementById('weather-display').textContent = `${temp}°C`;
+        if (data.success) {
+          document.getElementById('visitor-location').textContent = `📍 ${data.city}, ${data.country_code}`;
+        } else {
+          document.getElementById('visitor-location').textContent = '📍 ID';
+        }
       } catch (e) {
-        document.getElementById('weather-display').textContent = '29°C';
+        document.getElementById('visitor-location').textContent = '📍 ID';
       }
     }
-    fetchWeather();
+    fetchVisitorLocation();
 
     let soundEnabled = false;
     let audioCtx = null;
