@@ -66,16 +66,17 @@
   <!-- 1. Custom Magnetic Cursor -->
   <div id="custom-cursor" class="fixed top-0 left-0 w-4 h-4 bg-orange-500/80 rounded-full pointer-events-none z-[100000] -translate-x-1/2 -translate-y-1/2 transition-[width,height,background-color] duration-200 ease-out hidden sm:block mix-blend-difference"></div>
 
-  <!-- 2. Command Palette (Ctrl+K) -->
+  <!-- 2. Command Palette (Ctrl+K) FULLY INTEGRATED -->
   <div id="cmd-palette" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-200">
     <div class="absolute inset-0 bg-zinc-900/40 dark:bg-black/60 backdrop-blur-sm" onclick="closeCmdPalette()"></div>
     <div class="absolute top-[20%] left-1/2 -translate-x-1/2 w-full max-w-lg bg-white dark:bg-[#18181b] rounded-2xl shadow-2xl border border-stone-200 dark:border-zinc-800 overflow-hidden transform scale-95 transition-transform duration-200" id="cmd-modal">
       <div class="flex items-center px-4 py-3 border-b border-stone-100 dark:border-zinc-800">
         <i data-lucide="search" class="w-4 h-4 text-zinc-400"></i>
-        <input type="text" id="cmd-input" placeholder="Search commands..." class="w-full bg-transparent border-none outline-none px-3 text-sm text-zinc-800 dark:text-zinc-200 font-mono placeholder-zinc-400" autocomplete="off" spellcheck="false" />
+        <input type="text" id="cmd-input" placeholder="Search commands, links, or social media..." class="w-full bg-transparent border-none outline-none px-3 text-sm text-zinc-800 dark:text-zinc-200 font-mono placeholder-zinc-400" autocomplete="off" spellcheck="false" />
         <span class="text-[10px] font-mono bg-stone-100 dark:bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded border border-stone-200 dark:border-zinc-700">ESC</span>
       </div>
-      <ul id="cmd-list" class="max-h-60 overflow-y-auto py-2">
+      <ul id="cmd-list" class="max-h-64 overflow-y-auto py-2">
+        <!-- SYSTEM COMMANDS -->
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="toggleTheme">
           <i data-lucide="moon" class="w-4 h-4"></i><span>Toggle Dark/Light Mode</span>
         </li>
@@ -85,8 +86,25 @@
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="toggleSound">
           <i data-lucide="volume-2" class="w-4 h-4"></i><span>Toggle Sound Effects</span>
         </li>
+        <!-- LINKS & HUBS -->
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openLinkedIn">
+          <i data-lucide="linkedin" class="w-4 h-4"></i><span>Open LinkedIn Profile</span>
+        </li>
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openGithub">
           <i data-lucide="github" class="w-4 h-4"></i><span>Open GitHub Profile</span>
+        </li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openInstagram">
+          <i data-lucide="instagram" class="w-4 h-4"></i><span>Open Instagram Account</span>
+        </li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openSpotify">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.394-.751.522-1.146.282-3.139-1.912-7.09-2.341-11.747-1.282-.465.104-.928-.184-1.032-.649-.104-.465.184-.928.649-1.032 5.09-1.156 9.46-.662 13.003 1.503.394.24.522.751.282 1.146zm1.449-3.237c-.302.493-.943.655-1.436.353-3.585-2.203-9.066-2.827-12.92-1.545-.562.187-1.16-.118-1.347-.68-.187-.562.118-1.16.68-1.347 4.409-1.464 10.457-.768 14.67 1.821.493.302.655.943.353 1.436zm.106-3.39C15.021 8.28 8.71 8.067 5.074 9.171c-.682.207-1.402-.178-1.609-.86-.207-.682.178-1.402.86-1.609 4.225-1.284 11.233-1.035 15.932 1.758.608.361.808 1.148.447 1.756-.361.608-1.148.808-1.756.447z"/></svg>
+          <span>Open Spotify Playlist</span>
+        </li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openLetterboxd">
+          <i data-lucide="film" class="w-4 h-4"></i><span>Open Letterboxd Movies</span>
+        </li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openPDF">
+          <i data-lucide="file-text" class="w-4 h-4"></i><span>View Portfolio PDF in Drive</span>
         </li>
       </ul>
     </div>
@@ -741,6 +759,11 @@
         if (action === 'copyEmail') copyEmail();
         if (action === 'toggleSound') toggleSound();
         if (action === 'openGithub') window.open('https://github.com/AdimasSatria', '_blank');
+        if (action === 'openInstagram') window.open('https://www.instagram.com/hi_adimassatria/', '_blank');
+        if (action === 'openLinkedIn') window.open('https://www.linkedin.com/in/adimassatria/', '_blank');
+        if (action === 'openSpotify') window.open('https://open.spotify.com/user/31ga3xzh73za4vcblhojknttziae?si=NiXbO7pRRnqtBnHaklREKA&utm_source=copy-link', '_blank');
+        if (action === 'openLetterboxd') window.open('https://boxd.it/iNpz7', '_blank');
+        if (action === 'openPDF') window.open('https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing', '_blank');
         closeCmdPalette();
       });
     });
@@ -769,7 +792,7 @@
         printTerminal(`> <span class="text-white">${cmd}</span>`);
         
         if (cmd === 'help') {
-          printTerminal('Available commands: <span class="text-white">whoami, gear, clear, exit</span>');
+          printTerminal("Available commands: <span class=\"text-white\">whoami, gear, clear, exit</span>");
         } else if (cmd === 'whoami') {
           printTerminal("Adimas Satria. Informatics Student @ UPN Veteran Jatim. Project Manager.");
         } else if (cmd === 'gear') {
