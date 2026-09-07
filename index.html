@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adimas Satria | Personal Identity &amp; Hub</title>
-  <meta name="description" content="Informatics student at UPN Veteran Jawa Timur &amp; Project Manager. Navigating code, concert visuals, and digital media." />
+  <title>Adimas Satria | Personal Identity & Hub</title>
+  <meta name="description" content="Informatics student at UPN Veteran Jawa Timur & Project Manager. Navigating code, concert visuals, and digital media." />
   
-  <!-- Prevent Flash of Incorrect Theme -->
   <script>
     if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
@@ -15,12 +14,10 @@
     }
   </script>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -36,9 +33,7 @@
     }
   </script>
 
-  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -65,7 +60,6 @@
 </head>
 <body class="bg-[#FAF8F5] dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 selection:bg-orange-500 selection:text-white flex flex-col items-center px-4 py-10 sm:py-14 md:py-18 font-sans antialiased relative overflow-x-hidden min-h-screen transition-all duration-500">
 
-  <!-- Matrix Rain Screen Saver Overlay -->
   <div id="matrix-screen" class="fixed inset-0 z-[99996] hidden opacity-0 transition-opacity duration-500 bg-black/95 flex flex-col items-center justify-center pointer-events-none">
     <canvas id="matrix-canvas" class="absolute inset-0 w-full h-full"></canvas>
     <div class="absolute bottom-10 text-green-400 font-mono text-xs tracking-widest animate-pulse bg-black/80 px-4 py-2 rounded-full border border-green-500/30 z-10">
@@ -73,10 +67,8 @@
     </div>
   </div>
 
-  <!-- 1. Custom Magnetic Cursor -->
   <div id="custom-cursor" class="fixed top-0 left-0 w-4 h-4 bg-orange-500/80 rounded-full pointer-events-none z-[100000] -translate-x-1/2 -translate-y-1/2 transition-[width,height,background-color] duration-200 ease-out hidden sm:block mix-blend-difference"></div>
 
-  <!-- 2. IRL QR Code Modal -->
   <div id="qr-modal" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-200 flex items-center justify-center px-4">
     <div class="absolute inset-0 bg-zinc-900/40 dark:bg-black/60 backdrop-blur-sm" onclick="closeQrModal()"></div>
     <div class="relative bg-white dark:bg-[#18181b] p-6 rounded-3xl shadow-2xl border border-stone-200 dark:border-zinc-800 text-center max-w-xs w-full transform scale-95 transition-transform duration-200" id="qr-modal-content">
@@ -92,7 +84,6 @@
     </div>
   </div>
 
-  <!-- 3. Command Palette (Ctrl+K) -->
   <div id="cmd-palette" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-200">
     <div class="absolute inset-0 bg-zinc-900/40 dark:bg-black/60 backdrop-blur-sm" onclick="closeCmdPalette()"></div>
     <div class="absolute top-[20%] left-1/2 -translate-x-1/2 w-full max-w-lg bg-white dark:bg-[#18181b] rounded-2xl shadow-2xl border border-stone-200 dark:border-zinc-800 overflow-hidden transform scale-95 transition-transform duration-200" id="cmd-modal">
@@ -121,7 +112,7 @@
           <i data-lucide="github" class="w-4 h-4"></i><span>Open GitHub Profile</span>
         </li>
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openVercel">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L24 22H0L12 1Z"/></svg><span>Open Vercel Profile</span>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L24 22H0L12 1Z"/></svg><span>Open Photobooth App</span>
         </li>
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openInstagram">
           <i data-lucide="instagram" class="w-4 h-4"></i><span>Open Instagram Account</span>
@@ -140,7 +131,6 @@
     </div>
   </div>
 
-  <!-- 4. Secret Terminal Mode (~) -->
   <div id="terminal-overlay" class="fixed top-0 left-0 w-full h-[50vh] bg-black/95 border-b border-green-500/30 z-[99999] transform -translate-y-full transition-transform duration-500 font-mono text-green-500 text-xs sm:text-sm p-4 overflow-hidden shadow-2xl backdrop-blur-md flex flex-col">
     <div class="flex items-center justify-between border-b border-green-900/50 pb-2 mb-2">
       <span class="text-green-400/50">adimas@upn-jatim:~/terminal</span>
@@ -156,18 +146,14 @@
     </div>
   </div>
 
-  <!-- Easter Egg Toast Alert -->
   <div id="easter-egg-toast" class="fixed top-5 left-1/2 -translate-x-1/2 text-white px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-500 z-[99997] -translate-y-10 flex items-center space-x-2"></div>
 
-  <!-- Dynamic Warm Ambient Glows -->
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[450px] bg-gradient-to-b from-orange-200/45 dark:from-orange-600/15 via-amber-100/35 dark:via-amber-700/10 to-transparent blur-3xl pointer-events-none -z-10 transition-colors duration-500"></div>
   <div class="fixed top-[20%] right-[-10%] w-[450px] h-[450px] bg-red-100/40 dark:bg-red-900/10 rounded-full blur-[120px] pointer-events-none -z-10 transition-colors duration-500"></div>
   <div class="fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-amber-100/50 dark:bg-amber-900/10 rounded-full blur-[140px] pointer-events-none -z-10 transition-colors duration-500"></div>
 
-  <!-- Subtle Dot Grid Matrix -->
   <div class="fixed inset-0 pointer-events-none -z-10 opacity-30 dark:opacity-10 transition-opacity duration-500" style="background-image: radial-gradient(rgba(234, 88, 12, 0.5) 1px, transparent 1px); background-size: 24px 24px;"></div>
 
-  <!-- Top Control Bar -->
   <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600 dark:text-zinc-400 opacity-0 animate-fade-in-up" style="animation-delay: 0.1s;">
     <div class="inline-flex items-center space-x-2 bg-white/80 dark:bg-zinc-900/80 border border-orange-200/70 dark:border-zinc-800 px-3 py-1.5 rounded-full shadow-sm backdrop-blur-md transition-colors duration-500">
       <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
@@ -201,14 +187,11 @@
     </div>
   </header>
 
-  <!-- Main Container -->
   <main class="w-full max-w-2xl flex flex-col space-y-7 sm:space-y-8 relative z-10 preserve-3d">
 
-    <!-- 1. Profile Card with 3D Hover Tilt Wrapper -->
     <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.2s;">
       <div id="tilt-card" class="relative bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-sm dark:shadow-none overflow-hidden transition-all duration-300 ease-out will-change-transform transform-gpu">
         
-        <!-- Dynamic Glare overlay for 3D effect -->
         <div id="tilt-glare" class="absolute inset-0 z-50 pointer-events-none opacity-0 transition-opacity duration-300" style="background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 60%);"></div>
 
         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 z-10"></div>
@@ -219,8 +202,8 @@
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span class="lang-en">Open for creative collaborations &amp; tech projects</span>
-            <span class="lang-id hidden">Gas buat kolaborasi kreatif &amp; project IT</span>
+            <span class="lang-en">Open for creative collaborations & tech projects</span>
+            <span class="lang-id hidden">Gas buat kolaborasi kreatif & project IT</span>
           </div>
 
           <div class="flex items-center space-x-2">
@@ -263,9 +246,9 @@
         </div>
 
         <p class="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed mb-6 font-normal transition-colors duration-500 relative z-10 pointer-events-none">
-          <span class="lang-en">Hello, I am Adimas Satria, but you can call me Adimas. Currently an Informatics student at <strong class="text-zinc-900 dark:text-zinc-200 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN &ldquo;Veteran&rdquo; Jawa Timur</strong>, I combine technical knowledge with strong leadership skills. I have a proven track record in project management, creative direction, and leading large teams to execute impactful initiatives.</span>
+          <span class="lang-en">Hello, I am Adimas Satria, but you can call me Adimas. Currently an Informatics student at <strong class="text-zinc-900 dark:text-zinc-200 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN “Veteran” Jawa Timur</strong>, I combine technical knowledge with strong leadership skills. I have a proven track record in project management, creative direction, and leading large teams to execute impactful initiatives.</span>
           
-          <span class="lang-id hidden">Halo, gue Adimas Satria, panggil aja Adimas. Sekarang lagi sibuk kuliah Informatika di <strong class="text-zinc-900 dark:text-zinc-200 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN &ldquo;Veteran&rdquo; Jawa Timur</strong>. Gue seneng nyampur skill teknis IT sama leadership. Sejauh ini udah lumayan sering megang project management, nentuin arah kreatif acara, sampai nge-lead tim skala gede buat bikin event atau inisiatif yang pecah.</span>
+          <span class="lang-id hidden">Halo, gue Adimas Satria, panggil aja Adimas. Sekarang lagi sibuk kuliah Informatika di <strong class="text-zinc-900 dark:text-zinc-200 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN “Veteran” Jawa Timur</strong>. Gue seneng nyampur skill teknis IT sama leadership. Sejauh ini udah lumayan sering megang project management, nentuin arah kreatif acara, sampai nge-lead tim skala gede buat bikin event atau inisiatif yang pecah.</span>
         </p>
 
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-5 border-t border-stone-100 dark:border-zinc-800 transition-colors duration-500 relative z-10">
@@ -300,13 +283,12 @@
       </div>
     </section>
 
-    <!-- 2. Links Section -->
     <section class="space-y-3 opacity-0 animate-fade-in-up" style="animation-delay: 0.3s;">
       <div class="flex items-center justify-between px-2">
         <div class="flex items-center space-x-2">
           <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 mr-1">
             <span class="w-2 h-2 rounded-full bg-orange-500"></span>
-            <span class="lang-en">Links &amp; Hub</span><span class="lang-id hidden">Link &amp; Hub</span>
+            <span class="lang-en">Links & Hub</span><span class="lang-id hidden">Link & Hub</span>
           </h2>
           <div class="inline-flex bg-white dark:bg-zinc-900 p-0.5 rounded-lg border border-stone-200 dark:border-zinc-800 shadow-xs transition-colors duration-500">
             <button onclick="filterLinks('all')" id="filter-all" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200 dark:border-orange-500/30 shadow-xs cursor-none"><span class="lang-en">All</span><span class="lang-id hidden">Semua</span></button>
@@ -322,7 +304,6 @@
 
       <div id="links-container" class="flex flex-col space-y-2.5">
         
-        <!-- LinkedIn -->
         <a href="https://www.linkedin.com/in/adimassatria/" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#0A66C2]/40 hover:bg-[#0A66C2]/5 dark:hover:bg-[#0A66C2]/10 cursor-none">
           <div class="flex items-center space-x-4 min-w-0">
             <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
@@ -334,8 +315,8 @@
                 <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">/in/adimassatria</span>
               </div>
               <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
-                <span class="lang-en">Professional experience, informatics background &amp; network</span>
-                <span class="lang-id hidden">Pengalaman kerja, latar belakang anak IT &amp; koneksi</span>
+                <span class="lang-en">Professional experience, informatics background & network</span>
+                <span class="lang-id hidden">Pengalaman kerja, latar belakang anak IT & koneksi</span>
               </p>
             </div>
           </div>
@@ -349,7 +330,6 @@
           </div>
         </a>
 
-        <!-- GitHub -->
         <a href="https://github.com/AdimasSatria" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 cursor-none">
           <div class="flex items-center space-x-4 min-w-0">
             <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors shrink-0 flex items-center justify-center">
@@ -361,8 +341,8 @@
                 <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@AdimasSatria</span>
               </div>
               <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
-                <span class="lang-en">Open source code, web engineering &amp; software repositories</span>
-                <span class="lang-id hidden">Tempat nyimpen kodingan open source &amp; project web gue</span>
+                <span class="lang-en">Open source code, web engineering & software repositories</span>
+                <span class="lang-id hidden">Tempat nyimpen kodingan open source & project web gue</span>
               </p>
             </div>
           </div>
@@ -376,20 +356,19 @@
           </div>
         </a>
 
-        <!-- Vercel Projects -->
-        <a href="https://vercel.com/adimas-satria-team" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 cursor-none">
+        <a href="https://photobooth-seven-kappa.vercel.app/" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 cursor-none">
           <div class="flex items-center space-x-4 min-w-0">
             <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors shrink-0 flex items-center justify-center">
               <svg class="w-5 h-5 text-zinc-900 dark:text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L24 22H0L12 1Z"/></svg>
             </div>
             <div class="min-w-0">
               <div class="flex items-center space-x-2">
-                <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-orange-950 dark:group-hover:text-white transition-colors">Vercel</span>
-                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@adimas-satria-team</span>
+                <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-orange-950 dark:group-hover:text-white transition-colors">Photobooth App</span>
+                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">Vercel Deploy</span>
               </div>
               <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
-                <span class="lang-en">Live deployments &amp; full-stack web projects</span>
-                <span class="lang-id hidden">Preview live project web IT yang udah gue deploy</span>
+                <span class="lang-en">Live web project deployment on Vercel</span>
+                <span class="lang-id hidden">Project web photobooth live dari Vercel</span>
               </p>
             </div>
           </div>
@@ -403,7 +382,6 @@
           </div>
         </a>
 
-        <!-- Instagram -->
         <a href="https://www.instagram.com/hi_adimassatria/" target="_blank" rel="noopener noreferrer" data-category="visuals" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#E4405F]/40 hover:bg-[#E4405F]/5 dark:hover:bg-[#E4405F]/10 cursor-none">
           <div class="flex items-center space-x-4 min-w-0">
             <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
@@ -415,8 +393,8 @@
                 <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@hi_adimassatria</span>
               </div>
               <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
-                <span class="lang-en">Personal account, daily moments, connections &amp; occasional visual archives</span>
-                <span class="lang-id hidden">Akun personal, harian, &amp; kadang ngepost arsip jepretan panggung</span>
+                <span class="lang-en">Personal account, daily moments, connections & occasional visual archives</span>
+                <span class="lang-id hidden">Akun personal, harian, & kadang ngepost arsip jepretan panggung</span>
               </p>
             </div>
           </div>
@@ -430,7 +408,6 @@
           </div>
         </a>
 
-        <!-- Spotify -->
         <a href="https://open.spotify.com/user/31ga3xzh73za4vcblhojknttziae?si=NiXbO7pRRnqtBnHaklREKA&utm_source=copy-link" target="_blank" rel="noopener noreferrer" data-category="personal" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#1DB954]/40 hover:bg-[#1DB954]/5 dark:hover:bg-[#1DB954]/10 cursor-none">
           <div class="flex items-center space-x-4 min-w-0">
             <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
@@ -442,8 +419,8 @@
                 <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@adimAs</span>
               </div>
               <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
-                <span class="lang-en">Current rotation, gig inspirations &amp; late-night coding playlists</span>
-                <span class="lang-id hidden">Lagu yang lagi sering diputer &amp; amunisi koding begadang</span>
+                <span class="lang-en">Current rotation, gig inspirations & late-night coding playlists</span>
+                <span class="lang-id hidden">Lagu yang lagi sering diputer & amunisi koding begadang</span>
               </p>
             </div>
           </div>
@@ -457,7 +434,6 @@
           </div>
         </a>
 
-        <!-- Letterboxd -->
         <a href="https://boxd.it/iNpz7" target="_blank" rel="noopener noreferrer" data-category="personal" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-[#00E054]/40 hover:bg-[#00E054]/5 dark:hover:bg-[#00E054]/10 cursor-none">
           <div class="flex items-center space-x-4 min-w-0">
             <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
@@ -473,8 +449,8 @@
                 <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@adimas</span>
               </div>
               <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
-                <span class="lang-en">Short movie logs, witty reviews &amp; cinematic favorites</span>
-                <span class="lang-id hidden">Tempat ngoceh soal film, review santai &amp; film favorit gue</span>
+                <span class="lang-en">Short movie logs, witty reviews & cinematic favorites</span>
+                <span class="lang-id hidden">Tempat ngoceh soal film, review santai & film favorit gue</span>
               </p>
             </div>
           </div>
@@ -491,7 +467,6 @@
       </div>
     </section>
 
-    <!-- 3. Portfolio Document -->
     <section class="relative bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 rounded-3xl p-5 sm:p-7 shadow-sm dark:shadow-none space-y-4 transition-colors duration-500 opacity-0 animate-fade-in-up" style="animation-delay: 0.4s;">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-stone-100 dark:border-zinc-800 transition-colors duration-500">
         <div class="flex items-center space-x-3">
@@ -505,8 +480,8 @@
               <span class="text-[10px] font-mono font-bold bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 px-2 py-0.5 rounded border border-orange-200 dark:border-orange-500/30">LIVE PDF</span>
             </h2>
             <p class="text-xs text-zinc-500 dark:text-zinc-400">
-              <span class="lang-en">Interactive PDF preview &amp; stage photography showcase</span>
-              <span class="lang-id hidden">Preview PDF interaktif &amp; pameran hasil jepretan panggung gue</span>
+              <span class="lang-en">Interactive PDF preview & stage photography showcase</span>
+              <span class="lang-id hidden">Preview PDF interaktif & pameran hasil jepretan panggung gue</span>
             </p>
           </div>
         </div>
@@ -547,16 +522,14 @@
       </div>
     </section>
 
-    <!-- 4. Footer -->
     <footer class="text-center pt-2 pb-8 space-y-3 opacity-0 animate-fade-in-up" style="animation-delay: 0.5s;">
       <p class="text-xs font-mono text-zinc-400 dark:text-zinc-500">
-        &copy; <span id="year-display"></span> Adimas Satria • Surabaya, Indonesia
+        © <span id="year-display"></span> Adimas Satria • Surabaya, Indonesia
       </p>
       <p class="text-[11px] text-zinc-400 dark:text-zinc-600">
-        <span class="lang-en">Ultra-minimalist personal identity &amp; link-hub</span>
-        <span class="lang-id hidden">Identitas personal &amp; link-hub ultra-minimalis</span>
+        <span class="lang-en">Ultra-minimalist personal identity & link-hub</span>
+        <span class="lang-id hidden">Identitas personal & link-hub ultra-minimalis</span>
       </p>
-      <!-- Keyboard Shortcut Hints -->
       <div class="hidden sm:flex items-center justify-center gap-4 mt-2 text-[10px] font-mono text-zinc-400 dark:text-zinc-600">
         <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">CTRL+K</kbd> Command Palette</span>
         <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 bg-stone-50 dark:bg-zinc-900 font-sans font-semibold text-zinc-500 dark:text-zinc-400 shadow-sm">~</kbd> Terminal</span>
@@ -934,7 +907,7 @@
         if (action === 'copyEmail') copyEmail();
         if (action === 'toggleSound') toggleSound();
         if (action === 'openQrModal') openQrModal();
-        if (action === 'openVercel') window.open('https://vercel.com/adimas-satria-team', '_blank');
+        if (action === 'openVercel') window.open('https://photobooth-seven-kappa.vercel.app/', '_blank');
         if (action === 'openGithub') window.open('https://github.com/AdimasSatria', '_blank');
         if (action === 'openInstagram') window.open('https://www.instagram.com/hi_adimassatria/', '_blank');
         if (action === 'openLinkedIn') window.open('https://www.linkedin.com/in/adimassatria/', '_blank');
