@@ -120,6 +120,9 @@
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openGithub">
           <i data-lucide="github" class="w-4 h-4"></i><span>Open GitHub Profile</span>
         </li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openVercel">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L24 22H0L12 1Z"/></svg><span>Open Vercel Profile</span>
+        </li>
         <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openInstagram">
           <i data-lucide="instagram" class="w-4 h-4"></i><span>Open Instagram Account</span>
         </li>
@@ -313,7 +316,7 @@
           </div>
         </div>
         <span class="text-[11px] font-mono text-zinc-400 dark:text-zinc-500 hidden sm:inline">
-          <span class="lang-en">05 DIRECT HUBS</span><span class="lang-id hidden">05 LINK UTAMA</span>
+          <span class="lang-en">06 DIRECT HUBS</span><span class="lang-id hidden">06 LINK UTAMA</span>
         </span>
       </div>
 
@@ -366,6 +369,33 @@
           <div class="flex items-center space-x-2.5 shrink-0 ml-3">
             <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700">
               <span class="lang-en">Code</span><span class="lang-id hidden">Kode</span>
+            </span>
+            <div class="w-8 h-8 rounded-full bg-stone-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 flex items-center justify-center transition-all duration-200 group-hover:bg-zinc-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-zinc-900">
+              <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Vercel Projects -->
+        <a href="https://vercel.com/adimas-satria-team" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#121214] border border-stone-200/90 dark:border-zinc-800 shadow-sm dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 cursor-none">
+          <div class="flex items-center space-x-4 min-w-0">
+            <div class="p-3 rounded-xl bg-stone-50 dark:bg-zinc-800/50 border border-stone-200/70 dark:border-zinc-700 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors shrink-0 flex items-center justify-center">
+              <svg class="w-5 h-5 text-zinc-900 dark:text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L24 22H0L12 1Z"/></svg>
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-orange-950 dark:group-hover:text-white transition-colors">Vercel</span>
+                <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">@adimas-satria-team</span>
+              </div>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-0.5 font-normal">
+                <span class="lang-en">Live deployments &amp; full-stack web projects</span>
+                <span class="lang-id hidden">Preview live project web IT yang udah gue deploy</span>
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2.5 shrink-0 ml-3">
+            <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700">
+              <span class="lang-en">View</span><span class="lang-id hidden">Lihat</span>
             </span>
             <div class="w-8 h-8 rounded-full bg-stone-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 flex items-center justify-center transition-all duration-200 group-hover:bg-zinc-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-zinc-900">
               <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
@@ -652,9 +682,8 @@
       } catch(e) {}
     }
 
-    // Interactive Click Sparks Logic
+    // Interactive Click Sparks Logic (Optimized)
     document.addEventListener('click', function(e) {
-      // Prevent sparks in modals/terminals to avoid visual clutter
       if (document.getElementById('cmd-palette').classList.contains('opacity-100') || 
           !document.getElementById('terminal-overlay').classList.contains('-translate-y-full') ||
           document.getElementById('qr-modal').classList.contains('opacity-100')) {
@@ -905,6 +934,7 @@
         if (action === 'copyEmail') copyEmail();
         if (action === 'toggleSound') toggleSound();
         if (action === 'openQrModal') openQrModal();
+        if (action === 'openVercel') window.open('https://vercel.com/adimas-satria-team', '_blank');
         if (action === 'openGithub') window.open('https://github.com/AdimasSatria', '_blank');
         if (action === 'openInstagram') window.open('https://www.instagram.com/hi_adimassatria/', '_blank');
         if (action === 'openLinkedIn') window.open('https://www.linkedin.com/in/adimassatria/', '_blank');
