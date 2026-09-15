@@ -30,6 +30,9 @@
           fontFamily: {
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          transitionTimingFunction: {
+            'ios': 'cubic-bezier(0.25, 1, 0.5, 1)',
           }
         }
       }
@@ -75,51 +78,53 @@
     }
 
     /* SPOTLIGHT EFFICIENT */
-    .spotlight-card {
-      position: relative;
-      overflow: hidden;
-    }
+    .spotlight-card { position: relative; overflow: hidden; }
     .spotlight-card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(249, 115, 22, 0.1), transparent 40%);
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      z-index: 0; pointer-events: none; opacity: 0;
+      transition: opacity 0.5s ease;
       will-change: background;
     }
     .spotlight-card:hover::before { opacity: 1; }
     .spotlight-content { position: relative; z-index: 10; }
 
+    /* MASK FOR TECH STACK */
     .mask-edges {
       -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
       mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
 
     @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(15px); }
+      0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
     .animate-fade-in-up {
-      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: fadeInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
       will-change: opacity, transform;
     }
 
     .preserve-3d { transform-style: preserve-3d; perspective: 1000px; }
+    
+    /* IOS SMOOTH BUTTON TRANSITIONS */
+    .icon-transition {
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+    }
   </style>
 </head>
-<body class="bg-[#FAF8F5] dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 selection:bg-orange-500 selection:text-white flex flex-col items-center px-4 py-10 sm:py-14 md:py-18 font-sans antialiased relative overflow-x-hidden min-h-screen transition-colors duration-300">
+<body class="bg-[#FAF8F5] dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 selection:bg-orange-500 selection:text-white flex flex-col items-center px-4 py-10 sm:py-14 md:py-18 font-sans antialiased relative overflow-x-hidden min-h-screen transition-colors duration-700 ease-in-out">
 
   <!-- Optimized Floating Backgrounds -->
   <div class="fixed top-[-5%] left-[-5%] w-[400px] h-[400px] bg-orange-500/15 dark:bg-orange-600/10 rounded-full blur-[80px] pointer-events-none -z-10 animate-blob"></div>
   <div class="fixed top-[30%] right-[-5%] w-[350px] h-[350px] bg-rose-500/15 dark:bg-rose-900/10 rounded-full blur-[80px] pointer-events-none -z-10 animate-blob" style="animation-delay: 2s;"></div>
   <div class="fixed bottom-[-5%] left-[15%] w-[400px] h-[400px] bg-amber-500/15 dark:bg-amber-700/10 rounded-full blur-[90px] pointer-events-none -z-10 animate-blob" style="animation-delay: 4s;"></div>
 
-  <div class="fixed inset-0 pointer-events-none -z-10 opacity-30 dark:opacity-10" style="background-image: radial-gradient(rgba(234, 88, 12, 0.5) 1px, transparent 1px); background-size: 24px 24px;"></div>
+  <div class="fixed inset-0 pointer-events-none -z-10 opacity-30 dark:opacity-10 transition-opacity duration-700" style="background-image: radial-gradient(rgba(234, 88, 12, 0.5) 1px, transparent 1px); background-size: 24px 24px;"></div>
 
-  <div id="matrix-screen" class="fixed inset-0 z-[99996] hidden opacity-0 transition-opacity duration-300 bg-black/95 flex flex-col items-center justify-center pointer-events-none">
+  <!-- Matrix Screen Saver -->
+  <div id="matrix-screen" class="fixed inset-0 z-[99996] hidden opacity-0 transition-opacity duration-500 bg-black/95 flex flex-col items-center justify-center pointer-events-none">
     <canvas id="matrix-canvas" class="absolute inset-0 w-full h-full"></canvas>
     <div class="absolute bottom-10 text-green-400 font-mono text-xs tracking-widest animate-pulse bg-black/80 px-4 py-2 rounded-full border border-green-500/30 z-10">
       [ IDLE SCREEN SAVER ACTIVE — MOVE MOUSE OR PRESS ANY KEY TO EXIT ]
@@ -128,9 +133,10 @@
 
   <div id="custom-cursor" class="fixed top-0 left-0 w-4 h-4 bg-orange-500/80 rounded-full pointer-events-none z-[100000] transition-[width,height,background-color] duration-150 ease-out hidden sm:block mix-blend-difference will-change-transform"></div>
 
-  <div id="qr-modal" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-200 flex items-center justify-center px-4">
+  <!-- QR Modal -->
+  <div id="qr-modal" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center px-4">
     <div class="absolute inset-0 bg-zinc-900/40 dark:bg-black/60 backdrop-blur-sm" onclick="closeQrModal()"></div>
-    <div class="relative bg-white/90 dark:bg-[#18181b]/90 backdrop-blur-lg p-6 rounded-3xl shadow-2xl border border-stone-200/50 dark:border-zinc-800 text-center max-w-xs w-full transform scale-95 transition-transform duration-200" id="qr-modal-content">
+    <div class="relative bg-white/90 dark:bg-[#18181b]/90 backdrop-blur-lg p-6 rounded-3xl shadow-2xl border border-stone-200/50 dark:border-zinc-800 text-center max-w-xs w-full transform scale-95 transition-transform duration-300 ease-ios" id="qr-modal-content">
       <div class="w-10 h-10 mx-auto mb-3 rounded-full bg-orange-100 dark:bg-orange-500/10 flex items-center justify-center text-orange-600 dark:text-orange-400">
         <i data-lucide="qr-code" class="w-5 h-5"></i>
       </div>
@@ -139,138 +145,130 @@
       <div class="bg-white p-3 rounded-2xl inline-block border border-stone-200 shadow-xs mb-5">
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://adimassatria.github.io/Connect/" alt="Hub QR Code" class="w-40 h-40 object-contain rounded-lg" />
       </div>
-      <button onclick="closeQrModal()" class="w-full py-2.5 rounded-xl bg-stone-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-semibold hover:bg-stone-200 dark:hover:bg-zinc-700 transition-colors cursor-none">Close Modal</button>
+      <button onclick="closeQrModal()" class="w-full py-2.5 rounded-xl bg-stone-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-semibold hover:bg-stone-200 dark:hover:bg-zinc-700 transition-colors duration-300 cursor-none active:scale-95">Close Modal</button>
     </div>
   </div>
 
-  <div id="cmd-palette" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-200">
+  <!-- Command Palette -->
+  <div id="cmd-palette" class="fixed inset-0 z-[99998] hidden opacity-0 transition-opacity duration-300">
     <div class="absolute inset-0 bg-zinc-900/40 dark:bg-black/60 backdrop-blur-sm" onclick="closeCmdPalette()"></div>
-    <div class="absolute top-[20%] left-1/2 -translate-x-1/2 w-full max-w-lg bg-white/95 dark:bg-[#18181b]/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-stone-200/50 dark:border-zinc-800 overflow-hidden transform scale-95 transition-transform duration-200" id="cmd-modal">
-      <div class="flex items-center px-4 py-3 border-b border-stone-100 dark:border-zinc-800">
+    <div class="absolute top-[20%] left-1/2 -translate-x-1/2 w-full max-w-lg bg-white/95 dark:bg-[#18181b]/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-stone-200/50 dark:border-zinc-800 overflow-hidden transform scale-95 transition-transform duration-300 ease-ios" id="cmd-modal">
+      <div class="flex items-center px-4 py-3 border-b border-stone-100 dark:border-zinc-800 transition-colors duration-500">
         <i data-lucide="search" class="w-4 h-4 text-zinc-400"></i>
-        <input type="text" id="cmd-input" placeholder="Search commands, links, or social media..." class="w-full bg-transparent border-none outline-none px-3 text-sm text-zinc-800 dark:text-zinc-200 font-mono placeholder-zinc-400" autocomplete="off" spellcheck="false" />
-        <span class="text-[10px] font-mono bg-stone-100 dark:bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded border border-stone-200 dark:border-zinc-700">ESC</span>
+        <input type="text" id="cmd-input" placeholder="Search commands, links, or social media..." class="w-full bg-transparent border-none outline-none px-3 text-sm text-zinc-800 dark:text-zinc-200 font-mono placeholder-zinc-400 transition-colors duration-500" autocomplete="off" spellcheck="false" />
+        <span class="text-[10px] font-mono bg-stone-100 dark:bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded border border-stone-200 dark:border-zinc-700 transition-colors duration-500">ESC</span>
       </div>
       <ul id="cmd-list" class="max-h-64 overflow-y-auto py-2">
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="toggleTheme">
+        <!-- List Items Omitted for brevity, fully included below -->
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="toggleTheme">
           <i data-lucide="moon" class="w-4 h-4"></i><span>Toggle Dark/Light Mode</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="copyEmail">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="copyEmail">
           <i data-lucide="mail" class="w-4 h-4"></i><span>Copy Email Address</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openQrModal">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openQrModal">
           <i data-lucide="qr-code" class="w-4 h-4"></i><span>Show IRL QR Code</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="toggleSound">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="toggleSound">
           <i data-lucide="volume-2" class="w-4 h-4"></i><span>Toggle Sound Effects</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openLinkedIn">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openLinkedIn">
           <i data-lucide="linkedin" class="w-4 h-4"></i><span>Open LinkedIn Profile</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openGithub">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openGithub">
           <i data-lucide="github" class="w-4 h-4"></i><span>Open GitHub Profile</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openPhotobooth">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openPhotobooth">
           <i data-lucide="camera" class="w-4 h-4"></i><span>Open Photobooth App</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openTaskTracker">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openTaskTracker">
           <i data-lucide="check-square" class="w-4 h-4"></i><span>Open Task Tracker</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openInstagram">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openInstagram">
           <i data-lucide="instagram" class="w-4 h-4"></i><span>Open Instagram Account</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openSpotify">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openSpotify">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.394-.751.522-1.146.282-3.139-1.912-7.09-2.341-11.747-1.282-.465.104-.928-.184-1.032-.649-.104-.465.184-.928.649-1.032 5.09-1.156 9.46-.662 13.003 1.503.394.24.522.751.282 1.146zm1.449-3.237c-.302.493-.943.655-1.436.353-3.585-2.203-9.066-2.827-12.92-1.545-.562.187-1.16-.118-1.347-.68-.187-.562.118-1.16.68-1.347 4.409-1.464 10.457-.768 14.67 1.821.493.302.655.943.353 1.436zm.106-3.39C15.021 8.28 8.71 8.067 5.074 9.171c-.682.207-1.402-.178-1.609-.86-.207-.682.178-1.402.86-1.609 4.225-1.284 11.233-1.035 15.932 1.758.608.361.808 1.148.447 1.756-.361.608-1.148.808-1.756.447z"/></svg>
           <span>Open Spotify Playlist</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openLetterboxd">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openLetterboxd">
           <i data-lucide="film" class="w-4 h-4"></i><span>Open Letterboxd Movies</span>
         </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors" data-action="openPDF">
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openPDF">
           <i data-lucide="file-text" class="w-4 h-4"></i><span>View Portfolio PDF in Drive</span>
         </li>
       </ul>
     </div>
   </div>
 
-  <div id="terminal-overlay" class="fixed top-0 left-0 w-full h-[50vh] bg-black/95 border-b border-green-500/30 z-[99999] transform -translate-y-full transition-transform duration-300 font-mono text-green-500 text-xs sm:text-sm p-4 overflow-hidden shadow-2xl backdrop-blur-md flex flex-col">
-    <div class="flex items-center justify-between border-b border-green-900/50 pb-2 mb-2">
-      <span class="text-green-400/50">adimas@upn-jatim:~/terminal</span>
-      <button onclick="closeTerminal()" class="text-red-500 hover:text-red-400 uppercase text-[10px] cursor-none">Close [ESC]</button>
-    </div>
-    <div id="terminal-output" class="flex-1 overflow-y-auto space-y-1">
-      <div>> Connection established. Welcome to the backend.</div>
-      <div>> Type 'help' to see available commands.</div>
-    </div>
-    <div class="flex items-center mt-2 pt-2 border-t border-green-900/50">
-      <span class="mr-2 text-green-400">$</span>
-      <input type="text" id="terminal-input" class="w-full bg-transparent border-none outline-none text-green-400 caret-green-500 cursor-none" autocomplete="off" spellcheck="false" />
-    </div>
-  </div>
+  <!-- Easter Egg Toast Alert -->
+  <div id="easter-egg-toast" class="fixed top-5 left-1/2 -translate-x-1/2 text-white px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-500 z-[99997] -translate-y-10 flex items-center space-x-2"></div>
 
-  <div id="easter-egg-toast" class="fixed top-5 left-1/2 -translate-x-1/2 text-white px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-[99997] -translate-y-10 flex items-center space-x-2"></div>
-
-  <!-- Header Panel Optimized -->
+  <!-- Header Panel with iOS Micro-interactions -->
   <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600 dark:text-zinc-400 opacity-0 animate-fade-in-up" style="animation-delay: 0.1s;">
-    <div class="inline-flex items-center space-x-2 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg border border-white/50 dark:border-zinc-800/50 px-3 py-1.5 rounded-full shadow-sm">
-      <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
-      <span class="text-zinc-700 dark:text-zinc-300 font-medium hidden sm:inline">SURABAYA (WIB)</span>
-      <span class="text-zinc-700 dark:text-zinc-300 font-medium sm:hidden">SBY</span>
-      <span class="text-zinc-700 dark:text-zinc-300 font-medium" id="clock-display">--:--:--</span>
-      <span class="text-zinc-300 dark:text-zinc-700">|</span>
-      <span id="weather-display" class="text-orange-600 dark:text-orange-400 font-semibold" title="Live Surabaya Temperature">...</span>
+    <div class="inline-flex items-center space-x-2 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg border border-white/50 dark:border-zinc-800/50 px-3 py-1.5 rounded-full shadow-sm transition-colors duration-700">
+      <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500 transition-colors duration-500"></i>
+      <span class="text-zinc-700 dark:text-zinc-300 font-medium hidden sm:inline transition-colors duration-500">SURABAYA (WIB)</span>
+      <span class="text-zinc-700 dark:text-zinc-300 font-medium sm:hidden transition-colors duration-500">SBY</span>
+      <span class="text-zinc-700 dark:text-zinc-300 font-medium transition-colors duration-500" id="clock-display">--:--:--</span>
+      <span class="text-zinc-300 dark:text-zinc-700 transition-colors duration-500">|</span>
+      <span id="weather-display" class="text-orange-600 dark:text-orange-400 font-semibold transition-colors duration-500" title="Live Surabaya Temperature">...</span>
     </div>
 
     <div class="flex items-center space-x-2">
-      <button onclick="openQrModal()" class="inline-flex items-center justify-center p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-700 border border-white/50 dark:border-zinc-700/50 text-zinc-600 hover:text-orange-600 dark:text-zinc-400 transition-colors shadow-sm cursor-none" title="IRL QR Code">
-        <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
+      <button onclick="openQrModal()" class="inline-flex items-center justify-center p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-700 border border-white/50 dark:border-zinc-700/50 text-zinc-600 hover:text-orange-600 dark:text-zinc-400 transition-all duration-300 shadow-sm cursor-none active:scale-90" title="IRL QR Code">
+        <i data-lucide="qr-code" class="w-3.5 h-3.5 icon-transition"></i>
         <span class="text-[11px] font-medium hidden sm:inline ml-1.5">QR</span>
       </button>
-      <button onclick="openCmdPalette()" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-700 border border-white/50 dark:border-zinc-700/50 text-zinc-600 hover:text-orange-600 dark:text-zinc-400 transition-colors shadow-sm cursor-none" title="Command Palette">
-        <i data-lucide="command" class="w-3.5 h-3.5"></i>
+      <button onclick="openCmdPalette()" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-700 border border-white/50 dark:border-zinc-700/50 text-zinc-600 hover:text-orange-600 dark:text-zinc-400 transition-all duration-300 shadow-sm cursor-none active:scale-90" title="Command Palette">
+        <i data-lucide="command" class="w-3.5 h-3.5 icon-transition"></i>
         <span class="text-[11px] font-bold tracking-wider">CTRL+K</span>
       </button>
-      <button id="theme-toggle-btn" onclick="toggleTheme()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-800 border border-white/50 dark:border-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-colors shadow-sm cursor-none" title="Toggle Dark/Light Mode">
-        <i id="theme-icon" data-lucide="moon" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400"></i>
+      <button onclick="toggleTheme()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-800 border border-white/50 dark:border-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-all duration-300 shadow-sm cursor-none active:scale-90" title="Toggle Dark/Light Mode">
+        <div class="relative w-3.5 h-3.5">
+          <i id="theme-icon" data-lucide="moon" class="absolute inset-0 text-orange-600 dark:text-orange-400 icon-transition"></i>
+        </div>
       </button>
-      <button id="lang-toggle-btn" onclick="toggleLanguage()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-800 border border-white/50 dark:border-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-colors shadow-sm cursor-none" title="Toggle Language">
-        <i data-lucide="languages" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400"></i>
-        <span id="lang-text" class="text-[11px]"><span class="font-bold text-orange-700 dark:text-orange-400">EN</span> <span class="text-zinc-400 dark:text-zinc-600">| ID</span></span>
+      <button onclick="toggleLanguage()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-800 border border-white/50 dark:border-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-all duration-300 shadow-sm cursor-none active:scale-90" title="Toggle Language">
+        <i data-lucide="languages" id="lang-icon" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400 icon-transition"></i>
+        <span id="lang-text" class="text-[11px] transition-colors duration-500"><span class="font-bold text-orange-700 dark:text-orange-400">EN</span> <span class="text-zinc-400 dark:text-zinc-600">| ID</span></span>
       </button>
-      <button id="sound-toggle-btn" onclick="toggleSound()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-800 border border-white/50 dark:border-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-colors shadow-sm cursor-none" title="Toggle acoustic sound effects">
-        <i id="sound-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500"></i>
-        <span id="sound-text" class="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium hidden sm:inline">SOUND: OFF</span>
+      <button onclick="toggleSound()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg hover:bg-white dark:hover:bg-zinc-800 border border-white/50 dark:border-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:text-orange-700 dark:hover:text-orange-400 transition-all duration-300 shadow-sm cursor-none active:scale-90" title="Toggle acoustic sound effects">
+        <div class="relative w-3.5 h-3.5">
+          <i id="sound-icon" data-lucide="volume-x" class="absolute inset-0 text-zinc-400 dark:text-zinc-500 icon-transition"></i>
+        </div>
+        <span id="sound-text" class="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium hidden sm:inline transition-colors duration-500">SOUND: OFF</span>
       </button>
     </div>
   </header>
 
   <main class="w-full max-w-2xl flex flex-col space-y-7 sm:space-y-8 relative z-10 preserve-3d">
 
-    <!-- 1. Profile Card -->
+    <!-- 1. Profile Card Optimized -->
     <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.2s;">
-      <div id="tilt-card" class="spotlight-card relative bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/30 rounded-3xl p-6 sm:p-8 shadow-sm overflow-hidden transition-all duration-300 ease-out will-change-transform transform-gpu">
+      <div id="tilt-card" class="spotlight-card relative bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/30 rounded-3xl p-6 sm:p-8 shadow-sm overflow-hidden transition-colors duration-700 ease-in-out will-change-transform transform-gpu">
         
         <div id="tilt-glare" class="absolute inset-0 z-50 pointer-events-none opacity-0 transition-opacity duration-300" style="background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 60%);"></div>
         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 z-10"></div>
 
         <div class="spotlight-content">
           <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-            <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-400 text-xs font-medium shadow-xs transition-colors duration-300">
+            <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-400 text-xs font-medium shadow-xs transition-colors duration-700">
               <span class="relative flex h-2 w-2">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 transition-colors duration-700"></span>
               </span>
-              <span class="lang-en">Open for creative collaborations & tech projects</span>
-              <span class="lang-id hidden">Gas buat kolaborasi kreatif & project IT</span>
+              <span class="lang-en transition-colors duration-700">Open for creative collaborations & tech projects</span>
+              <span class="lang-id hidden transition-colors duration-700">Gas buat kolaborasi kreatif & project IT</span>
             </div>
 
             <div class="flex items-center space-x-2">
-              <div class="inline-flex items-center space-x-1.5 text-xs text-zinc-600 dark:text-zinc-400 font-mono bg-white/80 dark:bg-zinc-800/50 border border-white/50 dark:border-zinc-700/50 px-2.5 py-1 rounded-full transition-colors duration-300">
-                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
-                <span>Surabaya, Indonesia</span>
+              <div class="inline-flex items-center space-x-1.5 text-xs text-zinc-600 dark:text-zinc-400 font-mono bg-white/80 dark:bg-zinc-800/50 border border-white/50 dark:border-zinc-700/50 px-2.5 py-1 rounded-full transition-colors duration-700">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500 transition-colors duration-700"></i>
+                <span class="transition-colors duration-700">Surabaya, Indonesia</span>
               </div>
-              <button onclick="shareProfile()" class="p-1.5 rounded-full bg-white/80 dark:bg-zinc-800/50 border border-white/50 dark:border-zinc-700/50 text-zinc-600 dark:text-zinc-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-zinc-700 transition-colors shadow-sm cursor-none" title="Share Profile">
-                <i id="share-icon" data-lucide="share-2" class="w-3.5 h-3.5"></i>
+              <button onclick="shareProfile()" class="p-1.5 rounded-full bg-white/80 dark:bg-zinc-800/50 border border-white/50 dark:border-zinc-700/50 text-zinc-600 dark:text-zinc-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-zinc-700 transition-all duration-300 shadow-sm cursor-none active:scale-90" title="Share Profile">
+                <i id="share-icon" data-lucide="share-2" class="w-3.5 h-3.5 icon-transition"></i>
               </button>
             </div>
           </div>
@@ -278,59 +276,59 @@
           <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-5">
             <div class="relative group/pfp shrink-0 select-none">
               <div class="absolute -inset-1.5 bg-gradient-to-tr from-orange-500 via-amber-400 to-red-500 rounded-2xl blur-md opacity-50 group-hover/pfp:opacity-100 transition-all duration-500 animate-pulse"></div>
-              <div id="pfp-container" onclick="playChime()" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl p-[2.5px] bg-gradient-to-tr from-orange-500 via-amber-400 to-red-500 shadow-xl overflow-hidden cursor-none transition-transform duration-300 group-hover/pfp:scale-105 active:scale-95">
-                <div class="w-full h-full rounded-[14px] overflow-hidden bg-white dark:bg-zinc-900 flex items-center justify-center relative">
+              <div id="pfp-container" onclick="playChime()" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl p-[2.5px] bg-gradient-to-tr from-orange-500 via-amber-400 to-red-500 shadow-xl overflow-hidden cursor-none transition-all duration-300 group-hover/pfp:scale-105 active:scale-95">
+                <div class="w-full h-full rounded-[14px] overflow-hidden bg-white dark:bg-zinc-900 flex items-center justify-center relative transition-colors duration-700">
                   <img src="profile.jpg" alt="Adimas Satria" class="w-full h-full object-cover object-top" onerror="this.src='https://ui-avatars.com/api/?name=Adimas+Satria&background=ea580c&color=fff&size=200'" />
                 </div>
               </div>
             </div>
 
             <div class="min-w-0">
-              <h1 class="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-zinc-900 dark:text-white tracking-tight leading-tight transition-colors duration-300">
+              <h1 class="font-extrabold text-2xl sm:text-3xl lg:text-4xl text-zinc-900 dark:text-white tracking-tight leading-tight transition-colors duration-700">
                 Adimas Satria
               </h1>
               <div class="flex flex-wrap items-center gap-2 mt-1.5 text-xs sm:text-sm font-semibold">
-                <span class="inline-flex items-center gap-1.5 bg-orange-100 dark:bg-orange-500/10 text-orange-800 dark:text-orange-400 border border-orange-200/80 dark:border-orange-500/20 px-2.5 py-0.5 rounded-md transition-colors duration-300">
-                  <i data-lucide="code-2" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500"></i>
-                  <span class="lang-en">Informatics Student</span><span class="lang-id hidden">Mahasiswa IT</span>
+                <span class="inline-flex items-center gap-1.5 bg-orange-100 dark:bg-orange-500/10 text-orange-800 dark:text-orange-400 border border-orange-200/80 dark:border-orange-500/20 px-2.5 py-0.5 rounded-md transition-colors duration-700">
+                  <i data-lucide="code-2" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-500 transition-colors duration-700"></i>
+                  <span class="lang-en transition-colors duration-700">Informatics Student</span><span class="lang-id hidden transition-colors duration-700">Mahasiswa IT</span>
                 </span>
-                <span class="text-zinc-400 dark:text-zinc-600">•</span>
-                <span class="inline-flex items-center gap-1.5 bg-amber-100 dark:bg-amber-500/10 text-amber-900 dark:text-amber-400 border border-amber-200/80 dark:border-amber-500/20 px-2.5 py-0.5 rounded-md transition-colors duration-300">
-                  <i data-lucide="briefcase" class="w-3.5 h-3.5 text-amber-700 dark:text-amber-500"></i>
-                  <span class="lang-en">Project Manager</span><span class="lang-id hidden">Manajer Proyek</span>
+                <span class="text-zinc-400 dark:text-zinc-600 transition-colors duration-700">•</span>
+                <span class="inline-flex items-center gap-1.5 bg-amber-100 dark:bg-amber-500/10 text-amber-900 dark:text-amber-400 border border-amber-200/80 dark:border-amber-500/20 px-2.5 py-0.5 rounded-md transition-colors duration-700">
+                  <i data-lucide="briefcase" class="w-3.5 h-3.5 text-amber-700 dark:text-amber-500 transition-colors duration-700"></i>
+                  <span class="lang-en transition-colors duration-700">Project Manager</span><span class="lang-id hidden transition-colors duration-700">Manajer Proyek</span>
                 </span>
               </div>
             </div>
           </div>
 
-          <p class="text-zinc-700 dark:text-zinc-300 text-sm sm:text-base leading-relaxed mb-6 font-normal transition-colors duration-300 pointer-events-none">
-            <span class="lang-en">Hello, I am Adimas Satria, but you can call me Adimas. Currently an Informatics student at <strong class="text-zinc-900 dark:text-zinc-100 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN “Veteran” Jawa Timur</strong>, I combine technical knowledge with strong leadership skills. I have a proven track record in project management, creative direction, and leading large teams to execute impactful initiatives.</span>
-            <span class="lang-id hidden">Halo, gue Adimas Satria, panggil aja Adimas. Sekarang lagi sibuk kuliah Informatika di <strong class="text-zinc-900 dark:text-zinc-100 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4">UPN “Veteran” Jawa Timur</strong>. Gue seneng nyampur skill teknis IT sama leadership. Sejauh ini udah lumayan sering megang project management, nentuin arah kreatif acara, sampai nge-lead tim skala gede buat bikin event atau inisiatif yang pecah.</span>
+          <p class="text-zinc-700 dark:text-zinc-300 text-sm sm:text-base leading-relaxed mb-6 font-normal transition-colors duration-700 pointer-events-none">
+            <span class="lang-en">Hello, I am Adimas Satria, but you can call me Adimas. Currently an Informatics student at <strong class="text-zinc-900 dark:text-zinc-100 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4 transition-colors duration-700">UPN “Veteran” Jawa Timur</strong>, I combine technical knowledge with strong leadership skills. I have a proven track record in project management, creative direction, and leading large teams to execute impactful initiatives.</span>
+            <span class="lang-id hidden">Halo, gue Adimas Satria, panggil aja Adimas. Sekarang lagi sibuk kuliah Informatika di <strong class="text-zinc-900 dark:text-zinc-100 font-semibold underline decoration-orange-400 decoration-2 underline-offset-4 transition-colors duration-700">UPN “Veteran” Jawa Timur</strong>. Gue seneng nyampur skill teknis IT sama leadership. Sejauh ini udah lumayan sering megang project management, nentuin arah kreatif acara, sampai nge-lead tim skala gede buat bikin event atau inisiatif yang pecah.</span>
           </p>
 
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-5 border-t border-zinc-200/80 dark:border-zinc-700/50 transition-colors duration-300">
-            <button id="copy-email-btn" onclick="copyEmail()" class="group/btn flex-1 flex items-center justify-between px-4 py-3 rounded-xl bg-white/80 dark:bg-zinc-800/40 hover:bg-orange-50/80 dark:hover:bg-zinc-800/60 border border-white/50 dark:border-zinc-700/50 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-200 text-left cursor-none">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-5 border-t border-zinc-200/80 dark:border-zinc-700/50 transition-colors duration-700">
+            <button id="copy-email-btn" onclick="copyEmail()" class="group/btn flex-1 flex items-center justify-between px-4 py-3 rounded-xl bg-white/80 dark:bg-zinc-800/40 hover:bg-orange-50/80 dark:hover:bg-zinc-800/60 border border-white/50 dark:border-zinc-700/50 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 text-left cursor-none active:scale-[0.98]">
               <div class="flex items-center space-x-2.5 min-w-0">
-                <div class="p-1 rounded-md bg-stone-200/80 dark:bg-zinc-700/80 text-zinc-600 dark:text-zinc-400 group-hover/btn:text-orange-600 dark:group-hover/btn:text-orange-400 transition-colors">
-                  <i data-lucide="mail" class="w-4 h-4"></i>
+                <div class="p-1 rounded-md bg-stone-200/80 dark:bg-zinc-700/80 text-zinc-600 dark:text-zinc-400 group-hover/btn:text-orange-600 dark:group-hover/btn:text-orange-400 transition-colors duration-300">
+                  <i data-lucide="mail" class="w-4 h-4 icon-transition"></i>
                 </div>
-                <span class="text-xs sm:text-sm font-mono text-zinc-800 dark:text-zinc-200 group-hover/btn:text-orange-950 dark:group-hover/btn:text-orange-300 font-medium truncate transition-colors">
+                <span class="text-xs sm:text-sm font-mono text-zinc-800 dark:text-zinc-200 group-hover/btn:text-orange-950 dark:group-hover/btn:text-orange-300 font-medium truncate transition-colors duration-300">
                   workwithadimassatria@gmail.com
                 </span>
               </div>
               <div id="copy-status-container" class="flex items-center space-x-1 shrink-0 ml-2">
-                <span id="copy-default" class="inline-flex items-center space-x-1 text-xs text-zinc-500 dark:text-zinc-400 group-hover/btn:text-orange-700 dark:group-hover/btn:text-orange-400 font-medium">
+                <span id="copy-default" class="inline-flex items-center space-x-1 text-xs text-zinc-500 dark:text-zinc-400 group-hover/btn:text-orange-700 dark:group-hover/btn:text-orange-400 font-medium transition-colors duration-300">
                   <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                   <span class="hidden sm:inline"><span class="lang-en">Copy</span><span class="lang-id hidden">Salin</span></span>
                 </span>
-                <span id="copy-success" class="hidden inline-flex items-center space-x-1 text-xs font-semibold text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/20 px-2.5 py-1 rounded-md border border-emerald-300/80 dark:border-emerald-500/30 shadow-xs">
+                <span id="copy-success" class="hidden inline-flex items-center space-x-1 text-xs font-semibold text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/20 px-2.5 py-1 rounded-md border border-emerald-300/80 dark:border-emerald-500/30 shadow-xs transition-colors duration-300">
                   <i data-lucide="check" class="w-3.5 h-3.5"></i>
                   <span class="lang-en">Copied!</span><span class="lang-id hidden">Tersalin!</span>
                 </span>
               </div>
             </button>
 
-            <a id="send-email-btn" href="mailto:workwithadimassatria@gmail.com" onclick="playClick()" class="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:brightness-105 text-white text-xs sm:text-sm font-semibold transition-all shadow-md shadow-orange-500/20 active:scale-[0.98] cursor-none border border-orange-400/50">
+            <a id="send-email-btn" href="mailto:workwithadimassatria@gmail.com" onclick="playClick()" class="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:brightness-105 text-white text-xs sm:text-sm font-semibold transition-all duration-300 shadow-md shadow-orange-500/20 active:scale-[0.95] cursor-none border border-orange-400/50">
               <span class="lang-en">Send Email</span><span class="lang-id hidden">Kirim Email</span>
               <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
             </a>
@@ -339,22 +337,22 @@
       </div>
     </section>
 
-    <!-- 2. Links Section -->
+    <!-- 2. Links Section Optimized -->
     <section class="space-y-3 opacity-0 animate-fade-in-up" style="animation-delay: 0.3s;">
       <div class="flex items-center justify-between px-2">
         <div class="flex items-center space-x-2">
-          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 mr-1 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50">
+          <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 mr-1 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50 transition-colors duration-700">
             <span class="w-2 h-2 rounded-full bg-orange-500"></span>
             <span class="lang-en">Links & Hub</span><span class="lang-id hidden">Link & Hub</span>
           </h2>
-          <div class="inline-flex bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg p-0.5 rounded-lg border border-white/50 dark:border-zinc-800/50 shadow-sm transition-colors duration-300">
-            <button onclick="filterLinks('all')" id="filter-all" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200/80 dark:border-orange-500/30 shadow-xs cursor-none"><span class="lang-en">All</span><span class="lang-id hidden">Semua</span></button>
-            <button onclick="filterLinks('career')" id="filter-career" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none"><span class="lang-en">Career</span><span class="lang-id hidden">Karir</span></button>
-            <button onclick="filterLinks('visuals')" id="filter-visuals" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none"><span class="lang-en">Visuals</span><span class="lang-id hidden">Visual</span></button>
-            <button onclick="filterLinks('personal')" id="filter-personal" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none"><span class="lang-en">Personal</span><span class="lang-id hidden">Personal</span></button>
+          <div class="inline-flex bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg p-0.5 rounded-lg border border-white/50 dark:border-zinc-800/50 shadow-sm transition-colors duration-700">
+            <button onclick="filterLinks('all')" id="filter-all" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200/80 dark:border-orange-500/30 shadow-xs cursor-none active:scale-95"><span class="lang-en">All</span><span class="lang-id hidden">Semua</span></button>
+            <button onclick="filterLinks('career')" id="filter-career" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none active:scale-95"><span class="lang-en">Career</span><span class="lang-id hidden">Karir</span></button>
+            <button onclick="filterLinks('visuals')" id="filter-visuals" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none active:scale-95"><span class="lang-en">Visuals</span><span class="lang-id hidden">Visual</span></button>
+            <button onclick="filterLinks('personal')" id="filter-personal" class="filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none active:scale-95"><span class="lang-en">Personal</span><span class="lang-id hidden">Personal</span></button>
           </div>
         </div>
-        <span class="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 hidden sm:inline bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50">
+        <span class="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 hidden sm:inline bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50 transition-colors duration-700">
           <span class="lang-en">04 DIRECT HUBS</span><span class="lang-id hidden">04 LINK UTAMA</span>
         </span>
       </div>
@@ -362,127 +360,127 @@
       <div id="links-container" class="flex flex-col space-y-2.5">
         
         <!-- LinkedIn -->
-        <a href="https://www.linkedin.com/in/adimassatria/" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#0A66C2]/40 hover:bg-[#0A66C2]/10 dark:hover:bg-[#0A66C2]/10 transition-all duration-300 hover:-translate-y-0.5 cursor-none">
+        <a href="https://www.linkedin.com/in/adimassatria/" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#0A66C2]/40 hover:bg-[#0A66C2]/10 dark:hover:bg-[#0A66C2]/10 transition-all duration-500 hover:-translate-y-0.5 cursor-none active:scale-[0.98]">
           <div class="spotlight-content w-full flex items-center justify-between">
             <div class="flex items-center space-x-4 min-w-0">
-              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
-                <svg class="w-5 h-5 text-[#0A66C2]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors duration-500 shrink-0 flex items-center justify-center">
+                <svg class="w-5 h-5 text-[#0A66C2] transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               </div>
               <div class="min-w-0">
                 <div class="flex items-center space-x-2">
-                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-[#0A66C2] dark:group-hover:text-[#52a4f5] transition-colors">LinkedIn</span>
-                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate">/in/adimassatria</span>
+                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-[#0A66C2] dark:group-hover:text-[#52a4f5] transition-colors duration-500">LinkedIn</span>
+                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate transition-colors duration-500">/in/adimassatria</span>
                 </div>
-                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal">
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal transition-colors duration-500">
                   <span class="lang-en">Professional experience, informatics background & network</span>
                   <span class="lang-id hidden">Pengalaman kerja, latar belakang anak IT & koneksi</span>
                 </p>
               </div>
             </div>
             <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-[#0A66C2]/10 text-[#0A66C2] dark:text-[#52a4f5] border border-white/80 dark:border-[#0A66C2]/30">
+              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-[#0A66C2]/10 text-[#0A66C2] dark:text-[#52a4f5] border border-white/80 dark:border-[#0A66C2]/30 transition-colors duration-500">
                 <span class="lang-en">Connect</span><span class="lang-id hidden">Konek</span>
               </span>
-              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-200 group-hover:bg-[#0A66C2] group-hover:border-[#0A66C2] group-hover:text-white">
-                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-300 group-hover:bg-[#0A66C2] group-hover:border-[#0A66C2] group-hover:text-white">
+                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
               </div>
             </div>
           </div>
         </a>
 
         <!-- GitHub -->
-        <a href="https://github.com/AdimasSatria" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/70 transition-all duration-300 hover:-translate-y-0.5 cursor-none">
+        <a href="https://github.com/AdimasSatria" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/70 transition-all duration-500 hover:-translate-y-0.5 cursor-none active:scale-[0.98]">
           <div class="spotlight-content w-full flex items-center justify-between">
             <div class="flex items-center space-x-4 min-w-0">
-              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors shrink-0 flex items-center justify-center">
-                <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5 opacity-90 dark:invert group-hover:opacity-100 transition-opacity duration-300">
+              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors duration-500 shrink-0 flex items-center justify-center">
+                <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5 opacity-90 dark:invert group-hover:opacity-100 transition-all duration-500">
               </div>
               <div class="min-w-0">
                 <div class="flex items-center space-x-2">
-                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">GitHub</span>
-                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate">@AdimasSatria</span>
+                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors duration-500">GitHub</span>
+                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate transition-colors duration-500">@AdimasSatria</span>
                 </div>
-                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal">
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal transition-colors duration-500">
                   <span class="lang-en">Open source code, web engineering & software repositories</span>
                   <span class="lang-id hidden">Tempat nyimpen kodingan open source & project web gue</span>
                 </p>
               </div>
             </div>
             <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-300 border border-white/80 dark:border-zinc-700/80">
+              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-800 dark:text-zinc-300 border border-white/80 dark:border-zinc-700/80 transition-colors duration-500">
                 <span class="lang-en">Code</span><span class="lang-id hidden">Kode</span>
               </span>
-              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-200 group-hover:bg-zinc-900 dark:group-hover:bg-white group-hover:border-zinc-900 dark:group-hover:border-white group-hover:text-white dark:group-hover:text-zinc-900">
-                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-300 group-hover:bg-zinc-900 dark:group-hover:bg-white group-hover:border-zinc-900 dark:group-hover:border-white group-hover:text-white dark:group-hover:text-zinc-900">
+                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
               </div>
             </div>
           </div>
         </a>
 
         <!-- Instagram -->
-        <a href="https://www.instagram.com/hi_adimassatria/" target="_blank" rel="noopener noreferrer" data-category="visuals" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#E4405F]/40 hover:bg-[#E4405F]/10 dark:hover:bg-[#E4405F]/10 transition-all duration-300 hover:-translate-y-0.5 cursor-none">
+        <a href="https://www.instagram.com/hi_adimassatria/" target="_blank" rel="noopener noreferrer" data-category="visuals" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#E4405F]/40 hover:bg-[#E4405F]/10 dark:hover:bg-[#E4405F]/10 transition-all duration-500 hover:-translate-y-0.5 cursor-none active:scale-[0.98]">
           <div class="spotlight-content w-full flex items-center justify-between">
             <div class="flex items-center space-x-4 min-w-0">
-              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
-                <svg class="w-5 h-5 text-[#E4405F]" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"/></svg>
+              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors duration-500 shrink-0 flex items-center justify-center">
+                <svg class="w-5 h-5 text-[#E4405F] transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"/></svg>
               </div>
               <div class="min-w-0">
                 <div class="flex items-center space-x-2">
-                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-[#E4405F] transition-colors">Instagram</span>
-                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate">@hi_adimassatria</span>
+                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-[#E4405F] transition-colors duration-500">Instagram</span>
+                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate transition-colors duration-500">@hi_adimassatria</span>
                 </div>
-                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal">
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal transition-colors duration-500">
                   <span class="lang-en">Personal account, daily moments, connections & occasional visual archives</span>
                   <span class="lang-id hidden">Akun personal, harian, & kadang ngepost arsip jepretan panggung</span>
                 </p>
               </div>
             </div>
             <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-[#E4405F]/10 text-[#E4405F] dark:text-[#ff748f] border border-white/80 dark:border-[#E4405F]/30">
+              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-[#E4405F]/10 text-[#E4405F] dark:text-[#ff748f] border border-white/80 dark:border-[#E4405F]/30 transition-colors duration-500">
                 <span class="lang-en">Visuals</span><span class="lang-id hidden">Visual</span>
               </span>
-              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-200 group-hover:bg-[#E4405F] group-hover:border-[#E4405F] group-hover:text-white">
-                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-300 group-hover:bg-[#E4405F] group-hover:border-[#E4405F] group-hover:text-white">
+                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
               </div>
             </div>
           </div>
         </a>
 
         <!-- Spotify -->
-        <a href="https://open.spotify.com/user/31ga3xzh73za4vcblhojknttziae?si=NiXbO7pRRnqtBnHaklREKA&utm_source=copy-link" target="_blank" rel="noopener noreferrer" data-category="personal" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#1DB954]/40 hover:bg-[#1DB954]/10 dark:hover:bg-[#1DB954]/10 transition-all duration-300 hover:-translate-y-0.5 cursor-none">
+        <a href="https://open.spotify.com/user/31ga3xzh73za4vcblhojknttziae?si=NiXbO7pRRnqtBnHaklREKA&utm_source=copy-link" target="_blank" rel="noopener noreferrer" data-category="personal" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#1DB954]/40 hover:bg-[#1DB954]/10 dark:hover:bg-[#1DB954]/10 transition-all duration-500 hover:-translate-y-0.5 cursor-none active:scale-[0.98]">
           <div class="spotlight-content w-full flex items-center justify-between">
             <div class="flex items-center space-x-4 min-w-0">
-              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
-                <svg class="w-5 h-5 text-[#1DB954]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.394-.751.522-1.146.282-3.139-1.912-7.09-2.341-11.747-1.282-.465.104-.928-.184-1.032-.649-.104-.465.184-.928.649-1.032 5.09-1.156 9.46-.662 13.003 1.503.394.24.522.751.282 1.146zm1.449-3.237c-.302.493-.943.655-1.436.353-3.585-2.203-9.066-2.827-12.92-1.545-.562.187-1.16-.118-1.347-.68-.187-.562.118-1.16.68-1.347 4.409-1.464 10.457-.768 14.67 1.821.493.302.655.943.353 1.436zm.106-3.39C15.021 8.28 8.71 8.067 5.074 9.171c-.682.207-1.402-.178-1.609-.86-.207-.682.178-1.402.86-1.609 4.225-1.284 11.233-1.035 15.932 1.758.608.361.808 1.148.447 1.756-.361.608-1.148.808-1.756.447z"/></svg>
+              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors duration-500 shrink-0 flex items-center justify-center">
+                <svg class="w-5 h-5 text-[#1DB954] transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.394-.751.522-1.146.282-3.139-1.912-7.09-2.341-11.747-1.282-.465.104-.928-.184-1.032-.649-.104-.465.184-.928.649-1.032 5.09-1.156 9.46-.662 13.003 1.503.394.24.522.751.282 1.146zm1.449-3.237c-.302.493-.943.655-1.436.353-3.585-2.203-9.066-2.827-12.92-1.545-.562.187-1.16-.118-1.347-.68-.187-.562.118-1.16.68-1.347 4.409-1.464 10.457-.768 14.67 1.821.493.302.655.943.353 1.436zm.106-3.39C15.021 8.28 8.71 8.067 5.074 9.171c-.682.207-1.402-.178-1.609-.86-.207-.682.178-1.402.86-1.609 4.225-1.284 11.233-1.035 15.932 1.758.608.361.808 1.148.447 1.756-.361.608-1.148.808-1.756.447z"/></svg>
               </div>
               <div class="min-w-0">
                 <div class="flex items-center space-x-2">
-                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-[#1DB954] dark:group-hover:text-[#42da77] transition-colors">Spotify</span>
-                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate">@adimAs</span>
+                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-[#1DB954] dark:group-hover:text-[#42da77] transition-colors duration-500">Spotify</span>
+                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate transition-colors duration-500">@adimAs</span>
                 </div>
-                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal">
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal transition-colors duration-500">
                   <span class="lang-en">Current rotation, gig inspirations & late-night coding playlists</span>
                   <span class="lang-id hidden">Lagu yang lagi sering diputer & amunisi koding begadang</span>
                 </p>
               </div>
             </div>
             <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-[#1DB954]/10 text-[#1DB954] dark:text-[#42da77] border border-white/80 dark:border-[#1DB954]/30">
+              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-[#1DB954]/10 text-[#1DB954] dark:text-[#42da77] border border-white/80 dark:border-[#1DB954]/30 transition-colors duration-500">
                 <span class="lang-en">Listen</span><span class="lang-id hidden">Dengerin</span>
               </span>
-              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-200 group-hover:bg-[#1DB954] group-hover:border-[#1DB954] group-hover:text-white">
-                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-300 group-hover:bg-[#1DB954] group-hover:border-[#1DB954] group-hover:text-white">
+                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
               </div>
             </div>
           </div>
         </a>
 
         <!-- Letterboxd -->
-        <a href="https://boxd.it/iNpz7" target="_blank" rel="noopener noreferrer" data-category="personal" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#00E054]/40 hover:bg-[#00E054]/5 dark:hover:bg-[#00E054]/10 transition-all duration-300 hover:-translate-y-0.5 cursor-none">
+        <a href="https://boxd.it/iNpz7" target="_blank" rel="noopener noreferrer" data-category="personal" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-[#00E054]/40 hover:bg-[#00E054]/5 dark:hover:bg-[#00E054]/10 transition-all duration-500 hover:-translate-y-0.5 cursor-none active:scale-[0.98]">
           <div class="spotlight-content w-full flex items-center justify-between">
             <div class="flex items-center space-x-4 min-w-0">
-              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors shrink-0 flex items-center justify-center">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors duration-500 shrink-0 flex items-center justify-center">
+                <svg class="w-5 h-5 transition-colors duration-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="5" cy="12" r="4.2" fill="#00E054"/>
                   <circle cx="12" cy="12" r="4.2" fill="#FF8000"/>
                   <circle cx="19" cy="12" r="4.2" fill="#40BCF4"/>
@@ -490,21 +488,21 @@
               </div>
               <div class="min-w-0">
                 <div class="flex items-center space-x-2">
-                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-[#00E054] transition-colors">Letterboxd</span>
-                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate">@adimas</span>
+                  <span class="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-[#00E054] transition-colors duration-500">Letterboxd</span>
+                  <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 truncate transition-colors duration-500">@adimas</span>
                 </div>
-                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal">
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 truncate mt-0.5 font-normal transition-colors duration-500">
                   <span class="lang-en">Short movie logs, witty reviews & cinematic favorites</span>
                   <span class="lang-id hidden">Tempat ngoceh soal film, review santai & film favorit gue</span>
                 </p>
               </div>
             </div>
             <div class="flex items-center space-x-2.5 shrink-0 ml-3">
-              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-[#00E054]/10 text-[#00E054] dark:text-[#38ef7a] border border-white/80 dark:border-[#00E054]/30">
+              <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-[#00E054]/10 text-[#00E054] dark:text-[#38ef7a] border border-white/80 dark:border-[#00E054]/30 transition-colors duration-500">
                 <span class="lang-en">Films</span><span class="lang-id hidden">Film</span>
               </span>
-              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-200 group-hover:bg-[#00E054] group-hover:border-[#00E054] group-hover:text-white">
-                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+              <div class="w-8 h-8 rounded-full bg-white/80 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 border border-white/50 dark:border-zinc-700/50 flex items-center justify-center transition-all duration-300 group-hover:bg-[#00E054] group-hover:border-[#00E054] group-hover:text-white">
+                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
               </div>
             </div>
           </div>
@@ -516,7 +514,7 @@
     <!-- 3. Featured Web Projects Showcase -->
     <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.35s;">
       <div class="flex items-center space-x-2 mb-3 px-2">
-        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 mr-1 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50">
+        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 mr-1 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50 transition-colors duration-700">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
           <span class="lang-en">Featured Deployments</span><span class="lang-id hidden">Project Unggulan</span>
         </h2>
@@ -526,20 +524,20 @@
       <div class="flex flex-col space-y-3">
         
         <!-- Web Card 1: Photobooth App -->
-        <a href="https://photodum.vercel.app/" target="_blank" rel="noopener noreferrer" onclick="playClick()" class="spotlight-card group relative block w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-orange-300/60 dark:border-orange-500/30 rounded-3xl p-1 overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_-5px_rgba(249,115,22,0.3)] hover:-translate-y-1 cursor-none">
+        <a href="https://photodum.vercel.app/" target="_blank" rel="noopener noreferrer" onclick="playClick()" class="spotlight-card group relative block w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-orange-300/60 dark:border-orange-500/30 rounded-3xl p-1 overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(249,115,22,0.3)] hover:-translate-y-1 cursor-none active:scale-[0.98]">
           <div class="absolute -inset-2 bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 opacity-10 blur-xl group-hover:opacity-30 transition-opacity duration-500 animate-pulse pointer-events-none will-change-opacity"></div>
           
-          <div class="spotlight-content relative bg-white/80 dark:bg-[#18181b]/80 rounded-[20px] p-5 sm:p-7 border border-white/80 dark:border-zinc-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-5 h-full">
+          <div class="spotlight-content relative bg-white/80 dark:bg-[#18181b]/80 rounded-[20px] p-5 sm:p-7 border border-white/80 dark:border-zinc-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-5 h-full transition-colors duration-700">
             <div class="flex items-start sm:items-center gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-white dark:bg-black border border-white/80 dark:border-zinc-700/50 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-300">
-                <i data-lucide="camera" class="w-6 h-6 text-zinc-800 dark:text-zinc-200 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors"></i>
+              <div class="w-12 h-12 rounded-2xl bg-white dark:bg-black border border-white/80 dark:border-zinc-700/50 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-all duration-500">
+                <i data-lucide="camera" class="w-6 h-6 text-zinc-800 dark:text-zinc-200 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-500"></i>
               </div>
               <div>
                 <div class="flex items-center gap-2 mb-1">
-                  <h3 class="font-extrabold text-lg sm:text-xl text-zinc-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">Photobooth App</h3>
-                  <span class="px-1.5 py-0.5 text-[9px] font-mono font-bold bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 rounded border border-orange-200 dark:border-orange-500/30 shadow-sm">FEATURED</span>
+                  <h3 class="font-extrabold text-lg sm:text-xl text-zinc-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-500">Photobooth App</h3>
+                  <span class="px-1.5 py-0.5 text-[9px] font-mono font-bold bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 rounded border border-orange-200 dark:border-orange-500/30 shadow-sm transition-colors duration-700">FEATURED</span>
                 </div>
-                <p class="text-sm text-zinc-600 dark:text-zinc-400 font-medium">
+                <p class="text-sm text-zinc-600 dark:text-zinc-400 font-medium transition-colors duration-700">
                   <span class="lang-en">Interactive full-stack web application</span>
                   <span class="lang-id hidden">Aplikasi web interaktif full-stack</span>
                 </p>
@@ -547,9 +545,9 @@
             </div>
             <div class="flex items-center gap-3">
               <div class="hidden sm:flex flex-wrap gap-2">
-                <span class="px-2 py-1 text-[10px] font-mono font-bold bg-white/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-300 rounded border border-white/80 dark:border-zinc-700/60 shadow-sm">WEB APP</span>
+                <span class="px-2 py-1 text-[10px] font-mono font-bold bg-white/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-300 rounded border border-white/80 dark:border-zinc-700/60 shadow-sm transition-colors duration-700">WEB APP</span>
               </div>
-              <div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-500/20 border border-orange-200/50 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 group-hover:text-white transition-colors duration-300 shadow-sm">
+              <div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-500/20 border border-orange-200/50 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 group-hover:text-white transition-all duration-300 shadow-sm">
                 <i data-lucide="arrow-right" class="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
               </div>
             </div>
@@ -557,20 +555,20 @@
         </a>
 
         <!-- Web Card 2: Task Tracker -->
-        <a href="https://task-tracker-by-adimas.vercel.app/" target="_blank" rel="noopener noreferrer" onclick="playClick()" class="spotlight-card group relative block w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-orange-300/60 dark:border-orange-500/30 rounded-3xl p-1 overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_-5px_rgba(249,115,22,0.3)] hover:-translate-y-1 cursor-none">
+        <a href="https://task-tracker-by-adimas.vercel.app/" target="_blank" rel="noopener noreferrer" onclick="playClick()" class="spotlight-card group relative block w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-orange-300/60 dark:border-orange-500/30 rounded-3xl p-1 overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(249,115,22,0.3)] hover:-translate-y-1 cursor-none active:scale-[0.98]">
           <div class="absolute -inset-2 bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 opacity-10 blur-xl group-hover:opacity-30 transition-opacity duration-500 animate-pulse pointer-events-none will-change-opacity"></div>
           
-          <div class="spotlight-content relative bg-white/80 dark:bg-[#18181b]/80 rounded-[20px] p-5 sm:p-7 border border-white/80 dark:border-zinc-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-5 h-full">
+          <div class="spotlight-content relative bg-white/80 dark:bg-[#18181b]/80 rounded-[20px] p-5 sm:p-7 border border-white/80 dark:border-zinc-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-5 h-full transition-colors duration-700">
             <div class="flex items-start sm:items-center gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-white dark:bg-black border border-white/80 dark:border-zinc-700/50 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-300">
-                <i data-lucide="check-square" class="w-6 h-6 text-zinc-800 dark:text-zinc-200 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors"></i>
+              <div class="w-12 h-12 rounded-2xl bg-white dark:bg-black border border-white/80 dark:border-zinc-700/50 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-all duration-500">
+                <i data-lucide="check-square" class="w-6 h-6 text-zinc-800 dark:text-zinc-200 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-500"></i>
               </div>
               <div>
                 <div class="flex items-center gap-2 mb-1">
-                  <h3 class="font-extrabold text-lg sm:text-xl text-zinc-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">Task Tracker</h3>
-                  <span class="px-1.5 py-0.5 text-[9px] font-mono font-bold bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 rounded border border-orange-200 dark:border-orange-500/30 shadow-sm">LATEST</span>
+                  <h3 class="font-extrabold text-lg sm:text-xl text-zinc-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-500">Task Tracker</h3>
+                  <span class="px-1.5 py-0.5 text-[9px] font-mono font-bold bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 rounded border border-orange-200 dark:border-orange-500/30 shadow-sm transition-colors duration-700">LATEST</span>
                 </div>
-                <p class="text-sm text-zinc-600 dark:text-zinc-400 font-medium">
+                <p class="text-sm text-zinc-600 dark:text-zinc-400 font-medium transition-colors duration-700">
                   <span class="lang-en">Web-based app, feel free to use it!</span>
                   <span class="lang-id hidden">Aplikasi web-base, bisa langsung dipakai!</span>
                 </p>
@@ -578,9 +576,9 @@
             </div>
             <div class="flex items-center gap-3">
               <div class="hidden sm:flex flex-wrap gap-2">
-                <span class="px-2 py-1 text-[10px] font-mono font-bold bg-white/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-300 rounded border border-white/80 dark:border-zinc-700/60 shadow-sm">WEB APP</span>
+                <span class="px-2 py-1 text-[10px] font-mono font-bold bg-white/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-300 rounded border border-white/80 dark:border-zinc-700/60 shadow-sm transition-colors duration-700">WEB APP</span>
               </div>
-              <div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-500/20 border border-orange-200/50 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 group-hover:text-white transition-colors duration-300 shadow-sm">
+              <div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-500/20 border border-orange-200/50 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 group-hover:text-white transition-all duration-300 shadow-sm">
                 <i data-lucide="arrow-right" class="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
               </div>
             </div>
@@ -590,197 +588,138 @@
       </div>
     </section>
 
-    <!-- 4. Tech Stack Auto-Scrolling Marquee -->
+    <!-- NEW: 4. Tech Stack Auto-Scrolling Marquee (Click to Color) -->
     <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.4s;">
       <div class="flex items-center space-x-2 mb-3 px-2">
-        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 mr-1 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50">
+        <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 mr-1 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50 transition-colors duration-700">
           <span class="w-2 h-2 rounded-full bg-orange-500"></span>
           <span class="lang-en">Tech Stack & Tools</span><span class="lang-id hidden">Tools & Tech Stack</span>
         </h2>
       </div>
       
-      <div class="relative w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/30 rounded-3xl py-4 sm:py-5 overflow-hidden shadow-sm mask-edges cursor-none">
-        <!-- Interactive Track (Auto-scrolls, but allows drag/swipe) -->
+      <div class="relative w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/30 rounded-3xl py-5 overflow-hidden flex items-center shadow-sm mask-edges cursor-none transition-colors duration-700">
+        
+        <!-- Interactive Track (Auto-scrolls, allows drag/swipe, click to pop color) -->
         <div id="tech-track" class="flex w-full overflow-x-auto no-scrollbar items-center cursor-grab active:cursor-grabbing select-none" style="-webkit-overflow-scrolling: touch;">
           
           <!-- GROUP 1 -->
-          <div id="tech-content-1" class="flex items-center gap-10 sm:gap-14 pr-10 sm:pr-14 shrink-0 w-max">
+          <div id="tech-group-1" class="flex items-center gap-10 sm:gap-14 shrink-0 pr-10 sm:pr-14 pl-5 sm:pl-7">
             <!-- C -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/c/A8B9CC" alt="C" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#A8B9CC] transition-colors">C</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#A8B9CC" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/c" alt="C" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">C</span>
             </div>
             <!-- C++ -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/cplusplus/00599C" alt="C++" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#00599C] transition-colors">C++</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#00599C" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/cplusplus" alt="C++" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">C++</span>
             </div>
             <!-- Python -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/python/3776AB" alt="Python" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3776AB] transition-colors">Python</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#3776AB" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/python" alt="Python" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Python</span>
             </div>
             <!-- Java -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/java/ED8B00" alt="Java" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#ED8B00] transition-colors">Java</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#ED8B00" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/java" alt="Java" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Java</span>
             </div>
             <!-- TypeScript -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/typescript/3178C6" alt="TypeScript" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3178C6] transition-colors">TypeScript</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#3178C6" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/typescript" alt="TypeScript" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">TypeScript</span>
             </div>
             <!-- MySQL -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/mysql/4479A1" alt="MySQL" class="w-6 h-6 sm:w-7 sm:h-7 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#4479A1] transition-colors">MySQL</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#4479A1" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/mysql" alt="MySQL" class="tech-icon w-6 h-6 sm:w-7 sm:h-7 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">MySQL</span>
             </div>
-            <!-- Tailwind CSS -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind CSS" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#06B6D4] transition-colors">Tailwind</span>
+            <!-- Tailwind -->
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#06B6D4" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Tailwind</span>
             </div>
             <!-- Vercel -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/vercel" alt="Vercel" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 dark:invert transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">Vercel</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500 flex-vercel" data-color="var(--icon-contrast)" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale dark:invert transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Vercel</span>
             </div>
             <!-- GitHub -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 dark:invert transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">GitHub</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500 flex-github" data-color="var(--icon-contrast)" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale dark:invert transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">GitHub</span>
             </div>
             <!-- Figma -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/figma/F24E1E" alt="Figma" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#F24E1E] transition-colors">Figma</span>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#F24E1E" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/figma" alt="Figma" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Figma</span>
             </div>
-            <!-- Illustrator (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#FF9A00]/40 group-hover:border-[#FF9A00] flex items-center justify-center text-[#FF9A00] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Ai</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#FF9A00] transition-colors">Illustrator</span>
+            <!-- Adobe Illustrator -->
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#FF9A00" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobeillustrator" alt="Illustrator" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ai</span>
             </div>
-            <!-- Photoshop (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#31A8FF]/40 group-hover:border-[#31A8FF] flex items-center justify-center text-[#31A8FF] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Ps</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#31A8FF] transition-colors">Photoshop</span>
+            <!-- Adobe Photoshop -->
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#31A8FF" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobephotoshop" alt="Photoshop" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ps</span>
             </div>
-            <!-- Lightroom (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#00D8FF]/40 group-hover:border-[#00D8FF] flex items-center justify-center text-[#00D8FF] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Lr</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#00D8FF] transition-colors">Lightroom</span>
+            <!-- Adobe Lightroom -->
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#31A8FF" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobelightroom" alt="Lightroom" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Lr</span>
             </div>
-            <!-- After Effects (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#9999FF]/40 group-hover:border-[#9999FF] flex items-center justify-center text-[#9999FF] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Ae</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#9999FF] transition-colors">After Effects</span>
+            <!-- Adobe After Effects -->
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#9999FF" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobeaftereffects" alt="After Effects" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ae</span>
             </div>
-            <!-- Premiere Pro (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#EA77FF]/40 group-hover:border-[#EA77FF] flex items-center justify-center text-[#EA77FF] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Pr</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#EA77FF] transition-colors">Premiere Pro</span>
+            <!-- Adobe Premiere Pro -->
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#9999FF" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobepremierepro" alt="Premiere Pro" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
+              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Pr</span>
             </div>
           </div>
           
-          <!-- GROUP 2 (CLONED FOR SEAMLESS LOOP) -->
-          <div id="tech-content-2" class="flex items-center gap-10 sm:gap-14 pr-10 sm:pr-14 shrink-0 w-max">
-            <!-- C -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/c/A8B9CC" alt="C" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#A8B9CC] transition-colors">C</span>
-            </div>
-            <!-- C++ -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/cplusplus/00599C" alt="C++" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#00599C] transition-colors">C++</span>
-            </div>
-            <!-- Python -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/python/3776AB" alt="Python" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3776AB] transition-colors">Python</span>
-            </div>
-            <!-- Java -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/java/ED8B00" alt="Java" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#ED8B00] transition-colors">Java</span>
-            </div>
-            <!-- TypeScript -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/typescript/3178C6" alt="TypeScript" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3178C6] transition-colors">TypeScript</span>
-            </div>
-            <!-- MySQL -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/mysql/4479A1" alt="MySQL" class="w-6 h-6 sm:w-7 sm:h-7 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#4479A1] transition-colors">MySQL</span>
-            </div>
-            <!-- Tailwind CSS -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind CSS" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#06B6D4] transition-colors">Tailwind</span>
-            </div>
-            <!-- Vercel -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/vercel" alt="Vercel" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 dark:invert transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">Vercel</span>
-            </div>
-            <!-- GitHub -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 dark:invert transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">GitHub</span>
-            </div>
-            <!-- Figma -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <img src="https://cdn.simpleicons.org/figma/F24E1E" alt="Figma" class="w-5 h-5 sm:w-6 sm:h-6 opacity-60 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#F24E1E] transition-colors">Figma</span>
-            </div>
-            <!-- Illustrator (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#FF9A00]/40 group-hover:border-[#FF9A00] flex items-center justify-center text-[#FF9A00] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Ai</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#FF9A00] transition-colors">Illustrator</span>
-            </div>
-            <!-- Photoshop (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#31A8FF]/40 group-hover:border-[#31A8FF] flex items-center justify-center text-[#31A8FF] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Ps</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#31A8FF] transition-colors">Photoshop</span>
-            </div>
-            <!-- Lightroom (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#00D8FF]/40 group-hover:border-[#00D8FF] flex items-center justify-center text-[#00D8FF] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Lr</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#00D8FF] transition-colors">Lightroom</span>
-            </div>
-            <!-- After Effects (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#9999FF]/40 group-hover:border-[#9999FF] flex items-center justify-center text-[#9999FF] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Ae</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#9999FF] transition-colors">After Effects</span>
-            </div>
-            <!-- Premiere Pro (CSS Box) -->
-            <div class="group flex items-center space-x-2.5 shrink-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-[5px] bg-[#1E1E1E] border border-[#EA77FF]/40 group-hover:border-[#EA77FF] flex items-center justify-center text-[#EA77FF] font-bold text-[11px] sm:text-[13px] opacity-70 group-hover:opacity-100 transition-all duration-300 shadow-sm">Pr</div>
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#EA77FF] transition-colors">Premiere Pro</span>
-            </div>
+          <!-- GROUP 2 (DUPLICATE FOR SEAMLESS LOOP) -->
+          <div id="tech-group-2" class="flex items-center gap-10 sm:gap-14 shrink-0 pr-10 sm:pr-14">
+            <!-- Exact duplicates for infinite scrolling effect -->
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#A8B9CC" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/c" alt="C" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">C</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#00599C" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/cplusplus" alt="C++" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">C++</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#3776AB" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/python" alt="Python" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Python</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#ED8B00" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/java" alt="Java" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Java</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#3178C6" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/typescript" alt="TypeScript" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">TypeScript</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#4479A1" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/mysql" alt="MySQL" class="tech-icon w-6 h-6 sm:w-7 sm:h-7 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">MySQL</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#06B6D4" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Tailwind</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500 flex-vercel" data-color="var(--icon-contrast)" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale dark:invert transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Vercel</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500 flex-github" data-color="var(--icon-contrast)" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/github" alt="GitHub" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale dark:invert transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">GitHub</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#F24E1E" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/figma" alt="Figma" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Figma</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#FF9A00" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobeillustrator" alt="Illustrator" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ai</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#31A8FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobephotoshop" alt="Photoshop" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ps</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#31A8FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobelightroom" alt="Lightroom" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Lr</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#9999FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobeaftereffects" alt="After Effects" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ae</span></div>
+            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#9999FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobepremierepro" alt="Premiere Pro" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Pr</span></div>
           </div>
-          
         </div>
       </div>
     </section>
 
     <!-- 5. Portfolio Document -->
     <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.45s;">
-      <div class="spotlight-card relative bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 rounded-3xl p-5 sm:p-7 shadow-sm transition-colors duration-500">
+      <div class="spotlight-card relative bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 rounded-3xl p-5 sm:p-7 shadow-sm transition-colors duration-700">
         <div class="spotlight-content space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-zinc-200/80 dark:border-zinc-700/50 transition-colors duration-500">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-zinc-200/80 dark:border-zinc-700/50 transition-colors duration-700">
             <div class="flex items-center space-x-3">
-              <div class="p-2.5 rounded-xl bg-orange-100 dark:bg-orange-500/10 border border-orange-200/80 dark:border-orange-500/20 text-orange-700 dark:text-orange-500">
+              <div class="p-2.5 rounded-xl bg-orange-100 dark:bg-orange-500/10 border border-orange-200/80 dark:border-orange-500/20 text-orange-700 dark:text-orange-500 transition-colors duration-700">
                 <i data-lucide="file-text" class="w-5 h-5"></i>
               </div>
               <div>
-                <h2 class="font-bold text-base sm:text-lg text-zinc-900 dark:text-zinc-100 flex items-center gap-2 transition-colors duration-500">
+                <h2 class="font-bold text-base sm:text-lg text-zinc-900 dark:text-zinc-100 flex items-center gap-2 transition-colors duration-700">
                   <span class="lang-en">Portfolio Document</span>
                   <span class="lang-id hidden">Dokumen Portofolio</span>
-                  <span class="text-[10px] font-mono font-bold bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 px-2 py-0.5 rounded border border-orange-200/80 dark:border-orange-500/30">LIVE PDF</span>
+                  <span class="text-[10px] font-mono font-bold bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 px-2 py-0.5 rounded border border-orange-200/80 dark:border-orange-500/30 transition-colors duration-700">LIVE PDF</span>
                 </h2>
-                <p class="text-xs text-zinc-600 dark:text-zinc-400">
+                <p class="text-xs text-zinc-600 dark:text-zinc-400 transition-colors duration-700">
                   <span class="lang-en">Interactive PDF preview & stage photography showcase</span>
                   <span class="lang-id hidden">Preview PDF interaktif & pameran hasil jepretan panggung gue</span>
                 </p>
@@ -788,10 +727,10 @@
             </div>
 
             <div class="flex items-center space-x-2 shrink-0">
-              <button id="toggle-pdf-size-btn" onclick="togglePdfSize()" class="hidden sm:inline-flex items-center justify-center p-2.5 rounded-xl bg-white/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-white/50 dark:border-zinc-700/50 text-zinc-700 dark:text-zinc-300 transition-colors cursor-none" title="Toggle aspect ratio">
-                <i id="pdf-size-icon" data-lucide="maximize-2" class="w-4 h-4"></i>
+              <button id="toggle-pdf-size-btn" onclick="togglePdfSize()" class="hidden sm:inline-flex items-center justify-center p-2.5 rounded-xl bg-white/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-white/50 dark:border-zinc-700/50 text-zinc-700 dark:text-zinc-300 transition-all duration-300 cursor-none active:scale-90" title="Toggle aspect ratio">
+                <i id="pdf-size-icon" data-lucide="maximize-2" class="w-4 h-4 icon-transition"></i>
               </button>
-              <a id="open-drive-btn" href="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="playClick()" class="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-white/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 text-xs font-semibold border border-white/50 dark:border-zinc-700/50 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all active:scale-[0.98] cursor-none">
+              <a id="open-drive-btn" href="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="playClick()" class="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-white/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 text-xs font-semibold border border-white/50 dark:border-zinc-700/50 hover:border-orange-300 dark:hover:border-orange-500/50 transition-all duration-300 active:scale-[0.95] cursor-none">
                 <span class="lang-en">Open in Google Drive</span>
                 <span class="lang-id hidden">Buka di Google Drive</span>
                 <i data-lucide="external-link" class="w-3.5 h-3.5 text-orange-600 dark:text-orange-400"></i>
@@ -799,10 +738,10 @@
             </div>
           </div>
 
-          <div id="pdf-frame-wrapper" class="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-white/50 dark:bg-[#09090b]/80 rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700/50 shadow-inner transition-all duration-300 cursor-auto">
-            <div id="pdf-loading" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-600 dark:text-zinc-400 space-y-3 p-4 text-center z-0">
+          <div id="pdf-frame-wrapper" class="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-white/50 dark:bg-[#09090b]/80 rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700/50 shadow-inner transition-all duration-500 ease-in-out cursor-auto">
+            <div id="pdf-loading" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-600 dark:text-zinc-400 space-y-3 p-4 text-center z-0 transition-colors duration-700">
               <i data-lucide="refresh-cw" class="w-6 h-6 animate-spin text-orange-600 dark:text-orange-500"></i>
-              <span class="text-xs font-mono text-zinc-700 dark:text-zinc-300">
+              <span class="text-xs font-mono text-zinc-700 dark:text-zinc-300 transition-colors duration-700">
                 <span class="lang-en">Loading portfolio document preview...</span>
                 <span class="lang-id hidden">Lagi loading preview dokumen...</span>
               </span>
@@ -810,9 +749,9 @@
             <iframe id="pdf-iframe" src="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/preview" title="Adimas Satria Portfolio Preview" class="w-full h-full border-0 relative z-10 rounded-2xl" onload="document.getElementById('pdf-loading').style.display='none';" allow="autoplay"></iframe>
           </div>
 
-          <div class="flex items-center justify-between text-[11px] font-mono text-zinc-500 dark:text-zinc-400 px-1 pt-1">
+          <div class="flex items-center justify-between text-[11px] font-mono text-zinc-500 dark:text-zinc-400 px-1 pt-1 transition-colors duration-700">
             <span>DOC ID: 1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0</span>
-            <a href="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors underline underline-offset-2 flex items-center gap-1 cursor-none">
+            <a href="https://drive.google.com/file/d/1swlJuEl_pI33rnHQ0MrpQKlXV8Hnqhk0/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors duration-300 underline underline-offset-2 flex items-center gap-1 cursor-none">
               <span>Direct Link</span>
               <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
             </a>
@@ -823,18 +762,17 @@
 
     <!-- 6. Footer -->
     <footer class="text-center pt-2 pb-8 space-y-3 opacity-0 animate-fade-in-up relative z-10" style="animation-delay: 0.6s;">
-      <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+      <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400 transition-colors duration-700">
         © <span id="year-display"></span> Adimas Satria • Surabaya, Indonesia
       </p>
-      <p class="text-[11px] text-zinc-400 dark:text-zinc-500">
+      <p class="text-[11px] text-zinc-400 dark:text-zinc-500 transition-colors duration-700">
         <span class="lang-en">Ultra-minimalist personal identity & link-hub</span>
         <span class="lang-id hidden">Identitas personal & link-hub ultra-minimalis</span>
       </p>
-      <!-- Keyboard Shortcut Hints -->
-      <div class="hidden sm:flex items-center justify-center gap-4 mt-2 text-[10px] font-mono text-zinc-500 dark:text-zinc-500">
-        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-white/40 dark:border-zinc-700/50 bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md font-sans font-semibold text-zinc-600 dark:text-zinc-300 shadow-sm">CTRL+K</kbd> Command Palette</span>
-        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-white/40 dark:border-zinc-700/50 bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md font-sans font-semibold text-zinc-600 dark:text-zinc-300 shadow-sm">~</kbd> Terminal</span>
-        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-white/40 dark:border-zinc-700/50 bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md font-sans font-semibold text-zinc-600 dark:text-zinc-300 shadow-sm">ESC</kbd> Close</span>
+      <div class="hidden sm:flex items-center justify-center gap-4 mt-2 text-[10px] font-mono text-zinc-500 dark:text-zinc-500 transition-colors duration-700">
+        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-white/40 dark:border-zinc-700/50 bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md font-sans font-semibold text-zinc-600 dark:text-zinc-300 shadow-sm transition-colors duration-700">CTRL+K</kbd> Command Palette</span>
+        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-white/40 dark:border-zinc-700/50 bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md font-sans font-semibold text-zinc-600 dark:text-zinc-300 shadow-sm transition-colors duration-700">~</kbd> Terminal</span>
+        <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded border border-white/40 dark:border-zinc-700/50 bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md font-sans font-semibold text-zinc-600 dark:text-zinc-300 shadow-sm transition-colors duration-700">ESC</kbd> Close</span>
       </div>
     </footer>
 
@@ -844,22 +782,32 @@
     lucide.createIcons();
     document.getElementById('year-display').textContent = new Date().getFullYear();
 
-    // TECH STACK MARQUEE LOGIC (AUTO-SCROLL + DRAG/SWIPE MANUAL)
+    // TECH STACK MARQUEE LOGIC (AUTO-SCROLL + DRAG/SWIPE MANUAL + CLICK TO COLOR)
     const techTrack = document.getElementById('tech-track');
-    const techContent1 = document.getElementById('tech-content-1');
-    let scrollPos = 0;
+    const techGroup1 = document.getElementById('tech-group-1');
     let isTechHovered = false;
+    let techScrollPos = 0;
     let isDown = false;
     let startX;
     let scrollLeft;
+    let hasDragged = false; // Untuk mencegah click saat drag
 
     function scrollTech() {
       if (!isTechHovered && !isDown) {
-        scrollPos += 0.5; // Kecepatan auto-scroll (makin besar makin ngebut)
-        if (scrollPos >= techContent1.offsetWidth) {
-          scrollPos = 0;
+        techScrollPos += 0.5; // Kecepatan auto-scroll
+        if (techScrollPos >= techGroup1.offsetWidth) {
+          techScrollPos = 0;
         }
-        techTrack.scrollLeft = scrollPos;
+        techTrack.scrollLeft = techScrollPos;
+      } else {
+        techScrollPos = techTrack.scrollLeft;
+        if (techScrollPos >= techGroup1.offsetWidth) {
+          techTrack.scrollLeft = techScrollPos - techGroup1.offsetWidth;
+          techScrollPos = techTrack.scrollLeft;
+        } else if (techScrollPos <= 0) {
+          techTrack.scrollLeft = techGroup1.offsetWidth;
+          techScrollPos = techTrack.scrollLeft;
+        }
       }
       requestAnimationFrame(scrollTech);
     }
@@ -873,48 +821,157 @@
       techTrack.classList.add('cursor-grab');
     });
 
-    // Touch/Swipe Mobile Support
     techTrack.addEventListener('touchstart', () => isTechHovered = true, {passive: true});
     techTrack.addEventListener('touchend', () => {
       setTimeout(() => isTechHovered = false, 1000); 
     }, {passive: true});
 
-    // Mouse Drag/Swipe Desktop Support
     techTrack.addEventListener('mousedown', (e) => {
       isTechHovered = true;
       isDown = true;
+      hasDragged = false;
       techTrack.classList.add('cursor-grabbing');
       techTrack.classList.remove('cursor-grab');
       startX = e.pageX - techTrack.offsetLeft;
       scrollLeft = techTrack.scrollLeft;
     });
-    
     techTrack.addEventListener('mouseup', () => {
       isDown = false;
       techTrack.classList.remove('cursor-grabbing');
       techTrack.classList.add('cursor-grab');
       setTimeout(() => isTechHovered = false, 1000);
     });
-    
     techTrack.addEventListener('mousemove', (e) => {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - techTrack.offsetLeft;
       const walk = (x - startX) * 2; 
+      if (Math.abs(walk) > 5) hasDragged = true; // Tandai kalau beneran di-drag, bukan diklik
       techTrack.scrollLeft = scrollLeft - walk;
     });
 
-    // Sinkronisasi posisi kalau user scroll manual pakai trackpad
-    techTrack.addEventListener('scroll', () => {
-      if (!isDown) {
-        scrollPos = techTrack.scrollLeft;
-        // Bikin putaran infinity mulus kalau ditarik
-        if (scrollPos >= techContent1.offsetWidth) {
-          techTrack.scrollLeft = scrollPos - techContent1.offsetWidth;
-          scrollPos = techTrack.scrollLeft;
-        }
+    // FUNGSI CLICK TO COLOR LOGO TECH STACK
+    function activateTech(el) {
+      if (hasDragged) return; // Batalin kalau user ternyata lagi geser
+      playClick();
+
+      // Reset semua logo ke grayscale
+      document.querySelectorAll('.tech-item').forEach(item => {
+        const icon = item.querySelector('.tech-icon');
+        const text = item.querySelector('.tech-text');
+        
+        icon.classList.add('grayscale', 'opacity-40');
+        icon.classList.remove('scale-125', 'opacity-100');
+        icon.style.filter = '';
+        
+        text.style.color = '';
+        text.classList.add('text-zinc-500', 'dark:text-zinc-500');
+      });
+
+      // Aktifin logo yang diklik (Pop scale, hapus abu-abu, kasih warna)
+      const clickedIcon = el.querySelector('.tech-icon');
+      const clickedText = el.querySelector('.tech-text');
+      const hexColor = el.getAttribute('data-color');
+      
+      // Khusus buat Github/Vercel yang invert di dark mode
+      if (el.classList.contains('flex-vercel') || el.classList.contains('flex-github')) {
+        const isDark = document.documentElement.classList.contains('dark');
+        clickedText.style.color = isDark ? '#FFFFFF' : '#000000';
+      } else {
+        clickedText.style.color = hexColor;
       }
-    }, {passive: true});
+      
+      clickedText.classList.remove('text-zinc-500', 'dark:text-zinc-500');
+      clickedIcon.classList.remove('grayscale', 'opacity-40');
+      clickedIcon.classList.add('scale-125', 'opacity-100');
+    }
+
+    // IOS SMOOTH THEME TOGGLE & ICONS
+    function toggleTheme() {
+      playClick();
+      const icon = document.getElementById('theme-icon');
+      
+      // Animasi muter & mengecil kaya iOS
+      icon.style.transform = 'scale(0.5) rotate(90deg)';
+      icon.style.opacity = '0';
+      
+      setTimeout(() => {
+        const html = document.documentElement;
+        const isDark = html.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        
+        if (isDark) icon.setAttribute('data-lucide', 'moon');
+        else icon.setAttribute('data-lucide', 'sun');
+        lucide.createIcons();
+        
+        // Kembalikan ke warna github/vercel yg aktif kalau ada
+        document.documentElement.style.setProperty('--icon-contrast', isDark ? '#FFF' : '#000');
+        
+        icon.style.transform = 'scale(1) rotate(0deg)';
+        icon.style.opacity = '1';
+      }, 250); // Eksekusi persis di tengah-tengah animasi
+    }
+
+    function toggleLanguage() {
+      playClick();
+      currentLang = currentLang === 'en' ? 'id' : 'en';
+      const langText = document.getElementById('lang-text');
+      const langIcon = document.getElementById('lang-icon');
+
+      langIcon.style.transform = 'scale(0.5)';
+      langIcon.style.opacity = '0';
+
+      setTimeout(() => {
+        if (currentLang === 'en') {
+          langText.innerHTML = '<span class="font-bold text-orange-700 dark:text-orange-400 transition-colors duration-500">EN</span> <span class="text-zinc-500 dark:text-zinc-400 transition-colors duration-500">| ID</span>';
+        } else {
+          langText.innerHTML = '<span class="text-zinc-500 dark:text-zinc-400 transition-colors duration-500">EN |</span> <span class="font-bold text-orange-700 dark:text-orange-400 transition-colors duration-500">ID</span>';
+        }
+        document.querySelectorAll('.lang-en').forEach(el => currentLang === 'en' ? el.classList.remove('hidden') : el.classList.add('hidden'));
+        document.querySelectorAll('.lang-id').forEach(el => currentLang === 'id' ? el.classList.remove('hidden') : el.classList.add('hidden'));
+        
+        langIcon.style.transform = 'scale(1)';
+        langIcon.style.opacity = '1';
+      }, 250);
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      if (soundEnabled) initAudio();
+      
+      const soundText = document.getElementById('sound-text');
+      const soundIcon = document.getElementById('sound-icon');
+      
+      soundIcon.style.transform = 'scale(0.5)';
+      soundIcon.style.opacity = '0';
+
+      setTimeout(() => {
+        if (soundEnabled) {
+          soundText.textContent = 'SOUND FX: ON';
+          soundText.className = 'text-[11px] text-orange-700 dark:text-orange-400 font-semibold hidden sm:inline transition-colors duration-500';
+          soundIcon.setAttribute('data-lucide', 'volume-2');
+          soundIcon.className = 'absolute inset-0 text-orange-600 dark:text-orange-400 animate-pulse icon-transition transition-colors duration-500';
+          playChime();
+        } else {
+          soundText.textContent = 'SOUND: OFF';
+          soundText.className = 'text-[11px] text-zinc-500 dark:text-zinc-400 font-medium hidden sm:inline transition-colors duration-500';
+          soundIcon.setAttribute('data-lucide', 'volume-x');
+          soundIcon.className = 'absolute inset-0 text-zinc-400 dark:text-zinc-500 icon-transition transition-colors duration-500';
+        }
+        lucide.createIcons();
+        soundIcon.style.transform = 'scale(1)';
+        soundIcon.style.opacity = '1';
+      }, 250);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      const icon = document.getElementById('theme-icon');
+      document.documentElement.style.setProperty('--icon-contrast', isDark ? '#FFF' : '#000');
+      if (isDark) icon.setAttribute('data-lucide', 'moon');
+      else icon.setAttribute('data-lucide', 'sun');
+      lucide.createIcons();
+    });
 
     // MISS YOU TAB TITLE EFFECT
     let originalTitle = document.title;
@@ -926,7 +983,7 @@
       }
     });
 
-    // SPOTLIGHT HOVER EFFECT LOGIC 
+    // SPOTLIGHT HOVER EFFECT LOGIC (OPTIMIZED WITH REQUESTANIMATIONFRAME)
     let isSpotlightTicking = false;
     document.querySelectorAll('.spotlight-card').forEach(card => {
       card.addEventListener('mousemove', e => {
@@ -1000,25 +1057,7 @@
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
     }
-    function toggleSound() {
-      soundEnabled = !soundEnabled;
-      if (soundEnabled) initAudio();
-      const soundText = document.getElementById('sound-text');
-      const soundIcon = document.getElementById('sound-icon');
-      if (soundEnabled) {
-        soundText.textContent = 'SOUND FX: ON';
-        soundText.className = 'text-[11px] text-orange-700 dark:text-orange-400 font-semibold hidden sm:inline';
-        soundIcon.setAttribute('data-lucide', 'volume-2');
-        soundIcon.className = 'w-3.5 h-3.5 text-orange-600 dark:text-orange-400 animate-pulse';
-        playChime();
-      } else {
-        soundText.textContent = 'SOUND: OFF';
-        soundText.className = 'text-[11px] text-zinc-500 dark:text-zinc-400 font-medium hidden sm:inline';
-        soundIcon.setAttribute('data-lucide', 'volume-x');
-        soundIcon.className = 'w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500';
-      }
-      lucide.createIcons();
-    }
+    
     function playClick() {
       if (!soundEnabled || !audioCtx) return;
       try {
@@ -1035,6 +1074,7 @@
         osc.stop(audioCtx.currentTime + 0.05);
       } catch(e) {}
     }
+    
     function playChime() {
       if (!soundEnabled || !audioCtx) return;
       try {
@@ -1103,11 +1143,21 @@
       } else {
         navigator.clipboard.writeText(window.location.href);
         const shareIcon = document.getElementById('share-icon');
-        shareIcon.setAttribute('data-lucide', 'check');
-        lucide.createIcons();
+        
+        shareIcon.style.transform = 'scale(0)';
         setTimeout(() => {
-          shareIcon.setAttribute('data-lucide', 'share-2');
+          shareIcon.setAttribute('data-lucide', 'check');
           lucide.createIcons();
+          shareIcon.style.transform = 'scale(1)';
+        }, 200);
+
+        setTimeout(() => {
+          shareIcon.style.transform = 'scale(0)';
+          setTimeout(() => {
+            shareIcon.setAttribute('data-lucide', 'share-2');
+            lucide.createIcons();
+            shareIcon.style.transform = 'scale(1)';
+          }, 200);
         }, 2000);
       }
     }
@@ -1117,11 +1167,24 @@
       playChime();
       const defaultEl = document.getElementById('copy-default');
       const successEl = document.getElementById('copy-success');
-      defaultEl.classList.add('hidden');
-      successEl.classList.remove('hidden');
+      
+      defaultEl.style.opacity = '0';
       setTimeout(() => {
-        successEl.classList.add('hidden');
-        defaultEl.classList.remove('hidden');
+        defaultEl.classList.add('hidden');
+        successEl.classList.remove('hidden');
+        successEl.style.opacity = '0';
+        void successEl.offsetWidth;
+        successEl.style.opacity = '1';
+        successEl.style.transition = 'opacity 0.3s ease';
+      }, 200);
+
+      setTimeout(() => {
+        successEl.style.opacity = '0';
+        setTimeout(() => {
+          successEl.classList.add('hidden');
+          defaultEl.classList.remove('hidden');
+          defaultEl.style.opacity = '1';
+        }, 200);
       }, 2200);
     }
 
@@ -1129,16 +1192,28 @@
       playClick();
       const buttons = document.querySelectorAll('.filter-btn');
       buttons.forEach(btn => {
-        btn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none';
+        btn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none active:scale-95';
       });
       const activeBtn = document.getElementById('filter-' + category);
       if (activeBtn) {
-        activeBtn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200/80 dark:border-orange-500/30 shadow-xs cursor-none';
+        activeBtn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200/80 dark:border-orange-500/30 shadow-xs cursor-none active:scale-95';
       }
+      
+      // Tambah efek fade out -> in saat filter
       const items = document.querySelectorAll('.link-item');
       items.forEach(item => {
-        if (category === 'all' || item.getAttribute('data-category') === category) item.style.display = 'flex';
-        else item.style.display = 'none';
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(10px)';
+        setTimeout(() => {
+          if (category === 'all' || item.getAttribute('data-category') === category) {
+            item.style.display = 'flex';
+            void item.offsetWidth;
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+          } else {
+            item.style.display = 'none';
+          }
+        }, 300);
       });
     }
 
@@ -1148,67 +1223,22 @@
       isPdfExpanded = !isPdfExpanded;
       const wrapper = document.getElementById('pdf-frame-wrapper');
       const icon = document.getElementById('pdf-size-icon');
-      if (isPdfExpanded) {
-        wrapper.className = 'relative w-full aspect-[4/5] sm:aspect-[16/12] bg-white/50 dark:bg-[#09090b]/80 rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700/50 shadow-inner transition-all duration-300';
-        icon.setAttribute('data-lucide', 'minimize-2');
-      } else {
-        wrapper.className = 'relative w-full aspect-[4/3] sm:aspect-[16/10] bg-white/50 dark:bg-[#09090b]/80 rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700/50 shadow-inner transition-all duration-300';
-        icon.setAttribute('data-lucide', 'maximize-2');
-      }
-      lucide.createIcons();
-    }
+      
+      icon.style.transform = 'scale(0.5) rotate(-90deg)';
+      icon.style.opacity = '0';
 
-    let currentLang = 'en';
-    function toggleLanguage() {
-      playClick();
-      currentLang = currentLang === 'en' ? 'id' : 'en';
-      const langText = document.getElementById('lang-text');
-      if (currentLang === 'en') {
-        langText.innerHTML = '<span class="font-bold text-orange-700 dark:text-orange-400">EN</span> <span class="text-zinc-500 dark:text-zinc-400">| ID</span>';
-      } else {
-        langText.innerHTML = '<span class="text-zinc-500 dark:text-zinc-400">EN |</span> <span class="font-bold text-orange-700 dark:text-orange-400">ID</span>';
-      }
-      document.querySelectorAll('.lang-en').forEach(el => currentLang === 'en' ? el.classList.remove('hidden') : el.classList.add('hidden'));
-      document.querySelectorAll('.lang-id').forEach(el => currentLang === 'id' ? el.classList.remove('hidden') : el.classList.add('hidden'));
-    }
-
-    function toggleTheme() {
-      playClick();
-      const html = document.documentElement;
-      const isDark = html.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      updateThemeIcon(isDark);
-    }
-    function updateThemeIcon(isDark) {
-      const icon = document.getElementById('theme-icon');
-      if (isDark) icon.setAttribute('data-lucide', 'moon');
-      else icon.setAttribute('data-lucide', 'sun');
-      lucide.createIcons();
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      updateThemeIcon(isDark);
-    });
-
-    const qrModal = document.getElementById('qr-modal');
-    const qrContent = document.getElementById('qr-modal-content');
-    let isQrOpen = false;
-
-    function openQrModal() {
-      playClick();
-      isQrOpen = true;
-      qrModal.classList.remove('hidden');
-      void qrModal.offsetWidth;
-      qrModal.classList.replace('opacity-0', 'opacity-100');
-      qrContent.classList.replace('scale-95', 'scale-100');
-    }
-
-    function closeQrModal() {
-      playClick();
-      isQrOpen = false;
-      qrModal.classList.replace('opacity-100', 'opacity-0');
-      qrContent.classList.replace('scale-100', 'scale-95');
-      setTimeout(() => qrModal.classList.add('hidden'), 200);
+      setTimeout(() => {
+        if (isPdfExpanded) {
+          wrapper.className = 'relative w-full aspect-[4/5] sm:aspect-[16/12] bg-white/50 dark:bg-[#09090b]/80 rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700/50 shadow-inner transition-all duration-500 ease-in-out cursor-auto';
+          icon.setAttribute('data-lucide', 'minimize-2');
+        } else {
+          wrapper.className = 'relative w-full aspect-[4/3] sm:aspect-[16/10] bg-white/50 dark:bg-[#09090b]/80 rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700/50 shadow-inner transition-all duration-500 ease-in-out cursor-auto';
+          icon.setAttribute('data-lucide', 'maximize-2');
+        }
+        lucide.createIcons();
+        icon.style.transform = 'scale(1) rotate(0deg)';
+        icon.style.opacity = '1';
+      }, 250);
     }
 
     // CUSTOM MAGNETIC CURSOR
@@ -1228,13 +1258,13 @@
         }
       });
       document.addEventListener('mouseover', (e) => {
-        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd, #tech-track')) {
+        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd, #tech-track, .tech-item')) {
           cursor.classList.add('w-12', 'h-12', 'bg-orange-500/40');
           cursor.classList.remove('w-4', 'h-4', 'bg-orange-500/80');
         }
       });
       document.addEventListener('mouseout', (e) => {
-        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd, #tech-track')) {
+        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd, #tech-track, .tech-item')) {
           cursor.classList.add('w-4', 'h-4', 'bg-orange-500/80');
           cursor.classList.remove('w-12', 'h-12', 'bg-orange-500/40');
         }
@@ -1294,7 +1324,7 @@
       isCmdOpen = false;
       cmdPalette.classList.replace('opacity-100', 'opacity-0');
       cmdModal.classList.replace('scale-100', 'scale-95');
-      setTimeout(() => cmdPalette.classList.add('hidden'), 200);
+      setTimeout(() => cmdPalette.classList.add('hidden'), 300);
     }
 
     cmdInput.addEventListener('input', (e) => filterCmd(e.target.value.toLowerCase()));
