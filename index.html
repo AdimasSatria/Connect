@@ -55,6 +55,13 @@
     ::-webkit-scrollbar-thumb { background-color: rgba(249, 115, 22, 0.4); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background-color: rgba(249, 115, 22, 0.8); }
 
+    /* HIDE NATIVE SCROLLBAR FOR MARQUEE */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Fix JS Scroll Jitter */
+    #tech-track { scroll-behavior: auto; }
+
     /* LIQUID BLOBS LIGHTWEIGHT */
     @keyframes blob {
       0% { transform: translate(0px, 0px) scale(1); }
@@ -86,24 +93,11 @@
     .spotlight-card:hover::before { opacity: 1; }
     .spotlight-content { position: relative; z-index: 10; }
 
-    /* INFINITE MARQUEE SCROLL */
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .animate-scroll {
-      animation: scroll 20s linear infinite;
-      will-change: transform;
-    }
-    .animate-scroll:hover {
-      animation-play-state: paused;
-    }
     .mask-edges {
-      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
 
-    /* BOOT-UP ANIMATION */
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(15px); }
       100% { opacity: 1; transform: translateY(0); }
@@ -252,7 +246,7 @@
 
   <main class="w-full max-w-2xl flex flex-col space-y-7 sm:space-y-8 relative z-10 preserve-3d">
 
-    <!-- 1. Profile Card -->
+    <!-- 1. Profile Card Optimized -->
     <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.2s;">
       <div id="tilt-card" class="spotlight-card relative bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/30 rounded-3xl p-6 sm:p-8 shadow-sm overflow-hidden transition-all duration-300 ease-out will-change-transform transform-gpu">
         
@@ -345,7 +339,7 @@
       </div>
     </section>
 
-    <!-- 2. Links Section -->
+    <!-- 2. Links Section Optimized -->
     <section class="space-y-3 opacity-0 animate-fade-in-up" style="animation-delay: 0.3s;">
       <div class="flex items-center justify-between px-2">
         <div class="flex items-center space-x-2">
@@ -401,7 +395,7 @@
           <div class="spotlight-content w-full flex items-center justify-between">
             <div class="flex items-center space-x-4 min-w-0">
               <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors shrink-0 flex items-center justify-center">
-                <svg class="w-5 h-5 text-zinc-900 dark:text-white" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/></svg>
+                <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5 opacity-90 dark:invert group-hover:opacity-100 transition-opacity duration-300">
               </div>
               <div class="min-w-0">
                 <div class="flex items-center space-x-2">
@@ -605,87 +599,135 @@
         </h2>
       </div>
       
-      <div class="relative w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/30 rounded-3xl py-4 overflow-hidden flex items-center shadow-sm mask-edges cursor-none">
-        
-        <!-- Scrolling Track -->
-        <div class="flex w-max animate-scroll">
+      <div class="relative w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/30 rounded-3xl py-4 overflow-hidden shadow-sm mask-edges cursor-none">
+        <!-- Interactive Track (Auto-scrolls, but allows drag/swipe) -->
+        <div id="tech-track" class="flex w-full overflow-x-auto no-scrollbar items-center cursor-grab active:cursor-grabbing select-none" style="-webkit-overflow-scrolling: touch;">
+          
           <!-- GROUP 1 -->
-          <div class="flex items-center space-x-10 sm:space-x-16 px-5 sm:px-8">
-            <div class="group flex items-center space-x-2.5">
+          <div id="tech-group-1" class="flex items-center gap-10 sm:gap-14 shrink-0 pr-10 sm:pr-14 pl-5 sm:pl-7">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/c" alt="C" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
               <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">C</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/cplusplus" alt="C++" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#00599C] dark:group-hover:text-[#00599C] transition-colors">C++</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#00599C] transition-colors">C++</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/python" alt="Python" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3776AB] dark:group-hover:text-[#3776AB] transition-colors">Python</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3776AB] transition-colors">Python</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/java" alt="Java" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#ED8B00] transition-colors">Java</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/typescript" alt="TypeScript" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3178C6] transition-colors">TypeScript</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/mysql" alt="MySQL" class="w-6 h-6 sm:w-7 sm:h-7 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#4479A1] dark:group-hover:text-[#4479A1] transition-colors">MySQL</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#4479A1] transition-colors">MySQL</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#06B6D4] dark:group-hover:text-[#06B6D4] transition-colors">Tailwind</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#06B6D4] transition-colors">Tailwind</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
-              <img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 dark:invert group-hover:dark:invert-0 transition-all duration-300">
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 dark:invert transition-all duration-300">
               <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">Vercel</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
-              <img src="https://cdn.simpleicons.org/git" alt="Git" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#F05032] dark:group-hover:text-[#F05032] transition-colors">Git</span>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 dark:invert transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">GitHub</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/figma" alt="Figma" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#F24E1E] dark:group-hover:text-[#F24E1E] transition-colors">Figma</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#F24E1E] transition-colors">Figma</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/adobeillustrator" alt="Illustrator" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#FF9A00] transition-colors">Ai</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/adobephotoshop" alt="Photoshop" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#31A8FF] transition-colors">Ps</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/adobelightroom" alt="Lightroom" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#31A8FF] transition-colors">Lr</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/adobeaftereffects" alt="After Effects" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#9999FF] transition-colors">Ae</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/adobepremierepro" alt="Premiere Pro" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#9999FF] dark:group-hover:text-[#9999FF] transition-colors">Premiere</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#9999FF] transition-colors">Pr</span>
             </div>
           </div>
           
-          <!-- GROUP 2 (DUPLICATE EXACTLY TO CREATE SEAMLESS LOOP) -->
-          <div class="flex items-center space-x-10 sm:space-x-16 px-5 sm:px-8">
-            <div class="group flex items-center space-x-2.5">
+          <!-- GROUP 2 (DUPLICATE FOR SEAMLESS LOOP) -->
+          <div id="tech-group-2" class="flex items-center gap-10 sm:gap-14 shrink-0 pr-10 sm:pr-14">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/c" alt="C" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
               <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">C</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/cplusplus" alt="C++" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#00599C] dark:group-hover:text-[#00599C] transition-colors">C++</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#00599C] transition-colors">C++</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/python" alt="Python" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3776AB] dark:group-hover:text-[#3776AB] transition-colors">Python</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3776AB] transition-colors">Python</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/java" alt="Java" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#ED8B00] transition-colors">Java</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/typescript" alt="TypeScript" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#3178C6] transition-colors">TypeScript</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/mysql" alt="MySQL" class="w-6 h-6 sm:w-7 sm:h-7 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#4479A1] dark:group-hover:text-[#4479A1] transition-colors">MySQL</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#4479A1] transition-colors">MySQL</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#06B6D4] dark:group-hover:text-[#06B6D4] transition-colors">Tailwind</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#06B6D4] transition-colors">Tailwind</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
-              <img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 dark:invert group-hover:dark:invert-0 transition-all duration-300">
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 dark:invert transition-all duration-300">
               <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">Vercel</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
-              <img src="https://cdn.simpleicons.org/git" alt="Git" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#F05032] dark:group-hover:text-[#F05032] transition-colors">Git</span>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 dark:invert transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">GitHub</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/figma" alt="Figma" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#F24E1E] dark:group-hover:text-[#F24E1E] transition-colors">Figma</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#F24E1E] transition-colors">Figma</span>
             </div>
-            <div class="group flex items-center space-x-2.5">
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/adobeillustrator" alt="Illustrator" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#FF9A00] transition-colors">Ai</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/adobephotoshop" alt="Photoshop" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#31A8FF] transition-colors">Ps</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/adobelightroom" alt="Lightroom" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#31A8FF] transition-colors">Lr</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
+              <img src="https://cdn.simpleicons.org/adobeaftereffects" alt="After Effects" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#9999FF] transition-colors">Ae</span>
+            </div>
+            <div class="group flex items-center space-x-2.5 shrink-0">
               <img src="https://cdn.simpleicons.org/adobepremierepro" alt="Premiere Pro" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#9999FF] dark:group-hover:text-[#9999FF] transition-colors">Premiere</span>
+              <span class="text-sm font-bold text-zinc-500 dark:text-zinc-400 group-hover:text-[#9999FF] transition-colors">Pr</span>
             </div>
           </div>
         </div>
@@ -693,7 +735,7 @@
     </section>
 
     <!-- 5. Portfolio Document -->
-    <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.5s;">
+    <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.45s;">
       <div class="spotlight-card relative bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 rounded-3xl p-5 sm:p-7 shadow-sm transition-colors duration-500">
         <div class="spotlight-content space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-zinc-200/80 dark:border-zinc-700/50 transition-colors duration-500">
@@ -771,6 +813,76 @@
     lucide.createIcons();
     document.getElementById('year-display').textContent = new Date().getFullYear();
 
+    // TECH STACK MARQUEE LOGIC (AUTO-SCROLL + DRAG/SWIPE MANUAL)
+    const techTrack = document.getElementById('tech-track');
+    const techGroup1 = document.getElementById('tech-group-1');
+    let isTechHovered = false;
+    let techScrollPos = 0;
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    function scrollTech() {
+      if (!isTechHovered && !isDown) {
+        techScrollPos += 0.5; // Kecepatan auto-scroll
+        if (techScrollPos >= techGroup1.offsetWidth) {
+          techScrollPos = 0;
+        }
+        techTrack.scrollLeft = techScrollPos;
+      } else {
+        // Sync posisi saat user lagi scroll manual
+        techScrollPos = techTrack.scrollLeft;
+        // Logic loop manual supaya gak mentok
+        if (techScrollPos >= techGroup1.offsetWidth) {
+          techTrack.scrollLeft = techScrollPos - techGroup1.offsetWidth;
+          techScrollPos = techTrack.scrollLeft;
+        } else if (techScrollPos <= 0) {
+          techTrack.scrollLeft = techGroup1.offsetWidth;
+          techScrollPos = techTrack.scrollLeft;
+        }
+      }
+      requestAnimationFrame(scrollTech);
+    }
+    requestAnimationFrame(scrollTech);
+
+    // Pause on Hover
+    techTrack.addEventListener('mouseenter', () => isTechHovered = true);
+    techTrack.addEventListener('mouseleave', () => {
+      isDown = false; 
+      isTechHovered = false;
+      techTrack.classList.remove('cursor-grabbing');
+      techTrack.classList.add('cursor-grab');
+    });
+
+    // Touch/Swipe Mobile Support
+    techTrack.addEventListener('touchstart', () => isTechHovered = true, {passive: true});
+    techTrack.addEventListener('touchend', () => {
+      setTimeout(() => isTechHovered = false, 1000); // Kasih jeda biar scroll inersia native selesai
+    }, {passive: true});
+
+    // Mouse Drag/Swipe Desktop Support
+    techTrack.addEventListener('mousedown', (e) => {
+      isTechHovered = true;
+      isDown = true;
+      techTrack.classList.add('cursor-grabbing');
+      techTrack.classList.remove('cursor-grab');
+      startX = e.pageX - techTrack.offsetLeft;
+      scrollLeft = techTrack.scrollLeft;
+    });
+    techTrack.addEventListener('mouseup', () => {
+      isDown = false;
+      techTrack.classList.remove('cursor-grabbing');
+      techTrack.classList.add('cursor-grab');
+      setTimeout(() => isTechHovered = false, 1000);
+    });
+    techTrack.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - techTrack.offsetLeft;
+      const walk = (x - startX) * 2; // kecepatan drag geser
+      techTrack.scrollLeft = scrollLeft - walk;
+    });
+
     // MISS YOU TAB TITLE EFFECT
     let originalTitle = document.title;
     window.addEventListener('visibilitychange', () => {
@@ -781,7 +893,7 @@
       }
     });
 
-    // SPOTLIGHT HOVER EFFECT LOGIC (OPTIMIZED WITH REQUESTANIMATIONFRAME)
+    // SPOTLIGHT HOVER EFFECT LOGIC
     let isSpotlightTicking = false;
     document.querySelectorAll('.spotlight-card').forEach(card => {
       card.addEventListener('mousemove', e => {
@@ -1066,7 +1178,7 @@
       setTimeout(() => qrModal.classList.add('hidden'), 200);
     }
 
-    // CUSTOM MAGNETIC CURSOR (OPTIMIZED WITH REQUESTANIMATIONFRAME)
+    // CUSTOM MAGNETIC CURSOR
     if (window.matchMedia("(pointer: fine)").matches) {
       const cursor = document.getElementById('custom-cursor');
       let isCursorTicking = false;
@@ -1083,20 +1195,20 @@
         }
       });
       document.addEventListener('mouseover', (e) => {
-        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd')) {
+        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd, #tech-track')) {
           cursor.classList.add('w-12', 'h-12', 'bg-orange-500/40');
           cursor.classList.remove('w-4', 'h-4', 'bg-orange-500/80');
         }
       });
       document.addEventListener('mouseout', (e) => {
-        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd')) {
+        if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd, #tech-track')) {
           cursor.classList.add('w-4', 'h-4', 'bg-orange-500/80');
           cursor.classList.remove('w-12', 'h-12', 'bg-orange-500/40');
         }
       });
     }
 
-    // 3D HOVER TILT (OPTIMIZED WITH REQUESTANIMATIONFRAME)
+    // 3D HOVER TILT
     if (window.matchMedia("(pointer: fine)").matches) {
       const tiltCard = document.getElementById('tilt-card');
       const glare = document.getElementById('tilt-glare');
