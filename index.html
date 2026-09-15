@@ -97,6 +97,30 @@
       mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
 
+    /* TECH STACK CLICK-TO-COLOR SAFE STYLES */
+    .tech-icon {
+      filter: grayscale(100%);
+      opacity: 0.4;
+      transform: scale(1);
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .tech-item.active .tech-icon {
+      filter: grayscale(0%);
+      opacity: 1;
+      transform: scale(1.15); /* Pop up halus, ga merusak layout */
+    }
+    html.dark .icon-invertible {
+      filter: invert(1) grayscale(100%);
+    }
+    html.dark .tech-item.active .icon-invertible {
+      filter: invert(1) grayscale(0%);
+    }
+    .tech-text {
+      color: #71717a; /* text-zinc-500 */
+      transition: color 0.4s ease;
+    }
+
+    /* BOOT-UP */
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
@@ -159,50 +183,38 @@
         <span class="text-[10px] font-mono bg-stone-100 dark:bg-zinc-800 text-zinc-500 px-1.5 py-0.5 rounded border border-stone-200 dark:border-zinc-700 transition-colors duration-500">ESC</span>
       </div>
       <ul id="cmd-list" class="max-h-64 overflow-y-auto py-2">
-        <!-- List Items Omitted for brevity, fully included below -->
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="toggleTheme">
-          <i data-lucide="moon" class="w-4 h-4"></i><span>Toggle Dark/Light Mode</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="copyEmail">
-          <i data-lucide="mail" class="w-4 h-4"></i><span>Copy Email Address</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openQrModal">
-          <i data-lucide="qr-code" class="w-4 h-4"></i><span>Show IRL QR Code</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="toggleSound">
-          <i data-lucide="volume-2" class="w-4 h-4"></i><span>Toggle Sound Effects</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openLinkedIn">
-          <i data-lucide="linkedin" class="w-4 h-4"></i><span>Open LinkedIn Profile</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openGithub">
-          <i data-lucide="github" class="w-4 h-4"></i><span>Open GitHub Profile</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openPhotobooth">
-          <i data-lucide="camera" class="w-4 h-4"></i><span>Open Photobooth App</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openTaskTracker">
-          <i data-lucide="check-square" class="w-4 h-4"></i><span>Open Task Tracker</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openInstagram">
-          <i data-lucide="instagram" class="w-4 h-4"></i><span>Open Instagram Account</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openSpotify">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.394-.751.522-1.146.282-3.139-1.912-7.09-2.341-11.747-1.282-.465.104-.928-.184-1.032-.649-.104-.465.184-.928.649-1.032 5.09-1.156 9.46-.662 13.003 1.503.394.24.522.751.282 1.146zm1.449-3.237c-.302.493-.943.655-1.436.353-3.585-2.203-9.066-2.827-12.92-1.545-.562.187-1.16-.118-1.347-.68-.187-.562.118-1.16.68-1.347 4.409-1.464 10.457-.768 14.67 1.821.493.302.655.943.353 1.436zm.106-3.39C15.021 8.28 8.71 8.067 5.074 9.171c-.682.207-1.402-.178-1.609-.86-.207-.682.178-1.402.86-1.609 4.225-1.284 11.233-1.035 15.932 1.758.608.361.808 1.148.447 1.756-.361.608-1.148.808-1.756.447z"/></svg>
-          <span>Open Spotify Playlist</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openLetterboxd">
-          <i data-lucide="film" class="w-4 h-4"></i><span>Open Letterboxd Movies</span>
-        </li>
-        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openPDF">
-          <i data-lucide="file-text" class="w-4 h-4"></i><span>View Portfolio PDF in Drive</span>
-        </li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="toggleTheme"><i data-lucide="moon" class="w-4 h-4"></i><span>Toggle Dark/Light Mode</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="copyEmail"><i data-lucide="mail" class="w-4 h-4"></i><span>Copy Email Address</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openQrModal"><i data-lucide="qr-code" class="w-4 h-4"></i><span>Show IRL QR Code</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="toggleSound"><i data-lucide="volume-2" class="w-4 h-4"></i><span>Toggle Sound Effects</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openLinkedIn"><i data-lucide="linkedin" class="w-4 h-4"></i><span>Open LinkedIn Profile</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openGithub"><i data-lucide="github" class="w-4 h-4"></i><span>Open GitHub Profile</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openPhotobooth"><i data-lucide="camera" class="w-4 h-4"></i><span>Open Photobooth App</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openTaskTracker"><i data-lucide="check-square" class="w-4 h-4"></i><span>Open Task Tracker</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openInstagram"><i data-lucide="instagram" class="w-4 h-4"></i><span>Open Instagram Account</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openSpotify"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.394-.751.522-1.146.282-3.139-1.912-7.09-2.341-11.747-1.282-.465.104-.928-.184-1.032-.649-.104-.465.184-.928.649-1.032 5.09-1.156 9.46-.662 13.003 1.503.394.24.522.751.282 1.146zm1.449-3.237c-.302.493-.943.655-1.436.353-3.585-2.203-9.066-2.827-12.92-1.545-.562.187-1.16-.118-1.347-.68-.187-.562.118-1.16.68-1.347 4.409-1.464 10.457-.768 14.67 1.821.493.302.655.943.353 1.436zm.106-3.39C15.021 8.28 8.71 8.067 5.074 9.171c-.682.207-1.402-.178-1.609-.86-.207-.682.178-1.402.86-1.609 4.225-1.284 11.233-1.035 15.932 1.758.608.361.808 1.148.447 1.756-.361.608-1.148.808-1.756.447z"/></svg><span>Open Spotify Playlist</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openLetterboxd"><i data-lucide="film" class="w-4 h-4"></i><span>Open Letterboxd Movies</span></li>
+        <li class="cmd-item cursor-none px-4 py-2.5 text-sm text-zinc-600 dark:text-zinc-300 hover:bg-orange-50 dark:hover:bg-zinc-800/80 hover:text-orange-600 dark:hover:text-orange-400 flex items-center space-x-3 transition-colors duration-200" data-action="openPDF"><i data-lucide="file-text" class="w-4 h-4"></i><span>View Portfolio PDF in Drive</span></li>
       </ul>
     </div>
   </div>
 
-  <!-- Easter Egg Toast Alert -->
-  <div id="easter-egg-toast" class="fixed top-5 left-1/2 -translate-x-1/2 text-white px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-500 z-[99997] -translate-y-10 flex items-center space-x-2"></div>
+  <div id="terminal-overlay" class="fixed top-0 left-0 w-full h-[50vh] bg-black/95 border-b border-green-500/30 z-[99999] transform -translate-y-full transition-transform duration-300 font-mono text-green-500 text-xs sm:text-sm p-4 overflow-hidden shadow-2xl backdrop-blur-md flex flex-col">
+    <div class="flex items-center justify-between border-b border-green-900/50 pb-2 mb-2">
+      <span class="text-green-400/50">adimas@upn-jatim:~/terminal</span>
+      <button onclick="closeTerminal()" class="text-red-500 hover:text-red-400 uppercase text-[10px] cursor-none">Close [ESC]</button>
+    </div>
+    <div id="terminal-output" class="flex-1 overflow-y-auto space-y-1">
+      <div>> Connection established. Welcome to the backend.</div>
+      <div>> Type 'help' to see available commands.</div>
+    </div>
+    <div class="flex items-center mt-2 pt-2 border-t border-green-900/50">
+      <span class="mr-2 text-green-400">$</span>
+      <input type="text" id="terminal-input" class="w-full bg-transparent border-none outline-none text-green-400 caret-green-500 cursor-none" autocomplete="off" spellcheck="false" />
+    </div>
+  </div>
+
+  <div id="easter-egg-toast" class="fixed top-5 left-1/2 -translate-x-1/2 text-white px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-[99997] -translate-y-10 flex items-center space-x-2"></div>
 
   <!-- Header Panel with iOS Micro-interactions -->
   <header class="w-full max-w-2xl flex items-center justify-between px-2 mb-6 text-xs font-mono text-zinc-600 dark:text-zinc-400 opacity-0 animate-fade-in-up" style="animation-delay: 0.1s;">
@@ -337,7 +349,7 @@
       </div>
     </section>
 
-    <!-- 2. Links Section Optimized -->
+    <!-- 2. Links Section Optimized (Original SVGs Restored) -->
     <section class="space-y-3 opacity-0 animate-fade-in-up" style="animation-delay: 0.3s;">
       <div class="flex items-center justify-between px-2">
         <div class="flex items-center space-x-2">
@@ -388,12 +400,12 @@
           </div>
         </a>
 
-        <!-- GitHub -->
+        <!-- GitHub (Original Custom SVG Restored) -->
         <a href="https://github.com/AdimasSatria" target="_blank" rel="noopener noreferrer" data-category="career" onclick="playClick()" class="link-item spotlight-card group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/40 shadow-sm hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-600 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/70 transition-all duration-500 hover:-translate-y-0.5 cursor-none active:scale-[0.98]">
           <div class="spotlight-content w-full flex items-center justify-between">
             <div class="flex items-center space-x-4 min-w-0">
               <div class="p-3 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-white/80 dark:border-zinc-700/80 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors duration-500 shrink-0 flex items-center justify-center">
-                <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5 opacity-90 dark:invert group-hover:opacity-100 transition-all duration-500">
+                <svg class="w-5 h-5 text-zinc-900 dark:text-white transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/></svg>
               </div>
               <div class="min-w-0">
                 <div class="flex items-center space-x-2">
@@ -588,7 +600,7 @@
       </div>
     </section>
 
-    <!-- NEW: 4. Tech Stack Auto-Scrolling Marquee (Click to Color) -->
+    <!-- 4. Tech Stack Auto-Scrolling Marquee (Click to Color FIXED) -->
     <section class="opacity-0 animate-fade-in-up preserve-3d" style="animation-delay: 0.4s;">
       <div class="flex items-center space-x-2 mb-3 px-2">
         <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 mr-1 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md px-2 py-1 rounded-lg border border-white/50 dark:border-zinc-800/50 transition-colors duration-700">
@@ -599,106 +611,104 @@
       
       <div class="relative w-full bg-white/70 dark:bg-[#121214]/70 backdrop-blur-lg border border-white/50 dark:border-zinc-700/30 rounded-3xl py-5 overflow-hidden flex items-center shadow-sm mask-edges cursor-none transition-colors duration-700">
         
-        <!-- Interactive Track (Auto-scrolls, allows drag/swipe, click to pop color) -->
         <div id="tech-track" class="flex w-full overflow-x-auto no-scrollbar items-center cursor-grab active:cursor-grabbing select-none" style="-webkit-overflow-scrolling: touch;">
           
           <!-- GROUP 1 -->
           <div id="tech-group-1" class="flex items-center gap-10 sm:gap-14 shrink-0 pr-10 sm:pr-14 pl-5 sm:pl-7">
             <!-- C -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#A8B9CC" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/c" alt="C" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">C</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#A8B9CC" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/c" alt="C" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">C</span>
             </div>
             <!-- C++ -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#00599C" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/cplusplus" alt="C++" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">C++</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#00599C" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/cplusplus" alt="C++" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">C++</span>
             </div>
             <!-- Python -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#3776AB" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/python" alt="Python" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Python</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#3776AB" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/python" alt="Python" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Python</span>
             </div>
             <!-- Java -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#ED8B00" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/java" alt="Java" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Java</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#ED8B00" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/java" alt="Java" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Java</span>
             </div>
             <!-- TypeScript -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#3178C6" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/typescript" alt="TypeScript" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">TypeScript</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#3178C6" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/typescript" alt="TypeScript" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">TypeScript</span>
             </div>
             <!-- MySQL -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#4479A1" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/mysql" alt="MySQL" class="tech-icon w-6 h-6 sm:w-7 sm:h-7 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">MySQL</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#4479A1" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/mysql" alt="MySQL" class="tech-icon w-7 h-7 object-contain">
+              <span class="tech-text text-sm font-bold">MySQL</span>
             </div>
             <!-- Tailwind -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#06B6D4" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Tailwind</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#06B6D4" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Tailwind</span>
             </div>
             <!-- Vercel -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500 flex-vercel" data-color="var(--icon-contrast)" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale dark:invert transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Vercel</span>
+            <div class="tech-item invert-dark group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#000000" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="tech-icon icon-invertible w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Vercel</span>
             </div>
             <!-- GitHub -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500 flex-github" data-color="var(--icon-contrast)" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale dark:invert transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">GitHub</span>
+            <div class="tech-item invert-dark group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#000000" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="tech-icon icon-invertible w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">GitHub</span>
             </div>
             <!-- Figma -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#F24E1E" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/figma" alt="Figma" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Figma</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#F24E1E" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/figma" alt="Figma" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Figma</span>
             </div>
             <!-- Adobe Illustrator -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#FF9A00" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/adobeillustrator" alt="Illustrator" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ai</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#FF9A00" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobeillustrator" alt="Illustrator" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Illustrator</span>
             </div>
             <!-- Adobe Photoshop -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#31A8FF" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/adobephotoshop" alt="Photoshop" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ps</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#31A8FF" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobephotoshop" alt="Photoshop" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Photoshop</span>
             </div>
             <!-- Adobe Lightroom -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#31A8FF" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/adobelightroom" alt="Lightroom" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Lr</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#31A8FF" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobelightroom" alt="Lightroom" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Lightroom</span>
             </div>
             <!-- Adobe After Effects -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#9999FF" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/adobeaftereffects" alt="After Effects" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ae</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#9999FF" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobeaftereffects" alt="After Effects" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">After Effects</span>
             </div>
             <!-- Adobe Premiere Pro -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#9999FF" onclick="activateTech(this)">
-              <img src="https://cdn.simpleicons.org/adobepremierepro" alt="Premiere Pro" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500">
-              <span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Pr</span>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#9999FF" onclick="activateTech(this)">
+              <img src="https://cdn.simpleicons.org/adobepremierepro" alt="Premiere Pro" class="tech-icon w-6 h-6 object-contain">
+              <span class="tech-text text-sm font-bold">Premiere</span>
             </div>
           </div>
           
           <!-- GROUP 2 (DUPLICATE FOR SEAMLESS LOOP) -->
           <div id="tech-group-2" class="flex items-center gap-10 sm:gap-14 shrink-0 pr-10 sm:pr-14">
-            <!-- Exact duplicates for infinite scrolling effect -->
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#A8B9CC" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/c" alt="C" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">C</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#00599C" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/cplusplus" alt="C++" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">C++</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#3776AB" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/python" alt="Python" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Python</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#ED8B00" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/java" alt="Java" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Java</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#3178C6" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/typescript" alt="TypeScript" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">TypeScript</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#4479A1" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/mysql" alt="MySQL" class="tech-icon w-6 h-6 sm:w-7 sm:h-7 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">MySQL</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#06B6D4" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Tailwind</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500 flex-vercel" data-color="var(--icon-contrast)" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale dark:invert transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Vercel</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500 flex-github" data-color="var(--icon-contrast)" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/github" alt="GitHub" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale dark:invert transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">GitHub</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#F24E1E" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/figma" alt="Figma" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Figma</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#FF9A00" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobeillustrator" alt="Illustrator" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ai</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#31A8FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobephotoshop" alt="Photoshop" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ps</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#31A8FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobelightroom" alt="Lightroom" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Lr</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#9999FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobeaftereffects" alt="After Effects" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Ae</span></div>
-            <div class="tech-item flex items-center space-x-2.5 shrink-0 transition-all duration-500" data-color="#9999FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobepremierepro" alt="Premiere Pro" class="tech-icon w-5 h-5 sm:w-6 sm:h-6 opacity-40 grayscale transition-all duration-500"><span class="tech-text text-sm font-bold text-zinc-500 dark:text-zinc-500 transition-colors duration-500">Pr</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#A8B9CC" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/c" alt="C" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">C</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#00599C" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/cplusplus" alt="C++" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">C++</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#3776AB" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/python" alt="Python" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Python</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#ED8B00" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/java" alt="Java" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Java</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#3178C6" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/typescript" alt="TypeScript" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">TypeScript</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#4479A1" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/mysql" alt="MySQL" class="tech-icon w-7 h-7 object-contain"><span class="tech-text text-sm font-bold">MySQL</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#06B6D4" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Tailwind</span></div>
+            <div class="tech-item invert-dark group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#000000" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/vercel/black" alt="Vercel" class="tech-icon icon-invertible w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Vercel</span></div>
+            <div class="tech-item invert-dark group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#000000" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/github" alt="GitHub" class="tech-icon icon-invertible w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">GitHub</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#F24E1E" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/figma" alt="Figma" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Figma</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#FF9A00" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobeillustrator" alt="Illustrator" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Illustrator</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#31A8FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobephotoshop" alt="Photoshop" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Photoshop</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#31A8FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobelightroom" alt="Lightroom" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Lightroom</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#9999FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobeaftereffects" alt="After Effects" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">After Effects</span></div>
+            <div class="tech-item group flex items-center space-x-2.5 shrink-0 cursor-pointer" data-color="#9999FF" onclick="activateTech(this)"><img src="https://cdn.simpleicons.org/adobepremierepro" alt="Premiere Pro" class="tech-icon w-6 h-6 object-contain"><span class="tech-text text-sm font-bold">Premiere</span></div>
           </div>
         </div>
       </div>
@@ -782,7 +792,7 @@
     lucide.createIcons();
     document.getElementById('year-display').textContent = new Date().getFullYear();
 
-    // TECH STACK MARQUEE LOGIC (AUTO-SCROLL + DRAG/SWIPE MANUAL + CLICK TO COLOR)
+    // TECH STACK MARQUEE LOGIC (DRAG/SWIPE + CSS-BASED CLICK COLOR)
     const techTrack = document.getElementById('tech-track');
     const techGroup1 = document.getElementById('tech-group-1');
     let isTechHovered = false;
@@ -790,14 +800,12 @@
     let isDown = false;
     let startX;
     let scrollLeft;
-    let hasDragged = false; // Untuk mencegah click saat drag
+    let hasDragged = false; 
 
     function scrollTech() {
       if (!isTechHovered && !isDown) {
-        techScrollPos += 0.5; // Kecepatan auto-scroll
-        if (techScrollPos >= techGroup1.offsetWidth) {
-          techScrollPos = 0;
-        }
+        techScrollPos += 0.5; 
+        if (techScrollPos >= techGroup1.offsetWidth) techScrollPos = 0;
         techTrack.scrollLeft = techScrollPos;
       } else {
         techScrollPos = techTrack.scrollLeft;
@@ -815,21 +823,14 @@
 
     techTrack.addEventListener('mouseenter', () => isTechHovered = true);
     techTrack.addEventListener('mouseleave', () => {
-      isDown = false; 
-      isTechHovered = false;
+      isDown = false; isTechHovered = false;
       techTrack.classList.remove('cursor-grabbing');
       techTrack.classList.add('cursor-grab');
     });
-
     techTrack.addEventListener('touchstart', () => isTechHovered = true, {passive: true});
-    techTrack.addEventListener('touchend', () => {
-      setTimeout(() => isTechHovered = false, 1000); 
-    }, {passive: true});
-
+    techTrack.addEventListener('touchend', () => setTimeout(() => isTechHovered = false, 1000), {passive: true});
     techTrack.addEventListener('mousedown', (e) => {
-      isTechHovered = true;
-      isDown = true;
-      hasDragged = false;
+      isTechHovered = true; isDown = true; hasDragged = false;
       techTrack.classList.add('cursor-grabbing');
       techTrack.classList.remove('cursor-grab');
       startX = e.pageX - techTrack.offsetLeft;
@@ -846,52 +847,37 @@
       e.preventDefault();
       const x = e.pageX - techTrack.offsetLeft;
       const walk = (x - startX) * 2; 
-      if (Math.abs(walk) > 5) hasDragged = true; // Tandai kalau beneran di-drag, bukan diklik
+      if (Math.abs(walk) > 5) hasDragged = true; 
       techTrack.scrollLeft = scrollLeft - walk;
     });
 
-    // FUNGSI CLICK TO COLOR LOGO TECH STACK
+    // CSS-BASED SAFE COLOR ACTIVATION
     function activateTech(el) {
-      if (hasDragged) return; // Batalin kalau user ternyata lagi geser
+      if (hasDragged) return; 
       playClick();
 
-      // Reset semua logo ke grayscale
       document.querySelectorAll('.tech-item').forEach(item => {
-        const icon = item.querySelector('.tech-icon');
-        const text = item.querySelector('.tech-text');
-        
-        icon.classList.add('grayscale', 'opacity-40');
-        icon.classList.remove('scale-125', 'opacity-100');
-        icon.style.filter = '';
-        
-        text.style.color = '';
-        text.classList.add('text-zinc-500', 'dark:text-zinc-500');
+        item.classList.remove('active');
+        item.querySelector('.tech-text').style.color = ''; 
       });
 
-      // Aktifin logo yang diklik (Pop scale, hapus abu-abu, kasih warna)
-      const clickedIcon = el.querySelector('.tech-icon');
-      const clickedText = el.querySelector('.tech-text');
+      el.classList.add('active');
       const hexColor = el.getAttribute('data-color');
+      const textEl = el.querySelector('.tech-text');
       
-      // Khusus buat Github/Vercel yang invert di dark mode
-      if (el.classList.contains('flex-vercel') || el.classList.contains('flex-github')) {
+      if (el.classList.contains('invert-dark')) {
         const isDark = document.documentElement.classList.contains('dark');
-        clickedText.style.color = isDark ? '#FFFFFF' : '#000000';
+        textEl.style.color = isDark ? '#FFFFFF' : '#000000';
       } else {
-        clickedText.style.color = hexColor;
+        textEl.style.color = hexColor;
       }
-      
-      clickedText.classList.remove('text-zinc-500', 'dark:text-zinc-500');
-      clickedIcon.classList.remove('grayscale', 'opacity-40');
-      clickedIcon.classList.add('scale-125', 'opacity-100');
     }
 
-    // IOS SMOOTH THEME TOGGLE & ICONS
+    // IOS SMOOTH THEME TOGGLE
     function toggleTheme() {
       playClick();
       const icon = document.getElementById('theme-icon');
       
-      // Animasi muter & mengecil kaya iOS
       icon.style.transform = 'scale(0.5) rotate(90deg)';
       icon.style.opacity = '0';
       
@@ -904,12 +890,15 @@
         else icon.setAttribute('data-lucide', 'sun');
         lucide.createIcons();
         
-        // Kembalikan ke warna github/vercel yg aktif kalau ada
-        document.documentElement.style.setProperty('--icon-contrast', isDark ? '#FFF' : '#000');
-        
+        // Refresh inverted colors in tech stack if active
+        const activeInvert = document.querySelector('.tech-item.active.invert-dark');
+        if(activeInvert) {
+            activeInvert.querySelector('.tech-text').style.color = isDark ? '#FFFFFF' : '#000000';
+        }
+
         icon.style.transform = 'scale(1) rotate(0deg)';
         icon.style.opacity = '1';
-      }, 250); // Eksekusi persis di tengah-tengah animasi
+      }, 250); 
     }
 
     function toggleLanguage() {
@@ -967,23 +956,17 @@
     window.addEventListener('DOMContentLoaded', () => {
       const isDark = document.documentElement.classList.contains('dark');
       const icon = document.getElementById('theme-icon');
-      document.documentElement.style.setProperty('--icon-contrast', isDark ? '#FFF' : '#000');
       if (isDark) icon.setAttribute('data-lucide', 'moon');
       else icon.setAttribute('data-lucide', 'sun');
       lucide.createIcons();
     });
 
-    // MISS YOU TAB TITLE EFFECT
     let originalTitle = document.title;
     window.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        document.title = "Hey, come back! 🥲";
-      } else {
-        document.title = originalTitle;
-      }
+      if (document.hidden) document.title = "Hey, come back! 🥲";
+      else document.title = originalTitle;
     });
 
-    // SPOTLIGHT HOVER EFFECT LOGIC (OPTIMIZED WITH REQUESTANIMATIONFRAME)
     let isSpotlightTicking = false;
     document.querySelectorAll('.spotlight-card').forEach(card => {
       card.addEventListener('mousemove', e => {
@@ -1001,16 +984,13 @@
       });
     });
 
-    // Clock
     function updateClock() {
       const now = new Date();
       const timeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Jakarta', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('clock-display').textContent = timeStr;
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+    updateClock(); setInterval(updateClock, 1000);
 
-    // Weather API (Suhu SBY)
     async function fetchWeather() {
       try {
         const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-7.2575&longitude=112.7521&current=temperature_2m');
@@ -1023,14 +1003,11 @@
     }
     fetchWeather();
 
-    // Live Geolocation API
     async function fetchVisitorLocation() {
       try {
         const res = await fetch('https://ipwho.is/');
         const data = await res.json();
-        if (data.success && data.city) {
-          showVisitorGreeting(data.city);
-        }
+        if (data.success && data.city) showVisitorGreeting(data.city);
       } catch (e) {}
     }
     setTimeout(fetchVisitorLocation, 2500);
@@ -1051,83 +1028,58 @@
       }, 4500);
     }
 
-    let soundEnabled = false;
-    let audioCtx = null;
+    let soundEnabled = false; let audioCtx = null;
     function initAudio() {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
     }
-    
     function playClick() {
       if (!soundEnabled || !audioCtx) return;
       try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
         gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.05);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.05);
       } catch(e) {}
     }
-    
     function playChime() {
       if (!soundEnabled || !audioCtx) return;
       try {
         [523.25, 659.25, 783.99].forEach((freq, idx) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.06);
+          const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+          osc.type = 'sine'; osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.06);
           gain.gain.setValueAtTime(0.06, audioCtx.currentTime + idx * 0.06);
           gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + idx * 0.06 + 0.35);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
+          osc.connect(gain); gain.connect(audioCtx.destination);
           osc.start(audioCtx.currentTime + idx * 0.06);
           osc.stop(audioCtx.currentTime + idx * 0.06 + 0.35);
         });
       } catch(e) {}
     }
 
-    // Interactive Click Sparks Logic
     document.addEventListener('click', function(e) {
       if (document.getElementById('cmd-palette').classList.contains('opacity-100') || 
           !document.getElementById('terminal-overlay').classList.contains('-translate-y-full') ||
-          document.getElementById('qr-modal').classList.contains('opacity-100')) {
-        return;
-      }
+          document.getElementById('qr-modal').classList.contains('opacity-100')) return;
       
       const colors = ['#f97316', '#fbbf24', '#f59e0b']; 
       for(let i = 0; i < 5; i++) {
         const spark = document.createElement('div');
-        spark.style.position = 'fixed';
-        spark.style.left = e.clientX + 'px';
-        spark.style.top = e.clientY + 'px';
+        spark.style.position = 'fixed'; spark.style.left = e.clientX + 'px'; spark.style.top = e.clientY + 'px';
         const size = Math.random() * 4 + 3; 
-        spark.style.width = size + 'px';
-        spark.style.height = size + 'px';
+        spark.style.width = size + 'px'; spark.style.height = size + 'px';
         spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        spark.style.borderRadius = '50%';
-        spark.style.pointerEvents = 'none';
-        spark.style.zIndex = '999999';
+        spark.style.borderRadius = '50%'; spark.style.pointerEvents = 'none'; spark.style.zIndex = '999999';
         spark.style.transition = 'transform 0.6s cubic-bezier(0, .9, .57, 1), opacity 0.6s ease-out';
         
-        const angle = Math.random() * Math.PI * 2;
-        const velocity = Math.random() * 50 + 20; 
-        const tx = Math.cos(angle) * velocity;
-        const ty = Math.sin(angle) * velocity;
+        const angle = Math.random() * Math.PI * 2; const velocity = Math.random() * 50 + 20; 
+        const tx = Math.cos(angle) * velocity; const ty = Math.sin(angle) * velocity;
         
-        document.body.appendChild(spark);
-        
-        void spark.offsetWidth;
-        
-        spark.style.transform = `translate(${tx}px, ${ty}px) scale(0)`;
-        spark.style.opacity = '0';
-        
+        document.body.appendChild(spark); void spark.offsetWidth;
+        spark.style.transform = `translate(${tx}px, ${ty}px) scale(0)`; spark.style.opacity = '0';
         setTimeout(() => { spark.remove(); }, 600);
       }
     });
@@ -1135,84 +1087,45 @@
     function shareProfile() {
       playClick();
       if (navigator.share) {
-        navigator.share({
-          title: 'Adimas Satria | Personal Hub',
-          text: 'Check out Adimas Satria\'s digital identity & portfolio!',
-          url: window.location.href,
-        }).catch(console.error);
+        navigator.share({ title: 'Adimas Satria | Personal Hub', text: 'Check out Adimas Satria\'s digital identity!', url: window.location.href}).catch(console.error);
       } else {
         navigator.clipboard.writeText(window.location.href);
         const shareIcon = document.getElementById('share-icon');
-        
         shareIcon.style.transform = 'scale(0)';
-        setTimeout(() => {
-          shareIcon.setAttribute('data-lucide', 'check');
-          lucide.createIcons();
-          shareIcon.style.transform = 'scale(1)';
-        }, 200);
-
-        setTimeout(() => {
-          shareIcon.style.transform = 'scale(0)';
-          setTimeout(() => {
-            shareIcon.setAttribute('data-lucide', 'share-2');
-            lucide.createIcons();
-            shareIcon.style.transform = 'scale(1)';
-          }, 200);
-        }, 2000);
+        setTimeout(() => { shareIcon.setAttribute('data-lucide', 'check'); lucide.createIcons(); shareIcon.style.transform = 'scale(1)'; }, 200);
+        setTimeout(() => { shareIcon.style.transform = 'scale(0)'; setTimeout(() => { shareIcon.setAttribute('data-lucide', 'share-2'); lucide.createIcons(); shareIcon.style.transform = 'scale(1)'; }, 200); }, 2000);
       }
     }
 
     function copyEmail() {
       navigator.clipboard.writeText('workwithadimassatria@gmail.com');
       playChime();
-      const defaultEl = document.getElementById('copy-default');
-      const successEl = document.getElementById('copy-success');
-      
+      const defaultEl = document.getElementById('copy-default'); const successEl = document.getElementById('copy-success');
       defaultEl.style.opacity = '0';
       setTimeout(() => {
-        defaultEl.classList.add('hidden');
-        successEl.classList.remove('hidden');
-        successEl.style.opacity = '0';
-        void successEl.offsetWidth;
-        successEl.style.opacity = '1';
-        successEl.style.transition = 'opacity 0.3s ease';
+        defaultEl.classList.add('hidden'); successEl.classList.remove('hidden');
+        successEl.style.opacity = '0'; void successEl.offsetWidth; successEl.style.opacity = '1'; successEl.style.transition = 'opacity 0.3s ease';
       }, 200);
-
       setTimeout(() => {
         successEl.style.opacity = '0';
-        setTimeout(() => {
-          successEl.classList.add('hidden');
-          defaultEl.classList.remove('hidden');
-          defaultEl.style.opacity = '1';
-        }, 200);
+        setTimeout(() => { successEl.classList.add('hidden'); defaultEl.classList.remove('hidden'); defaultEl.style.opacity = '1'; }, 200);
       }, 2200);
     }
 
     function filterLinks(category) {
       playClick();
-      const buttons = document.querySelectorAll('.filter-btn');
-      buttons.forEach(btn => {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white cursor-none active:scale-95';
       });
       const activeBtn = document.getElementById('filter-' + category);
-      if (activeBtn) {
-        activeBtn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200/80 dark:border-orange-500/30 shadow-xs cursor-none active:scale-95';
-      }
+      if (activeBtn) activeBtn.className = 'filter-btn px-2.5 py-0.5 text-[11px] font-mono rounded-md uppercase transition-all duration-300 bg-orange-100 dark:bg-orange-500/20 text-orange-800 dark:text-orange-400 font-bold border border-orange-200/80 dark:border-orange-500/30 shadow-xs cursor-none active:scale-95';
       
-      // Tambah efek fade out -> in saat filter
-      const items = document.querySelectorAll('.link-item');
-      items.forEach(item => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(10px)';
+      document.querySelectorAll('.link-item').forEach(item => {
+        item.style.opacity = '0'; item.style.transform = 'translateY(10px)';
         setTimeout(() => {
           if (category === 'all' || item.getAttribute('data-category') === category) {
-            item.style.display = 'flex';
-            void item.offsetWidth;
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-          } else {
-            item.style.display = 'none';
-          }
+            item.style.display = 'flex'; void item.offsetWidth; item.style.opacity = '1'; item.style.transform = 'translateY(0)';
+          } else item.style.display = 'none';
         }, 300);
       });
     }
@@ -1221,12 +1134,8 @@
     function togglePdfSize() {
       playClick();
       isPdfExpanded = !isPdfExpanded;
-      const wrapper = document.getElementById('pdf-frame-wrapper');
-      const icon = document.getElementById('pdf-size-icon');
-      
-      icon.style.transform = 'scale(0.5) rotate(-90deg)';
-      icon.style.opacity = '0';
-
+      const wrapper = document.getElementById('pdf-frame-wrapper'); const icon = document.getElementById('pdf-size-icon');
+      icon.style.transform = 'scale(0.5) rotate(-90deg)'; icon.style.opacity = '0';
       setTimeout(() => {
         if (isPdfExpanded) {
           wrapper.className = 'relative w-full aspect-[4/5] sm:aspect-[16/12] bg-white/50 dark:bg-[#09090b]/80 rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700/50 shadow-inner transition-all duration-500 ease-in-out cursor-auto';
@@ -1235,105 +1144,68 @@
           wrapper.className = 'relative w-full aspect-[4/3] sm:aspect-[16/10] bg-white/50 dark:bg-[#09090b]/80 rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700/50 shadow-inner transition-all duration-500 ease-in-out cursor-auto';
           icon.setAttribute('data-lucide', 'maximize-2');
         }
-        lucide.createIcons();
-        icon.style.transform = 'scale(1) rotate(0deg)';
-        icon.style.opacity = '1';
+        lucide.createIcons(); icon.style.transform = 'scale(1) rotate(0deg)'; icon.style.opacity = '1';
       }, 250);
     }
 
-    // CUSTOM MAGNETIC CURSOR
     if (window.matchMedia("(pointer: fine)").matches) {
       const cursor = document.getElementById('custom-cursor');
-      let isCursorTicking = false;
-      let mouseX = 0, mouseY = 0;
-      
+      let isCursorTicking = false; let mouseX = 0, mouseY = 0;
       window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX; mouseY = e.clientY;
         if (!isCursorTicking) {
-          window.requestAnimationFrame(() => {
-            cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-            isCursorTicking = false;
-          });
+          window.requestAnimationFrame(() => { cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`; isCursorTicking = false; });
           isCursorTicking = true;
         }
       });
       document.addEventListener('mouseover', (e) => {
         if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd, #tech-track, .tech-item')) {
-          cursor.classList.add('w-12', 'h-12', 'bg-orange-500/40');
-          cursor.classList.remove('w-4', 'h-4', 'bg-orange-500/80');
+          cursor.classList.add('w-12', 'h-12', 'bg-orange-500/40'); cursor.classList.remove('w-4', 'h-4', 'bg-orange-500/80');
         }
       });
       document.addEventListener('mouseout', (e) => {
         if (e.target.closest('a, button, .filter-btn, .cmd-item, kbd, #tech-track, .tech-item')) {
-          cursor.classList.add('w-4', 'h-4', 'bg-orange-500/80');
-          cursor.classList.remove('w-12', 'h-12', 'bg-orange-500/40');
+          cursor.classList.add('w-4', 'h-4', 'bg-orange-500/80'); cursor.classList.remove('w-12', 'h-12', 'bg-orange-500/40');
         }
       });
     }
 
-    // 3D HOVER TILT
     if (window.matchMedia("(pointer: fine)").matches) {
-      const tiltCard = document.getElementById('tilt-card');
-      const glare = document.getElementById('tilt-glare');
+      const tiltCard = document.getElementById('tilt-card'); const glare = document.getElementById('tilt-glare');
       let isTiltTicking = false;
-      
       tiltCard.addEventListener('mousemove', (e) => {
         if (!isTiltTicking) {
           window.requestAnimationFrame(() => {
-            const rect = tiltCard.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -6; 
-            const rotateY = ((x - centerX) / centerX) * 6;
-            
+            const rect = tiltCard.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+            const centerX = rect.width / 2; const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -6; const rotateY = ((x - centerX) / centerX) * 6;
             tiltCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            glare.style.opacity = '1';
-            glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15) 0%, transparent 60%)`;
+            glare.style.opacity = '1'; glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15) 0%, transparent 60%)`;
             isTiltTicking = false;
           });
           isTiltTicking = true;
         }
       });
-      
-      tiltCard.addEventListener('mouseleave', () => {
-        tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
-        glare.style.opacity = '0';
-      });
+      tiltCard.addEventListener('mouseleave', () => { tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`; glare.style.opacity = '0'; });
     }
 
-    const cmdPalette = document.getElementById('cmd-palette');
-    const cmdModal = document.getElementById('cmd-modal');
-    const cmdInput = document.getElementById('cmd-input');
-    const cmdItems = document.querySelectorAll('.cmd-item');
+    const cmdPalette = document.getElementById('cmd-palette'); const cmdModal = document.getElementById('cmd-modal');
+    const cmdInput = document.getElementById('cmd-input'); const cmdItems = document.querySelectorAll('.cmd-item');
     let isCmdOpen = false;
 
     function openCmdPalette() {
-      isCmdOpen = true;
-      cmdPalette.classList.remove('hidden');
-      void cmdPalette.offsetWidth;
-      cmdPalette.classList.replace('opacity-0', 'opacity-100');
-      cmdModal.classList.replace('scale-95', 'scale-100');
-      cmdInput.focus();
-      cmdInput.value = '';
-      filterCmd('');
+      isCmdOpen = true; cmdPalette.classList.remove('hidden'); void cmdPalette.offsetWidth;
+      cmdPalette.classList.replace('opacity-0', 'opacity-100'); cmdModal.classList.replace('scale-95', 'scale-100');
+      cmdInput.focus(); cmdInput.value = ''; filterCmd('');
     }
-
     function closeCmdPalette() {
-      isCmdOpen = false;
-      cmdPalette.classList.replace('opacity-100', 'opacity-0');
-      cmdModal.classList.replace('scale-100', 'scale-95');
+      isCmdOpen = false; cmdPalette.classList.replace('opacity-100', 'opacity-0'); cmdModal.classList.replace('scale-100', 'scale-95');
       setTimeout(() => cmdPalette.classList.add('hidden'), 300);
     }
-
     cmdInput.addEventListener('input', (e) => filterCmd(e.target.value.toLowerCase()));
-
     function filterCmd(query) {
       cmdItems.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        if (text.includes(query)) item.style.display = 'flex';
-        else item.style.display = 'none';
+        if (item.textContent.toLowerCase().includes(query)) item.style.display = 'flex'; else item.style.display = 'none';
       });
     }
 
@@ -1361,206 +1233,88 @@
     const terminalOutput = document.getElementById('terminal-output');
     let isTerminalOpen = false;
 
-    function openTerminal() {
-      isTerminalOpen = true;
-      terminalOverlay.classList.remove('-translate-y-full');
-      setTimeout(() => terminalInput.focus(), 100);
-    }
-
-    function closeTerminal() {
-      isTerminalOpen = false;
-      terminalOverlay.classList.add('-translate-y-full');
-    }
+    function openTerminal() { isTerminalOpen = true; terminalOverlay.classList.remove('-translate-y-full'); setTimeout(() => terminalInput.focus(), 100); }
+    function closeTerminal() { isTerminalOpen = false; terminalOverlay.classList.add('-translate-y-full'); }
 
     terminalInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
-        const cmd = terminalInput.value.trim().toLowerCase();
-        terminalInput.value = '';
+        const cmd = terminalInput.value.trim().toLowerCase(); terminalInput.value = '';
         printTerminal(`> <span class="text-white">${cmd}</span>`);
-        
-        if (cmd === 'help') {
-          printTerminal('Available commands: <span class="text-white">whoami, gear, clear, exit</span>');
-        } else if (cmd === 'whoami') {
-          printTerminal("Adimas Satria. Informatics Student @ UPN Veteran Jatim. Project Manager.");
-        } else if (cmd === 'gear') {
-          printTerminal("Camera: Sony A6400. Lens: 16mm Fixed. Mode: Manual. Status: Ready.");
-        } else if (cmd === 'clear') {
-          terminalOutput.innerHTML = '';
-        } else if (cmd === 'exit') {
-          closeTerminal();
-        } else if (cmd !== '') {
-          printTerminal(`Command not found: ${cmd}. Type 'help'.`);
-        }
+        if (cmd === 'help') printTerminal('Available commands: <span class="text-white">whoami, gear, clear, exit</span>');
+        else if (cmd === 'whoami') printTerminal("Adimas Satria. Informatics Student @ UPN Veteran Jatim. Project Manager.");
+        else if (cmd === 'gear') printTerminal("Camera: Sony A6400. Lens: 16mm Fixed. Mode: Manual. Status: Ready.");
+        else if (cmd === 'clear') terminalOutput.innerHTML = '';
+        else if (cmd === 'exit') closeTerminal();
+        else if (cmd !== '') printTerminal(`Command not found: ${cmd}. Type 'help'.`);
         terminalOutput.scrollTop = terminalOutput.scrollHeight;
       }
     });
-
-    function printTerminal(htmlString) {
-      const div = document.createElement('div');
-      div.innerHTML = htmlString;
-      terminalOutput.appendChild(div);
-    }
+    function printTerminal(htmlString) { const div = document.createElement('div'); div.innerHTML = htmlString; terminalOutput.appendChild(div); }
 
     window.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        isCmdOpen ? closeCmdPalette() : openCmdPalette();
-      }
-      if (e.key === '`') {
-        e.preventDefault();
-        isTerminalOpen ? closeTerminal() : openTerminal();
-      }
-      if (e.key === 'Escape') {
-        if (isCmdOpen) closeCmdPalette();
-        if (isTerminalOpen) closeTerminal();
-        if (isQrOpen) closeQrModal();
-      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); isCmdOpen ? closeCmdPalette() : openCmdPalette(); }
+      if (e.key === '`') { e.preventDefault(); isTerminalOpen ? closeTerminal() : openTerminal(); }
+      if (e.key === 'Escape') { if (isCmdOpen) closeCmdPalette(); if (isTerminalOpen) closeTerminal(); if (isQrOpen) closeQrModal(); }
     });
 
-    let idleTimer = null;
-    let isMatrixActive = false;
-    let matrixInterval = null;
-    const IDLE_LIMIT = 30000; 
-
-    const matrixScreen = document.getElementById('matrix-screen');
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
+    let idleTimer = null; let isMatrixActive = false; let matrixInterval = null; const IDLE_LIMIT = 30000; 
+    const matrixScreen = document.getElementById('matrix-screen'); const canvas = document.getElementById('matrix-canvas'); const ctx = canvas.getContext('2d');
 
     function startMatrixRain() {
       if (isCmdOpen || isTerminalOpen || isQrOpen) return;
-      isMatrixActive = true;
-      matrixScreen.classList.remove('hidden');
-      void matrixScreen.offsetWidth;
-      matrixScreen.classList.replace('opacity-0', 'opacity-100');
-
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const fontSize = 16;
-      const columns = canvas.width / fontSize;
-      const drops = [];
+      isMatrixActive = true; matrixScreen.classList.remove('hidden'); void matrixScreen.offsetWidth; matrixScreen.classList.replace('opacity-0', 'opacity-100');
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      const fontSize = 16; const columns = canvas.width / fontSize; const drops = [];
       for (let i = 0; i < columns; i++) { drops[i] = 1; }
       const letters = '0123456789ABCDEFHIJKLMNOPQRSTUVWXYZアァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-
       matrixInterval = setInterval(() => {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#00ff66';
-        ctx.font = fontSize + 'px monospace';
-
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#00ff66'; ctx.font = fontSize + 'px monospace';
         for (let i = 0; i < drops.length; i++) {
-          const text = letters.charAt(Math.floor(Math.random() * letters.length));
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-          drops[i]++;
+          const text = letters.charAt(Math.floor(Math.random() * letters.length)); ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++;
         }
       }, 33);
     }
-
     function stopMatrixRain() {
       if (!isMatrixActive) return;
-      isMatrixActive = false;
-      clearInterval(matrixInterval);
-      matrixScreen.classList.replace('opacity-100', 'opacity-0');
-      setTimeout(() => {
-        matrixScreen.classList.add('hidden');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }, 500);
+      isMatrixActive = false; clearInterval(matrixInterval); matrixScreen.classList.replace('opacity-100', 'opacity-0');
+      setTimeout(() => { matrixScreen.classList.add('hidden'); ctx.clearRect(0, 0, canvas.width, canvas.height); }, 500);
     }
-
-    function resetIdleTimer() {
-      if (isMatrixActive) stopMatrixRain();
-      clearTimeout(idleTimer);
-      idleTimer = setTimeout(startMatrixRain, IDLE_LIMIT);
-    }
-
-    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(event => {
-      window.addEventListener(event, resetIdleTimer, {passive: true});
-    });
+    function resetIdleTimer() { if (isMatrixActive) stopMatrixRain(); clearTimeout(idleTimer); idleTimer = setTimeout(startMatrixRain, IDLE_LIMIT); }
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(event => { window.addEventListener(event, resetIdleTimer, {passive: true}); });
     resetIdleTimer();
 
     let inputBuffer = "";
     window.addEventListener("keydown", (e) => {
       if (isCmdOpen || isTerminalOpen || isQrOpen) return;
       if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
-        inputBuffer += e.key.toLowerCase();
-        if (inputBuffer.length > 10) inputBuffer = inputBuffer.slice(-10);
-        
-        if (inputBuffer.endsWith("adimas")) {
-          triggerEasterEgg("adimas");
-          inputBuffer = "";
-        } else if (inputBuffer.endsWith("sony")) {
-          triggerEasterEgg("sony");
-          inputBuffer = "";
-        } else if (inputBuffer.endsWith("upn")) {
-          triggerEasterEgg("upn");
-          inputBuffer = "";
-        }
+        inputBuffer += e.key.toLowerCase(); if (inputBuffer.length > 10) inputBuffer = inputBuffer.slice(-10);
+        if (inputBuffer.endsWith("adimas")) { triggerEasterEgg("adimas"); inputBuffer = ""; } 
+        else if (inputBuffer.endsWith("sony")) { triggerEasterEgg("sony"); inputBuffer = ""; } 
+        else if (inputBuffer.endsWith("upn")) { triggerEasterEgg("upn"); inputBuffer = ""; }
       }
     });
 
     function triggerEasterEgg(type) {
-      const toast = document.getElementById('easter-egg-toast');
-      const pfp = document.getElementById('pfp-container');
-      
+      const toast = document.getElementById('easter-egg-toast'); const pfp = document.getElementById('pfp-container');
       toast.className = "fixed top-5 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full font-mono text-xs font-bold shadow-2xl pointer-events-none transition-all duration-300 z-[99997] flex items-center space-x-2 opacity-0 -translate-y-10 text-white";
-
       if (type === "adimas") {
-        playChime();
-        document.body.style.filter = 'hue-rotate(150deg)';
-        if (pfp) pfp.classList.add('animate-spin');
-        
-        toast.classList.add('bg-emerald-600');
-        toast.innerHTML = '<i data-lucide="unlock" class="w-4 h-4"></i><span>DEVELOPER MODE UNLOCKED</span>';
-        
-        void toast.offsetWidth;
-        toast.classList.replace('opacity-0', 'opacity-100');
-        toast.classList.replace('-translate-y-10', 'translate-y-0');
-        lucide.createIcons();
-
-        setTimeout(() => {
-          toast.classList.replace('opacity-100', 'opacity-0');
-          toast.classList.replace('translate-y-0', '-translate-y-10');
-          document.body.style.filter = 'none';
-          if (pfp) pfp.classList.remove('animate-spin');
-        }, 3500);
-
+        playChime(); document.body.style.filter = 'hue-rotate(150deg)'; if (pfp) pfp.classList.add('animate-spin');
+        toast.classList.add('bg-emerald-600'); toast.innerHTML = '<i data-lucide="unlock" class="w-4 h-4"></i><span>DEVELOPER MODE UNLOCKED</span>';
+        void toast.offsetWidth; toast.classList.replace('opacity-0', 'opacity-100'); toast.classList.replace('-translate-y-10', 'translate-y-0'); lucide.createIcons();
+        setTimeout(() => { toast.classList.replace('opacity-100', 'opacity-0'); toast.classList.replace('translate-y-0', '-translate-y-10'); document.body.style.filter = 'none'; if (pfp) pfp.classList.remove('animate-spin'); }, 3500);
       } else if (type === "sony") {
         playChime();
-        const flash = document.createElement('div');
-        flash.className = 'fixed inset-0 bg-white z-[99999] pointer-events-none transition-opacity duration-[150ms] opacity-100';
-        document.body.appendChild(flash);
-        setTimeout(() => { flash.classList.replace('opacity-100', 'opacity-0'); }, 50);
-        setTimeout(() => { flash.remove(); }, 300);
-
-        toast.classList.add('bg-amber-600');
-        toast.innerHTML = '<i data-lucide="camera" class="w-4 h-4"></i><span>CAMERA: SONY A6400 ON</span>';
-        
-        void toast.offsetWidth;
-        toast.classList.replace('opacity-0', 'opacity-100');
-        toast.classList.replace('-translate-y-10', 'translate-y-0');
-        lucide.createIcons();
-
-        setTimeout(() => {
-          toast.classList.replace('opacity-100', 'opacity-0');
-          toast.classList.replace('translate-y-0', '-translate-y-10');
-        }, 3500);
-
+        const flash = document.createElement('div'); flash.className = 'fixed inset-0 bg-white z-[99999] pointer-events-none transition-opacity duration-[150ms] opacity-100';
+        document.body.appendChild(flash); setTimeout(() => { flash.classList.replace('opacity-100', 'opacity-0'); }, 50); setTimeout(() => { flash.remove(); }, 300);
+        toast.classList.add('bg-amber-600'); toast.innerHTML = '<i data-lucide="camera" class="w-4 h-4"></i><span>CAMERA: SONY A6400 ON</span>';
+        void toast.offsetWidth; toast.classList.replace('opacity-0', 'opacity-100'); toast.classList.replace('-translate-y-10', 'translate-y-0'); lucide.createIcons();
+        setTimeout(() => { toast.classList.replace('opacity-100', 'opacity-0'); toast.classList.replace('translate-y-0', '-translate-y-10'); }, 3500);
       } else if (type === "upn") {
-        playChime();
-        if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        toast.classList.add('bg-purple-600');
-        toast.innerHTML = '<i data-lucide="graduation-cap" class="w-4 h-4"></i><span>UPN VETERAN JATIM: GG WP!</span>';
-        
-        void toast.offsetWidth;
-        toast.classList.replace('opacity-0', 'opacity-100');
-        toast.classList.replace('-translate-y-10', 'translate-y-0');
-        lucide.createIcons();
-
-        setTimeout(() => {
-          toast.classList.replace('opacity-100', 'opacity-0');
-          toast.classList.replace('translate-y-0', '-translate-y-10');
-        }, 3500);
+        playChime(); if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        toast.classList.add('bg-purple-600'); toast.innerHTML = '<i data-lucide="graduation-cap" class="w-4 h-4"></i><span>UPN VETERAN JATIM: GG WP!</span>';
+        void toast.offsetWidth; toast.classList.replace('opacity-0', 'opacity-100'); toast.classList.replace('-translate-y-10', 'translate-y-0'); lucide.createIcons();
+        setTimeout(() => { toast.classList.replace('opacity-100', 'opacity-0'); toast.classList.replace('translate-y-0', '-translate-y-10'); }, 3500);
       }
     }
   </script>
